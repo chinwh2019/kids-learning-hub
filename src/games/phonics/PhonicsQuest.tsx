@@ -8,6 +8,7 @@ import WordSwap from './components/WordSwap';
 import AudioSpelling from './components/AudioSpelling';
 import StoryReader from './components/StoryReader';
 import SentenceArchitect from './components/SentenceArchitect';
+import SpeechMirror from './components/SpeechMirror';
 import { ArrowLeft, Star } from 'lucide-react';
 import { speakWord } from './utils/speech';
 
@@ -15,7 +16,7 @@ interface PhonicsQuestProps {
   onBack: () => void;
 }
 
-type ActiveGameView = 'map' | 'island-menu' | 'garden' | 'builder' | 'swap' | 'spelling' | 'story' | 'sentence';
+type ActiveGameView = 'map' | 'island-menu' | 'garden' | 'builder' | 'swap' | 'spelling' | 'story' | 'sentence' | 'speech';
 
 export default function PhonicsQuest({ onBack }: PhonicsQuestProps) {
   const { stars, phonicsWave, setPhonicsWave } = useLearnerStore();
@@ -232,6 +233,19 @@ export default function PhonicsQuest({ onBack }: PhonicsQuestProps) {
                     Build fun, colorful sentences from word tiles and watch them come to life on the theater stage!
                   </p>
                 </motion.div>
+
+                {/* Game 7: Dino Speech Mirror */}
+                <motion.div 
+                  className="clickable-card"
+                  onClick={() => setActiveView('speech')}
+                  style={{ background: '#e0e7ff', borderColor: '#c7d2fe', gridColumn: 'span 1' }}
+                >
+                  <div style={{ fontSize: '4.5em', marginBottom: '10px' }}>🎙️🦖</div>
+                  <h3 style={{ fontSize: '1.5em', fontWeight: 900, color: '#4338ca' }}>Dino Speech Mirror</h3>
+                  <p style={{ fontSize: '1em', color: '#555', fontWeight: 700, marginTop: '5px' }}>
+                    Tap the microphone, say the word card aloud, and feed the hungry phonics dinosaur!
+                  </p>
+                </motion.div>
               </div>
 
               <button
@@ -288,6 +302,12 @@ export default function PhonicsQuest({ onBack }: PhonicsQuestProps) {
           {activeView === 'sentence' && (
             <motion.div key="sentence" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ width: '100%' }}>
               <SentenceArchitect wave={selectedWave} onActivityComplete={handleGameComplete} />
+            </motion.div>
+          )}
+
+          {activeView === 'speech' && (
+            <motion.div key="speech" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ width: '100%' }}>
+              <SpeechMirror wave={selectedWave} onActivityComplete={handleGameComplete} />
             </motion.div>
           )}
         </AnimatePresence>
