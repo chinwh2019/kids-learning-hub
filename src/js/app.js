@@ -168,5 +168,19 @@ $('#bedBtn').onclick=$('#rBed').onclick=()=>{store.bed=!store.bed;applyBed();sav
   size();addEventListener('resize',size);requestAnimationFrame(draw);
 })();
 
+/* ================= Offline and add to home screen ================= */
+const canOffline='serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost');
+if(canOffline)navigator.serviceWorker.register('sw.js').catch(()=>{});
+let installEvt=null;
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;$('#installBtn').hidden=false});
+addEventListener('appinstalled',()=>{installEvt=null;$('#installBtn').hidden=true;$('#installTip').hidden=true});
+if(ios&&!standalone&&canOffline)$('#installBtn').hidden=false;
+$('#installBtn').onclick=()=>{
+  if(installEvt){installEvt.prompt();installEvt.userChoice.finally(()=>{installEvt=null;$('#installBtn').hidden=true})}
+  else $('#installTip').hidden=!$('#installTip').hidden;
+};
+
 greet();applyFs();applyBed();renderHome();
 if(location.hash&&STORIES.some(s=>s.id===location.hash.slice(1)))openStory(location.hash.slice(1));

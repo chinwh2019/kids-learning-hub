@@ -82,7 +82,8 @@ function starPts(r1,r2,n=8){const p=[];for(let i=0;i<n*2;i++){const a=Math.PI*i/
 function valueIcon(icon,u){
   if(icon==='paw')return `<g fill="#5a3410"><ellipse cx="0" cy="8" rx="13" ry="11"/><ellipse cx="-15" cy="-7" rx="5.5" ry="7" transform="rotate(-20 -15 -7)"/><ellipse cx="-5" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="6" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="16" cy="-6" rx="5.5" ry="7" transform="rotate(20 16 -6)"/></g>`;
   if(icon==='ant')return ant(-2,12,2.1,{c:'#5a3410'});
-  return jar(u,0,22,.95,{c:'#8a3f1e',gold:true});
+  if(icon==='jar')return jar(u,0,22,.95,{c:'#8a3f1e',gold:true});
+  return `<path d="M0 20C-22 4-24-14-12-20C-4-24 0-16 0-12C0-16 4-24 12-20C24-14 22 4 0 20Z" fill="#5a3410"/>`;
 }
 function badge(u,icon,size=1){return `<g transform="scale(${size})"><polygon points="${starPts(46,37)}" fill="url(#${u}bdg)" stroke="#fff3c4" stroke-width="2"/><polygon points="${starPts(40,32)}" fill="none" stroke="#a8701a" stroke-width="1.2" opacity=".7"/><circle r="27" fill="#ffe7a6" stroke="#c98a1f" stroke-width="1.5"/>${valueIcon(icon,u)}</g>`}
 function badgeSvg(icon){const u='b'+(UID++)+'_';return `<svg viewBox="-50 -50 100 100" aria-hidden="true"><defs>${lg(u+'bdg',['#ffe08a','#f2b84b','#c8841c'])}${rg(u+'gold','#ffd451',.9)}</defs>${badge(u,icon)}</svg>`}
@@ -134,6 +135,6 @@ const S={
   body:skyR(u)+stars(50,13,300)+`<circle cx="200" cy="150" r="140" fill="url(#${u}glow)"/><g>${rot(0,30,200,150,30)}${[...Array(16)].map((_,i)=>`<polygon points="200,150 ${(200+Math.cos(i*Math.PI/8)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8)*260).toFixed(1)} ${(200+Math.cos(i*Math.PI/8+.09)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8+.09)*260).toFixed(1)}" fill="#ffe7a6" opacity=".12"/>`).join('')}</g><g transform="translate(200 150)"><g>${bob(-5,3)}${badge(u,st.value.icon,1.9)}</g></g>`+sparkles(12,17,40,30,360,270,'#fff3c4')})
 };
 let UID=0;
-function scene(key,st){const u='s'+(UID++)+'_',r=S[key](u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}</defs>${r.body}</svg>`}
+function scene(key,st){const u='s'+(UID++)+'_',r=(S[key]||S.night)(u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}</defs>${r.body}</svg>`}
 function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
 
