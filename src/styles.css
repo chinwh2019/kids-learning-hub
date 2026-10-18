@@ -50,6 +50,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 70%,transparent);backdrop-filter:blur(6px);border-radius:999px;padding:8px 14px;font-size:.92rem}
 .pill[aria-pressed="true"]{background:var(--gold);color:#1b1530;border-color:var(--gold)}
 .pill svg{width:18px;height:18px}
+.pills{display:flex;gap:8px}
+.install-tip{position:absolute;right:0;top:calc(100% - 6px);max-width:300px;margin:0;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-size:.92rem;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .hero-grid{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;padding-block:110px 110px}
 .hero h1{font-size:clamp(2.1rem,4.6vw,3.6rem);color:var(--ink)}
 .hero h1 em{font-style:normal;color:var(--gold)}

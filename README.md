@@ -6,6 +6,8 @@ An illustrated bedtime storybook of Islamic stories for children and parents. Ea
 
 The built app is one self-contained file: [`docs/index.html`](docs/index.html). Open it in a browser, or serve the repo with GitHub Pages from the `/docs` folder.
 
+Served over HTTPS (as on GitHub Pages), the app also works offline and can be added to a phone's home screen. A service worker saves the page, its fonts and icons after the first visit. On Android and desktop Chrome an "Add to home screen" button appears in the top bar; on iPhone and iPad it shows how to do it from the Share menu.
+
 ## Source code
 
 Edit the files in `src/`, then rebuild `docs/index.html`:
@@ -14,16 +16,18 @@ Edit the files in `src/`, then rebuild `docs/index.html`:
 node build.mjs    # or: npm run build
 ```
 
-The build needs only Node 18 or newer, with no packages to install. It inlines the CSS and scripts into `src/index.html`, so the result still works offline as a single file. Commit the rebuilt `docs/index.html` together with your source changes.
+The build needs only Node 18 or newer, with no packages to install. It reads the stories from `stories/*.md`, inlines them with the CSS and scripts into `src/index.html`, and writes the offline files (`sw.js`, `manifest.webmanifest`, `icons/`) next to it. Commit the rebuilt `docs/` folder together with your source changes.
 
 | File | What it holds |
 | --- | --- |
 | `src/index.html` | Page markup: hero, bookshelf, value stars, reader. `@@STYLES@@` and `@@SCRIPTS@@` mark where the build inlines the rest. |
 | `src/styles.css` | Colour tokens for dark and light themes, layout, page-turn animations. |
-| `src/js/stories.js` | The story text (`STORIES`), split into pages, plus the glossary of Arabic words (`GLOSS`). |
+| `src/js/glossary.js` | The glossary of Arabic words (`GLOSS`) shown when a dotted word is tapped. |
 | `src/js/helpers.js` | Small utilities and saved reading progress. |
 | `src/js/illustrations.js` | The SVG drawing kit (people, dog, ants, well, jar, lanterns and more) and every scene in `S`. |
-| `src/js/app.js` | Read-along text, bookshelf, book reader, read-aloud, glossary pop-up and the starry hero sky. |
+| `src/js/app.js` | Read-along text, bookshelf, book reader, read-aloud, glossary pop-up, the starry hero sky and the add-to-home-screen button. |
+| `src/sw.js` | The service worker that keeps the app working offline. The build fills in its version, so every rebuild refreshes phones. |
+| `src/manifest.webmanifest`, `src/icons/` | App name, colours and icons used when the app is added to a home screen. |
 
 ## Stories
 
@@ -41,7 +45,36 @@ All scenes are hand-built SVG, drawn in code in `src/js/illustrations.js`. Peopl
 
 ## Adding a story
 
-Add the Markdown file to `stories/`, add an entry to `STORIES` in `src/js/stories.js` with its pages and a scene key for each page, draw any new scenes in `S` in `src/js/illustrations.js`, then run the build.
+Drop a new Markdown file into `stories/` and run `node build.mjs`. No code changes are needed. Files are shown in name order, so start the name with the date.
+
+```markdown
+---
+date: 2026-10-19
+theme: patience
+source: Sahih al-Bukhari 1234
+value: Patience
+tip: Talk about one time you had to wait for something good.
+---
+# The title of the story
+
+<!-- page: night -->
+The first page of the story.
+
+<!-- page: night -->
+The second page.
+
+**Lesson:** What the story teaches.
+
+**Ask the kids:** A question to talk about.
+```
+
+- `<!-- page: sceneKey -->` starts a new page and picks its picture from the scenes in `src/js/illustrations.js`. A marker can also sit in the middle of a paragraph. Without any markers, each paragraph becomes its own page. A page with no picture yet, or a picture name that is not drawn, shows a starry night.
+- `## Lesson` and `## Ask the kids` headings work too.
+- `value` (the star the story lights up, default: the first word of the theme) and `tip` (the tip for parents) are optional.
+- More optional frontmatter: `id`, `icon` (`paw`, `ant` or `jar`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
+- The HTML comments are invisible when the Markdown is read anywhere else, so the story text stays exactly as written.
+
+To give a story its own pictures, draw new scenes in `S` in `src/js/illustrations.js` and name them in the page markers.
 
 ## The previous Kids Learning Hub
 

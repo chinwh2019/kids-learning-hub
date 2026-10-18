@@ -1,5 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Qissa Time</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#10163a">
+<meta name="description" content="Illustrated Islamic bedtime stories for children and parents.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Qissa Time">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Andika:wght@400;700&family=Young+Serif&display=swap">
@@ -15,7 +23,11 @@
     <div class="wrap">
       <div class="top">
         <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
+        <div class="pills">
+        <button class="pill" id="installBtn" type="button" aria-label="Add to home screen" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Add to home screen</span></button>
         <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
+        </div>
+        <p class="install-tip" id="installTip" hidden>To keep Qissa Time on your phone, tap the Share button, then <b>Add to Home Screen</b>. It will open even without the internet.</p>
       </div>
       <div class="hero-grid">
         <div class="hero-copy">

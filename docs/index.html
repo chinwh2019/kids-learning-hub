@@ -1,5 +1,13 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Qissa Time</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#10163a">
+<meta name="description" content="Illustrated Islamic bedtime stories for children and parents.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Qissa Time">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Andika:wght@400;700&family=Young+Serif&display=swap">
@@ -56,6 +64,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 70%,transparent);backdrop-filter:blur(6px);border-radius:999px;padding:8px 14px;font-size:.92rem}
 .pill[aria-pressed="true"]{background:var(--gold);color:#1b1530;border-color:var(--gold)}
 .pill svg{width:18px;height:18px}
+.pills{display:flex;gap:8px}
+.install-tip{position:absolute;right:0;top:calc(100% - 6px);max-width:300px;margin:0;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font-size:.92rem;line-height:1.45;box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .hero-grid{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;padding-block:110px 110px}
 .hero h1{font-size:clamp(2.1rem,4.6vw,3.6rem);color:var(--ink)}
 .hero h1 em{font-style:normal;color:var(--gold)}
@@ -210,7 +220,11 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
     <div class="wrap">
       <div class="top">
         <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
+        <div class="pills">
+        <button class="pill" id="installBtn" type="button" aria-label="Add to home screen" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Add to home screen</span></button>
         <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
+        </div>
+        <p class="install-tip" id="installTip" hidden>To keep Qissa Time on your phone, tap the Share button, then <b>Add to Home Screen</b>. It will open even without the internet.</p>
       </div>
       <div class="hero-grid">
         <div class="hero-copy">
@@ -267,53 +281,10 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
 <div class="gloss" id="gloss" hidden role="dialog" aria-label="Word meaning"></div>
 
 <script>
-/* ================= Stories (text kept as written) ================= */
-const STORIES=[
-{id:'dog',title:'The man who helped a thirsty dog',date:'2026-10-16',theme:'Kindness to animals',tint:'#56c7b4',
- source:'Sahih al-Bukhari and Sahih Muslim',sourceLong:'Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari and Sahih Muslim.',
- value:{name:'Kindness',icon:'paw'},cover:'dogDrinks',
- pages:[
-  {scene:'desertWalk',text:['A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty.']},
-  {scene:'wellDrink',text:['He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better.']},
-  {scene:'thirstyDog',text:['When he came back up, he saw a dog nearby. The dog was panting and licking the dry earth. It looked so thirsty, just like he had been.']},
-  {scene:'shoeClimb',text:['The man thought, "This dog is thirsty the way I was thirsty." So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog.']},
-  {scene:'dogDrinks',text:['The dog drank and drank until it was happy.','Allah was so pleased with this kind act that He forgave the man\'s sins.']},
-  {scene:'kindNight',text:['The Prophet Muhammad ﷺ told us this story so we would remember that kindness to animals, and to every living thing, is kindness that Allah loves.']}
- ],
- lesson:'Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.',
- ask:'If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?',
- tip:'Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it.'},
-{id:'ant',title:'Prophet Sulayman and the little ant',date:'2026-10-17',theme:'Gentleness and gratitude',tint:'#f2b84b',
- source:'Quran, Surah An-Naml 27:17-19',sourceLong:'Quran, Surah An-Naml (The Ant), verses 17 to 19.',
- value:{name:'Gratitude',icon:'ant'},cover:'antCall',
- pages:[
-  {scene:'kingdom',text:['Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of animals.']},
-  {scene:'march',text:['One day Sulayman was marching with his whole army. They came to a valley full of ants.']},
-  {scene:'antCall',text:['A little ant saw the big army coming and called out to the others: "O ants! Go into your homes, so that Sulayman and his soldiers don\'t crush you without realising it!"']},
-  {scene:'gratitude',text:['Sulayman heard the tiny ant, and he smiled. He wasn\'t angry. He was happy and thankful. He prayed: "My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You."'],
-   dua:{ar:'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ',ref:'Surah An-Naml 27:19'}},
-  {scene:'safeHome',text:['So the great king stopped his whole army to look after a few little ants. And the little ant looked after her friends too.']}
- ],
- lesson:'Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.',
- ask:'The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?',
- tip:'Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah.'},
-{id:'gold',title:'The honest men and the jar of gold',date:'2026-10-18',theme:'Honesty',tint:'#f08f80',
- source:'Sahih al-Bukhari 3472, Sahih Muslim 1721',sourceLong:'Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.',
- value:{name:'Honesty',icon:'jar'},cover:'jarGlow',
- pages:[
-  {scene:'sale',text:['Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.','One man owned a piece of land, and he sold it to another man.']},
-  {scene:'digging',text:['The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!']},
-  {scene:'jarGlow',text:['Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land.']},
-  {scene:'backForth',text:['"Here, take your gold," he said. "I only bought the land from you. I didn\'t buy any gold."','But the other man shook his head. "No, no," he said. "I sold you the land and everything in it. The gold belongs to you."']},
-  {scene:'wiseMan',text:['Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.','The wise man listened. Then he asked, "Do you have any children?"','The first man said, "I have a son."\nThe second man said, "I have a daughter."']},
-  {scene:'wedding',text:['The wise man smiled. "Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others."']},
-  {scene:'charity',text:['And so the gold that both men were too honest to keep became a blessing for their children and for the poor.']}
- ],
- lesson:'Be honest even when nobody is watching, because Allah always sees us. When we don\'t take what isn\'t ours, Allah puts blessing (barakah) in what we have.',
- ask:'If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?',
- tip:'Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves.'}
-];
-
+/* ================= Stories (generated from stories/*.md by build.mjs) ================= */
+const STORIES=[{"id":"dog","title":"The man who helped a thirsty dog","date":"2026-10-16","theme":"Kindness to animals","tint":"#56c7b4","source":"Sahih al-Bukhari and Sahih Muslim","sourceLong":"Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari and Sahih Muslim.","value":{"name":"Kindness","icon":"paw"},"cover":"dogDrinks","pages":[{"scene":"desertWalk","text":["A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty."]},{"scene":"wellDrink","text":["He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better."]},{"scene":"thirstyDog","text":["When he came back up, he saw a dog nearby. The dog was panting and licking the dry earth. It looked so thirsty, just like he had been."]},{"scene":"shoeClimb","text":["The man thought, \"This dog is thirsty the way I was thirsty.\" So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog."]},{"scene":"dogDrinks","text":["The dog drank and drank until it was happy.","Allah was so pleased with this kind act that He forgave the man's sins."]},{"scene":"kindNight","text":["The Prophet Muhammad ﷺ told us this story so we would remember that kindness to animals, and to every living thing, is kindness that Allah loves."]}],"lesson":"Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.","ask":"If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?","tip":"Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it."},{"id":"ant","title":"Prophet Sulayman and the little ant","date":"2026-10-17","theme":"Gentleness and gratitude","tint":"#f2b84b","source":"Quran, Surah An-Naml 27:17-19","sourceLong":"Quran, Surah An-Naml (The Ant), verses 17 to 19.","value":{"name":"Gratitude","icon":"ant"},"cover":"antCall","pages":[{"scene":"kingdom","text":["Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of animals."]},{"scene":"march","text":["One day Sulayman was marching with his whole army. They came to a valley full of ants."]},{"scene":"antCall","text":["A little ant saw the big army coming and called out to the others: \"O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!\""]},{"scene":"gratitude","text":["Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: \"My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You.\""],"dua":{"ar":"رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ","ref":"Surah An-Naml 27:19"}},{"scene":"safeHome","text":["So the great king stopped his whole army to look after a few little ants. And the little ant looked after her friends too."]}],"lesson":"Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.","ask":"The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?","tip":"Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah."},{"id":"gold","title":"The honest men and the jar of gold","date":"2026-10-18","theme":"Honesty","tint":"#f08f80","source":"Sahih al-Bukhari 3472, Sahih Muslim 1721","sourceLong":"Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.","value":{"name":"Honesty","icon":"jar"},"cover":"jarGlow","pages":[{"scene":"sale","text":["Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.","One man owned a piece of land, and he sold it to another man."]},{"scene":"digging","text":["The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!"]},{"scene":"jarGlow","text":["Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land."]},{"scene":"backForth","text":["\"Here, take your gold,\" he said. \"I only bought the land from you. I didn't buy any gold.\"","But the other man shook his head. \"No, no,\" he said. \"I sold you the land and everything in it. The gold belongs to you.\""]},{"scene":"wiseMan","text":["Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.","The wise man listened. Then he asked, \"Do you have any children?\"","The first man said, \"I have a son.\"\nThe second man said, \"I have a daughter.\""]},{"scene":"wedding","text":["The wise man smiled. \"Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others.\""]},{"scene":"charity","text":["And so the gold that both men were too honest to keep became a blessing for their children and for the poor."]}],"lesson":"Be honest even when nobody is watching, because Allah always sees us. When we don't take what isn't ours, Allah puts blessing (barakah) in what we have.","ask":"If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?","tip":"Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves."}];
+/* ================= Glossary of Arabic words =================
+   STORIES itself is generated by build.mjs from the Markdown files in stories/. */
 const GLOSS={
  alhamdulillah:{ar:'ٱلْحَمْدُ لِلَّٰهِ',tr:'Alhamdulillah',m:'All praise and thanks belong to Allah. We say it when something good happens.'},
  'ﷺ':{ar:'صَلَّى ٱللَّٰهُ عَلَيْهِ وَسَلَّمَ',tr:'Sallallahu alayhi wa sallam',m:'May Allah send blessings and peace upon him. We say it after the name of the Prophet Muhammad.'},
@@ -417,7 +388,8 @@ function starPts(r1,r2,n=8){const p=[];for(let i=0;i<n*2;i++){const a=Math.PI*i/
 function valueIcon(icon,u){
   if(icon==='paw')return `<g fill="#5a3410"><ellipse cx="0" cy="8" rx="13" ry="11"/><ellipse cx="-15" cy="-7" rx="5.5" ry="7" transform="rotate(-20 -15 -7)"/><ellipse cx="-5" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="6" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="16" cy="-6" rx="5.5" ry="7" transform="rotate(20 16 -6)"/></g>`;
   if(icon==='ant')return ant(-2,12,2.1,{c:'#5a3410'});
-  return jar(u,0,22,.95,{c:'#8a3f1e',gold:true});
+  if(icon==='jar')return jar(u,0,22,.95,{c:'#8a3f1e',gold:true});
+  return `<path d="M0 20C-22 4-24-14-12-20C-4-24 0-16 0-12C0-16 4-24 12-20C24-14 22 4 0 20Z" fill="#5a3410"/>`;
 }
 function badge(u,icon,size=1){return `<g transform="scale(${size})"><polygon points="${starPts(46,37)}" fill="url(#${u}bdg)" stroke="#fff3c4" stroke-width="2"/><polygon points="${starPts(40,32)}" fill="none" stroke="#a8701a" stroke-width="1.2" opacity=".7"/><circle r="27" fill="#ffe7a6" stroke="#c98a1f" stroke-width="1.5"/>${valueIcon(icon,u)}</g>`}
 function badgeSvg(icon){const u='b'+(UID++)+'_';return `<svg viewBox="-50 -50 100 100" aria-hidden="true"><defs>${lg(u+'bdg',['#ffe08a','#f2b84b','#c8841c'])}${rg(u+'gold','#ffd451',.9)}</defs>${badge(u,icon)}</svg>`}
@@ -469,7 +441,7 @@ const S={
   body:skyR(u)+stars(50,13,300)+`<circle cx="200" cy="150" r="140" fill="url(#${u}glow)"/><g>${rot(0,30,200,150,30)}${[...Array(16)].map((_,i)=>`<polygon points="200,150 ${(200+Math.cos(i*Math.PI/8)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8)*260).toFixed(1)} ${(200+Math.cos(i*Math.PI/8+.09)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8+.09)*260).toFixed(1)}" fill="#ffe7a6" opacity=".12"/>`).join('')}</g><g transform="translate(200 150)"><g>${bob(-5,3)}${badge(u,st.value.icon,1.9)}</g></g>`+sparkles(12,17,40,30,360,270,'#fff3c4')})
 };
 let UID=0;
-function scene(key,st){const u='s'+(UID++)+'_',r=S[key](u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}</defs>${r.body}</svg>`}
+function scene(key,st){const u='s'+(UID++)+'_',r=(S[key]||S.night)(u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}</defs>${r.body}</svg>`}
 function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
 
 /* ================= Text with read-along spans ================= */
@@ -641,6 +613,20 @@ $('#bedBtn').onclick=$('#rBed').onclick=()=>{store.bed=!store.bed;applyBed();sav
   }
   size();addEventListener('resize',size);requestAnimationFrame(draw);
 })();
+
+/* ================= Offline and add to home screen ================= */
+const canOffline='serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost');
+if(canOffline)navigator.serviceWorker.register('sw.js').catch(()=>{});
+let installEvt=null;
+const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;$('#installBtn').hidden=false});
+addEventListener('appinstalled',()=>{installEvt=null;$('#installBtn').hidden=true;$('#installTip').hidden=true});
+if(ios&&!standalone&&canOffline)$('#installBtn').hidden=false;
+$('#installBtn').onclick=()=>{
+  if(installEvt){installEvt.prompt();installEvt.userChoice.finally(()=>{installEvt=null;$('#installBtn').hidden=true})}
+  else $('#installTip').hidden=!$('#installTip').hidden;
+};
 
 greet();applyFs();applyBed();renderHome();
 if(location.hash&&STORIES.some(s=>s.id===location.hash.slice(1)))openStory(location.hash.slice(1));
