@@ -1,17 +1,648 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>✨ Kids Learning Hub ✨</title>
-    <!-- Nunito Font for kids-friendly styling -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/kids-learning-hub/assets/index-rKK-O7Kk.js"></script>
-    <link rel="stylesheet" crossorigin href="/kids-learning-hub/assets/index-Da4iO_bc.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Qissa Time</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Andika:wght@400;700&family=Young+Serif&display=swap">
+<style>
+/* Layout: a night-sky library (hero + bookshelf) that opens into a full-screen two-page storybook spread. */
+:root{
+  --night:#10163a; --night-2:#1d2660; --ink:#f4eee2; --muted:#b8b6d6;
+  --gold:#f2b84b; --gold-2:#ffd98c; --teal:#56c7b4; --rose:#f08f80;
+  --card:#19214d; --line:rgba(242,184,75,.26);
+  --paper:#202a5a; --paper-2:#1a2350; --paper-ink:#f1ebdd; --paper-muted:#bfc0dc;
+  --sky-top:#0c1233; --sky-bot:#2b2f72; --star:#fff6da; --dune:#151b44;
+  --hl:rgba(242,184,75,.38);
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Andika", "Trebuchet MS", system-ui, sans-serif;
+  --arabic:"Amiri", "Traditional Arabic", "Geeza Pro", serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --night:#eef3f8; --night-2:#dde9f2; --ink:#1c2448; --muted:#58628c;
+  --gold:#b8770f; --gold-2:#d9952a; --teal:#1b8a7a; --rose:#c45a4a;
+  --card:#ffffff; --line:rgba(184,119,15,.25);
+  --paper:#fffaf1; --paper-2:#f6efe1; --paper-ink:#2a2638; --paper-muted:#6b6478;
+  --sky-top:#9fc9e6; --sky-bot:#fde2c0; --star:#ffffff; --dune:#e8c495;
+  --hl:rgba(217,149,42,.32); color-scheme:light } }
+:root[data-theme="light"]{
+  --night:#eef3f8; --night-2:#dde9f2; --ink:#1c2448; --muted:#58628c;
+  --gold:#b8770f; --gold-2:#d9952a; --teal:#1b8a7a; --rose:#c45a4a;
+  --card:#ffffff; --line:rgba(184,119,15,.25);
+  --paper:#fffaf1; --paper-2:#f6efe1; --paper-ink:#2a2638; --paper-muted:#6b6478;
+  --sky-top:#9fc9e6; --sky-bot:#fde2c0; --star:#ffffff; --dune:#e8c495;
+  --hl:rgba(217,149,42,.32); color-scheme:light }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body.reading{overflow:hidden}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sky-top),var(--sky-bot));border-radius:0 0 32px 32px}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero .lanterns{position:absolute;top:70px;left:0;width:100%;height:110px;pointer-events:none;opacity:.9}
+.hero .dunes{position:absolute;left:0;bottom:-1px;width:100%;height:90px;pointer-events:none}
+.top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:1.45rem;color:var(--ink)}
+.brand svg{width:34px;height:34px}
+.brand small{display:block;font-family:var(--arabic);font-size:1rem;color:var(--gold);line-height:1}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 70%,transparent);backdrop-filter:blur(6px);border-radius:999px;padding:8px 14px;font-size:.92rem}
+.pill[aria-pressed="true"]{background:var(--gold);color:#1b1530;border-color:var(--gold)}
+.pill svg{width:18px;height:18px}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;padding-block:110px 110px}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.6rem);color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.salaam{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.salaam .ar{font-family:var(--arabic);font-size:1.6rem;color:var(--gold-2)}
+.salaam span:last-child{color:var(--muted)}
+.hero-copy p.lead{margin-top:16px;color:var(--muted);font-size:1.08rem;max-width:34em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:13px 22px;font-weight:700;font-size:1rem;transition:transform .2s, box-shadow .2s}
+.btn.gold{background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#22180a;box-shadow:0 10px 26px -10px var(--gold)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.btn svg{width:20px;height:20px}
+
+.tonight{position:relative;border-radius:22px;overflow:hidden;background:var(--card);box-shadow:0 30px 60px -30px rgba(0,0,0,.7);border:1px solid var(--line);transform:rotate(1.2deg);transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.tonight:hover{transform:rotate(0) translateY(-4px)}
+.tonight .art{aspect-ratio:4/3;max-width:100%}
+.tonight .art svg{width:100%;height:100%;display:block}
+.tonight .cap{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;flex-wrap:wrap}
+.tonight h3{font-size:1.3rem}
+.tonight .tag{position:absolute;top:14px;left:14px;background:rgba(16,22,58,.75);color:#ffe3a3;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(4px)}
+
+/* ---------- Sections ---------- */
+section.block{padding-block:56px 8px}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+.sec-head p{color:var(--muted);max-width:32em}
+.books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.book{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);padding:0;border-radius:6px 18px 18px 6px;overflow:hidden;position:relative;box-shadow:0 18px 34px -20px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.3,1.5,.5,1), box-shadow .3s}
+.book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:13px;background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(0,0,0,.06) 70%,rgba(255,255,255,.18));z-index:2}
+.book:hover,.book:focus-visible{transform:translateY(-8px) rotate(-.8deg);box-shadow:0 30px 44px -22px rgba(0,0,0,.6)}
+.book .cover-art{aspect-ratio:4/3;max-width:100%;position:relative}
+.book .cover-art svg{width:100%;height:100%;display:block}
+.book .body{padding:16px 18px 18px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
+.book h3{font-size:1.25rem}
+.chip{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;border-radius:999px;padding:4px 11px;font-size:.78rem;font-weight:700;letter-spacing:.04em;background:color-mix(in srgb,var(--tint) 22%,transparent);color:var(--tint)}
+.book .src{color:var(--muted);font-size:.9rem}
+.book .meta{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:.86rem;color:var(--muted);padding-top:6px}
+.ribbon{font-weight:700;color:var(--teal)}
+.newtag{position:absolute;top:12px;right:12px;z-index:3;background:var(--gold);color:#22180a;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+
+.values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.val{display:flex;gap:14px;align-items:center;padding:16px;border-radius:18px;border:1px dashed var(--line)}
+.val svg{width:64px;height:64px;flex:none}
+.val.on{border-style:solid;background:color-mix(in srgb,var(--tint) 12%,transparent)}
+.val:not(.on) svg{filter:grayscale(1);opacity:.45}
+.val b{display:block;font-family:var(--display);font-weight:400;font-size:1.1rem}
+.val span{color:var(--muted);font-size:.9rem}
+
+.parents{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.parents div{min-width:0}
+.parents h3{font-size:1.15rem;margin:10px 0 6px}
+.parents p{color:var(--muted);font-size:.97rem}
+.parents svg{width:40px;height:40px}
+footer{padding-block:56px 40px;color:var(--muted);font-size:.9rem;text-align:center}
+footer .ar{font-family:var(--arabic);font-size:1.4rem;color:var(--gold);display:block;margin-bottom:4px}
+
+/* ---------- Reader ---------- */
+.reader{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;background:radial-gradient(120% 90% at 50% 0%,var(--night-2),var(--night) 70%);padding:env(safe-area-inset-top,0px) max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom,0px) max(16px, env(safe-area-inset-left, 0px))}
+.rbar{display:flex;align-items:center;gap:8px;padding-block:12px;min-width:0}
+.rbar .ttl{flex:1;min-width:0;font-family:var(--display);font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ibtn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--card) 80%,transparent);flex:none}
+.ibtn svg{width:22px;height:22px}
+.ibtn[aria-pressed="true"]{background:var(--gold);color:#22180a;border-color:var(--gold)}
+.ibtn.wide{width:auto;padding:0 16px;border-radius:999px;gap:8px;display:inline-flex;align-items:center;font-weight:700;font-size:.95rem}
+.stage{flex:1;min-height:0;display:grid;place-items:center;perspective:2200px}
+.bookview{position:relative;width:min(1120px,100%);height:min(100%,700px)}
+.leaf{position:absolute;inset:0;display:grid;grid-template-columns:1.08fr 1fr;border-radius:20px;overflow:hidden;background:var(--paper);color:var(--paper-ink);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),0 0 0 1px var(--line);backface-visibility:hidden;transform-style:preserve-3d}
+.leaf::after{content:"";position:absolute;top:0;bottom:0;left:calc(51.9% - 26px);width:52px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.28) 48%,rgba(255,255,255,.06) 52%,transparent);pointer-events:none}
+.leaf .art{position:relative;overflow:hidden;min-height:0;background:#0d1230}
+.leaf .art svg{position:absolute;inset:0;width:100%;height:100%;display:block;animation:kenburns 26s ease-in-out infinite alternate;transform-origin:50% 60%}
+@keyframes kenburns{to{transform:scale(1.07) translate(-1%,-1%)}}
+.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1));line-height:1.7}
+.words .orn{position:absolute;width:64px;height:64px;color:var(--gold);opacity:.55;pointer-events:none}
+.words .orn.tl{top:12px;left:12px}.words .orn.br{bottom:12px;right:12px;transform:rotate(180deg)}
+:root{--fs-base:clamp(18px,1vw + 11px,23px)}
+.words p{max-width:30em}
+.words .w{border-radius:6px;transition:background .15s, box-shadow .15s}
+.words .w.on{background:var(--hl);box-shadow:0 0 0 3px var(--hl)}
+.words .said{color:color-mix(in srgb,var(--paper-ink) 70%,var(--gold))}
+.words .g{border:0;background:none;padding:0;border-bottom:2px dotted var(--gold);font:inherit;color:inherit;line-height:inherit}
+.words .g:hover{color:var(--gold)}
+.first p:first-of-type::first-letter{font-family:var(--display);float:left;font-size:3.3em;line-height:.9;padding:6px 10px 0 0;color:var(--gold)}
+.words h2{font-size:clamp(1.8rem,3.4vw,2.8rem);color:var(--paper-ink)}
+.words .ar{font-family:var(--arabic);direction:rtl;font-size:1.55em;line-height:1.9;color:var(--gold)}
+.words .note{font-size:.78em;color:var(--paper-muted);line-height:1.55}
+.words .note b{color:var(--paper-ink)}
+.words .callout{border-left:3px solid var(--gold);padding:6px 0 6px 16px;display:flex;flex-direction:column;gap:4px}
+.words .hint{font-size:.75em;color:var(--paper-muted);display:flex;align-items:center;gap:8px}
+.words .row{display:flex;gap:10px;flex-wrap:wrap}
+.earned{display:inline-flex;align-self:flex-start;align-items:center;gap:10px;background:color-mix(in srgb,var(--tint) 20%,transparent);color:var(--paper-ink);border:1px solid color-mix(in srgb,var(--tint) 60%,transparent);border-radius:999px;padding:8px 16px 8px 8px;font-size:.8em;font-weight:700;animation:pop .7s .3s cubic-bezier(.3,1.6,.5,1) both}
+.earned svg{width:32px;height:32px}
+@keyframes pop{from{transform:scale(.6);opacity:.3}}
+
+.leaf.in-next{animation:inNext .75s cubic-bezier(.3,.7,.3,1) both;z-index:1}
+.leaf.out-next{animation:outNext .75s cubic-bezier(.5,0,.4,1) both;transform-origin:0 50%;z-index:2}
+.leaf.in-prev{animation:inPrev .75s cubic-bezier(.3,.7,.3,1) both;transform-origin:0 50%;z-index:2}
+.leaf.out-prev{animation:outPrev .75s ease both;z-index:1}
+.leaf.fade{animation:fadeIn .5s ease both}
+@keyframes outNext{to{transform:rotateY(-88deg);filter:brightness(.6)}}
+@keyframes inNext{from{transform:scale(.97);filter:brightness(.55)}}
+@keyframes inPrev{from{transform:rotateY(-88deg);filter:brightness(.6)}}
+@keyframes outPrev{to{transform:scale(.97);filter:brightness(.55)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}}
+
+.rnav{display:flex;align-items:center;justify-content:center;gap:14px;padding-block:12px 14px}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:60vw}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:color-mix(in srgb,var(--ink) 25%,transparent);transition:width .3s, background .3s}
+.dots button.on{width:26px;border-radius:6px;background:var(--gold)}
+.navbtn{width:54px;height:54px}
+.navbtn:disabled{opacity:.3;cursor:default}
+.counter{font-size:.85rem;color:var(--muted);min-width:4.5em;text-align:center;font-variant-numeric:tabular-nums}
+
+.gloss{position:fixed;z-index:80;width:min(320px,calc(100vw - 32px));background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 24px 50px -20px rgba(0,0,0,.7);display:flex;flex-direction:column;gap:6px;animation:fadeIn .25s ease both}
+.gloss .ar{font-family:var(--arabic);font-size:1.9rem;color:var(--gold);direction:rtl;line-height:1.5}
+.gloss b{font-family:var(--display);font-weight:400;font-size:1.15rem}
+.gloss p{color:var(--muted);font-size:.95rem}
+.gloss .row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.gloss button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:.85rem}
+
+body.bedtime::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:200;background:rgba(255,128,32,.13);mix-blend-mode:multiply}
+body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{filter:brightness(.8) saturate(.85)}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;padding-block:96px 100px}
+  .tonight{transform:none}
+  .books,.values,.parents{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .leaf{grid-template-columns:1fr;grid-template-rows:minmax(0,44%) minmax(0,1fr)}
+  .leaf::after{display:none}
+  .leaf .words{justify-content:flex-start;padding:22px 22px 28px}
+  .words .orn{display:none}
+  .rbar .hide-sm{display:none}
+  .dots{max-width:48vw}
+}
+@media (max-width:560px){
+  .books,.values,.parents{grid-template-columns:1fr}
+  .top .pill .lbl{display:none}
+  .navbtn{width:48px;height:48px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style></head><body>
+
+<div id="home">
+  <header class="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <svg class="lanterns" id="heroLanterns" viewBox="0 0 1200 110" preserveAspectRatio="xMidYMin slice" aria-hidden="true"></svg>
+    <svg class="dunes" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 Q 80 20 170 48 T 330 40 T 400 36 V90 H0Z" fill="var(--dune)" opacity=".55"/><path d="M0 78 Q 120 46 240 72 T 400 64 V90 H0Z" fill="var(--night)"/></svg>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
+        <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="salaam"><span class="ar">السَّلَامُ عَلَيْكُمْ</span><span id="greet">Assalamu alaikum, little reader</span></div>
+          <h1>A true story, a gentle lesson, <em>then sweet dreams.</em></h1>
+          <p class="lead">Stories from the Quran and the Sunnah, told for little ones at bedtime. Turn the pages together, let the book read aloud, and talk about what each story teaches.</p>
+          <div class="hero-cta">
+            <button class="btn gold" id="ctaTonight" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></svg>Open tonight's story</button>
+            <a class="btn ghost" href="#shelf">Browse the bookshelf</a>
+          </div>
+        </div>
+        <div class="tonight" id="tonight"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="block" id="shelf">
+      <div class="sec-head"><div><p class="eyebrow">The bookshelf</p><h2>Pick a book for tonight</h2></div><p>Each book is short enough for one bedtime, and ends with a lesson and a question to talk about together.</p></div>
+      <div class="books" id="books"></div>
+    </section>
+    <section class="block">
+      <div class="sec-head"><div><p class="eyebrow">Value stars</p><h2>Stars you have collected</h2></div><p>Finish a book to light up its star. Each star is a good habit the story teaches.</p></div>
+      <div class="values" id="values"></div>
+    </section>
+    <section class="block">
+      <div class="sec-head"><div><p class="eyebrow">For parents</p><h2>How the books are made</h2></div></div>
+      <div class="parents">
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><path d="M8 6h18l6 6v22H8z"/><path d="M26 6v6h6M13 19h14M13 24h14M13 29h9"/></svg><h3>Every story is sourced</h3><p>The cover and the lesson page name the surah or the hadith collection the story comes from, so you can read the original together.</p></div>
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><path d="M6 10h20v13H14l-6 5v-5H6z"/><path d="M30 15h4v13h-2v5l-6-5h-8v-2"/></svg><h3>Talk time at the end</h3><p>A question for your child and a short tip for you turn the story into a conversation about kindness, gratitude and honesty.</p></div>
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><circle cx="20" cy="12" r="5"/><path d="M11 34c1-9 4-14 9-14s8 5 9 14z"/><path d="M5 20h4M31 20h4M20 2v3"/></svg><h3>No faces are drawn</h3><p>People appear as simple figures without faces, and prophets are never pictured. Their presence is shown with light, banners and the world around them.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span class="ar">بِسْمِ ٱللَّٰهِ</span>Tap any dotted word in a story to learn what it means.</footer>
+</div>
+
+<div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-labelledby="rTitle">
+  <div class="rbar">
+    <button class="ibtn" id="rClose" type="button" aria-label="Back to the bookshelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ttl" id="rTitle"></div>
+    <button class="ibtn wide" id="rPlay" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span id="rPlayLbl">Read to me</span></button>
+    <button class="ibtn hide-sm" id="rSmaller" type="button" aria-label="Smaller text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="17" text-anchor="middle" font-size="13" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rBigger" type="button" aria-label="Bigger text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="19" text-anchor="middle" font-size="20" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rBed" type="button" aria-pressed="false" aria-label="Bedtime glow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
+  </div>
+  <div class="stage"><div class="bookview" id="bookview"></div></div>
+  <div class="rnav">
+    <button class="ibtn navbtn" id="rPrev" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div><div class="dots" id="rDots"></div><div class="counter" id="rCount"></div></div>
+    <button class="ibtn navbtn" id="rNext" type="button" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+<div class="gloss" id="gloss" hidden role="dialog" aria-label="Word meaning"></div>
+
+<script>
+/* ================= Stories (text kept as written) ================= */
+const STORIES=[
+{id:'dog',title:'The man who helped a thirsty dog',date:'2026-10-16',theme:'Kindness to animals',tint:'#56c7b4',
+ source:'Sahih al-Bukhari and Sahih Muslim',sourceLong:'Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari and Sahih Muslim.',
+ value:{name:'Kindness',icon:'paw'},cover:'dogDrinks',
+ pages:[
+  {scene:'desertWalk',text:['A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty.']},
+  {scene:'wellDrink',text:['He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better.']},
+  {scene:'thirstyDog',text:['When he came back up, he saw a dog nearby. The dog was panting and licking the dry earth. It looked so thirsty, just like he had been.']},
+  {scene:'shoeClimb',text:['The man thought, "This dog is thirsty the way I was thirsty." So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog.']},
+  {scene:'dogDrinks',text:['The dog drank and drank until it was happy.','Allah was so pleased with this kind act that He forgave the man\'s sins.']},
+  {scene:'kindNight',text:['The Prophet Muhammad ﷺ told us this story so we would remember that kindness to animals, and to every living thing, is kindness that Allah loves.']}
+ ],
+ lesson:'Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.',
+ ask:'If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?',
+ tip:'Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it.'},
+{id:'ant',title:'Prophet Sulayman and the little ant',date:'2026-10-17',theme:'Gentleness and gratitude',tint:'#f2b84b',
+ source:'Quran, Surah An-Naml 27:17-19',sourceLong:'Quran, Surah An-Naml (The Ant), verses 17 to 19.',
+ value:{name:'Gratitude',icon:'ant'},cover:'antCall',
+ pages:[
+  {scene:'kingdom',text:['Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of animals.']},
+  {scene:'march',text:['One day Sulayman was marching with his whole army. They came to a valley full of ants.']},
+  {scene:'antCall',text:['A little ant saw the big army coming and called out to the others: "O ants! Go into your homes, so that Sulayman and his soldiers don\'t crush you without realising it!"']},
+  {scene:'gratitude',text:['Sulayman heard the tiny ant, and he smiled. He wasn\'t angry. He was happy and thankful. He prayed: "My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You."'],
+   dua:{ar:'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ',ref:'Surah An-Naml 27:19'}},
+  {scene:'safeHome',text:['So the great king stopped his whole army to look after a few little ants. And the little ant looked after her friends too.']}
+ ],
+ lesson:'Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.',
+ ask:'The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?',
+ tip:'Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah.'},
+{id:'gold',title:'The honest men and the jar of gold',date:'2026-10-18',theme:'Honesty',tint:'#f08f80',
+ source:'Sahih al-Bukhari 3472, Sahih Muslim 1721',sourceLong:'Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.',
+ value:{name:'Honesty',icon:'jar'},cover:'jarGlow',
+ pages:[
+  {scene:'sale',text:['Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.','One man owned a piece of land, and he sold it to another man.']},
+  {scene:'digging',text:['The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!']},
+  {scene:'jarGlow',text:['Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land.']},
+  {scene:'backForth',text:['"Here, take your gold," he said. "I only bought the land from you. I didn\'t buy any gold."','But the other man shook his head. "No, no," he said. "I sold you the land and everything in it. The gold belongs to you."']},
+  {scene:'wiseMan',text:['Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.','The wise man listened. Then he asked, "Do you have any children?"','The first man said, "I have a son."\nThe second man said, "I have a daughter."']},
+  {scene:'wedding',text:['The wise man smiled. "Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others."']},
+  {scene:'charity',text:['And so the gold that both men were too honest to keep became a blessing for their children and for the poor.']}
+ ],
+ lesson:'Be honest even when nobody is watching, because Allah always sees us. When we don\'t take what isn\'t ours, Allah puts blessing (barakah) in what we have.',
+ ask:'If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?',
+ tip:'Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves.'}
+];
+
+const GLOSS={
+ alhamdulillah:{ar:'ٱلْحَمْدُ لِلَّٰهِ',tr:'Alhamdulillah',m:'All praise and thanks belong to Allah. We say it when something good happens.'},
+ 'ﷺ':{ar:'صَلَّى ٱللَّٰهُ عَلَيْهِ وَسَلَّمَ',tr:'Sallallahu alayhi wa sallam',m:'May Allah send blessings and peace upon him. We say it after the name of the Prophet Muhammad.'},
+ jinn:{ar:'جِنّ',tr:'Jinn',m:'Beings that Allah created from smokeless fire. We cannot see them, but they are real.'},
+ barakah:{ar:'بَرَكَة',tr:'Barakah',m:'Blessing from Allah that makes a little become a lot of good.'},
+ sulayman:{ar:'سُلَيْمَان',tr:'Sulayman',m:'A prophet and a king. In English his name is Solomon. Allah let him understand the birds and the little ant.'},
+ allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
+};
+
+/* ================= Helpers ================= */
+const $=s=>document.querySelector(s);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shade(hex,a){const n=parseInt(hex.slice(1),16),c=[n>>16,n>>8&255,n&255].map(v=>Math.round(a<0?v*(1+a):v+(255-v)*a));return'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('')}
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+let store={read:{},fs:1,bed:false};
+try{Object.assign(store,JSON.parse(localStorage.getItem('qissa-time')||'{}'))}catch(e){}
+function save(){try{localStorage.setItem('qissa-time',JSON.stringify(store))}catch(e){}}
+
+/* ================= Illustration kit ================= */
+const lg=(id,stops,x2=0,y2=1)=>`<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}">${stops.map((c,i)=>`<stop offset="${(i/(stops.length-1)).toFixed(2)}" stop-color="${c}"/>`).join('')}</linearGradient>`;
+const rg=(id,c,o=1)=>`<radialGradient id="${id}"><stop offset="0" stop-color="${c}" stop-opacity="${o}"/><stop offset="1" stop-color="${c}" stop-opacity="0"/></radialGradient>`;
+const skyR=u=>`<rect width="400" height="300" fill="url(#${u}sky)"/>`;
+const rot=(a,b,cx,cy,d)=>`<animateTransform attributeName="transform" type="rotate" values="${a} ${cx} ${cy};${b} ${cx} ${cy};${a} ${cx} ${cy}" dur="${d}s" repeatCount="indefinite"/>`;
+const bob=(dy,d)=>`<animateTransform attributeName="transform" type="translate" additive="sum" values="0 0;0 ${dy};0 0" dur="${d}s" repeatCount="indefinite"/>`;
+const drift=(dx,dy,d)=>`<animateTransform attributeName="transform" type="translate" values="0 0;${dx} ${dy}" dur="${d}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.88;1" dur="${d}s" repeatCount="indefinite"/>`;
+
+function sun(u,x,y,r,c='#fff4c9'){return `<circle cx="${x}" cy="${y}" r="${r*3}" fill="url(#${u}glow)"><animate attributeName="r" values="${r*2.6};${r*3.3};${r*2.6}" dur="6s" repeatCount="indefinite"/></circle><circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`}
+function moon(u,x,y,r,c='#fdf0c4'){return `<mask id="${u}mm"><rect width="400" height="300" fill="#fff"/><circle cx="${x+r*.45}" cy="${y-r*.28}" r="${r*.86}" fill="#000"/></mask><circle cx="${x}" cy="${y}" r="${r*3}" fill="url(#${u}mglow)"/><circle cx="${x}" cy="${y}" r="${r}" fill="${c}" mask="url(#${u}mm)"/>`}
+function stars(n,seed,maxY=160,c='#fff8e0'){const r=rng(seed);let s='';for(let i=0;i<n;i++){const x=r()*400,y=r()*maxY,rad=r()*1.3+.4;s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(2)}" fill="${c}"><animate attributeName="opacity" values="1;.25;1" dur="${(2+r()*3).toFixed(1)}s" begin="${(r()*3).toFixed(1)}s" repeatCount="indefinite"/></circle>`}return s}
+const dunes=c=>`<path d="M0 196 Q70 166 150 188 T300 182 T400 176 V300H0Z" fill="${c[0]}"/><path d="M0 228 Q110 196 210 222 T400 210 V300H0Z" fill="${c[1]}"/><path d="M0 260 Q130 234 250 257 T400 248 V300H0Z" fill="${c[2]}"/>`;
+const hills=c=>`<path d="M0 186 Q90 146 190 176 T400 166 V300H0Z" fill="${c[0]}"/><path d="M0 222 Q120 186 230 216 T400 202 V300H0Z" fill="${c[1]}"/><path d="M0 258 Q140 236 260 254 T400 246 V300H0Z" fill="${c[2]}"/>`;
+const cloud=(x,y,s=1,d=40)=>`<g opacity=".9"><animateTransform attributeName="transform" type="translate" values="0 0;${d} 0;0 0" dur="50s" repeatCount="indefinite"/><g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="28" ry="9" fill="#fff"/><ellipse cx="-11" cy="-6" rx="13" ry="9" fill="#fff"/><ellipse cx="9" cy="-9" rx="15" ry="12" fill="#fff"/></g></g>`;
+function palm(x,y,s=1,trunk='#7a5534',leaf='#2e7d5b'){const fr=[-175,-140,-100,-62,-25,12,195].map(a=>`<path d="M0 0 Q24 -14 48 5 Q25 -3 0 0Z" fill="${leaf}" transform="rotate(${a})"/>`).join('');return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0 C5 -30 -4 -62 6 -92" stroke="${trunk}" stroke-width="7" fill="none" stroke-linecap="round"/><g transform="translate(6 -92)"><g>${rot(-4,4,0,0,6)}${fr}<circle cx="3" cy="4" r="3" fill="#8a4b2a"/><circle cx="-2" cy="5" r="3" fill="#9a5a30"/></g></g></g>`}
+function well(x,y,s=1){return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-27" y="-80" width="5" height="52" fill="#6b4a2b"/><rect x="22" y="-80" width="5" height="52" fill="#6b4a2b"/><path d="M-40 -78 L0 -104 L40 -78Z" fill="#a4553f"/><path d="M-40 -78 L40 -78 L36 -73 L-36 -73Z" fill="#7d3d2e"/><line x1="0" y1="-73" x2="0" y2="-46" stroke="#e7d3a6" stroke-width="1.5"/><rect x="-5" y="-48" width="10" height="8" rx="1.5" fill="#8a5f3b"/><path d="M-32 -30 L-30 4 Q0 10 30 4 L32 -30Z" fill="#c4935f"/><path d="M-31 -18 Q0 -12 31 -18 M-30 -6 Q0 0 30 -6" stroke="#a3764a" stroke-width="1.5" fill="none"/><path d="M-20 -29 v11 M2 -27 v11 M22 -29 v11 M-10 -17 v11 M12 -16 v11" stroke="#a3764a" stroke-width="1.5"/><ellipse cx="0" cy="-30" rx="32" ry="8" fill="#ddb07c"/><ellipse cx="0" cy="-30" rx="25" ry="5.5" fill="#24324d"/></g>`}
+
+/* People are drawn as simple figures with no facial features. */
+function person(x,y,s=1,o={}){
+  const robe=o.robe||'#3f6fa3',wrap=o.wrap||'#f1e6cf',skin=o.skin||'#c98f63',pose=o.pose||'stand',dk=shade(robe,-.28);
+  const low=pose==='kneel'||pose==='sit', h=low?-48:-60, sh=h+14;
+  const arm=(a,b,c,d)=>`<path d="M${a} ${b} L${c} ${d}" stroke="${dk}" stroke-width="6.5" stroke-linecap="round"/>`;
+  let body=low?`<path d="M-14 -38 Q-22 -16 -24 0 L22 0 Q18 -18 14 -38 Q0 -44 -14 -38Z" fill="${robe}"/>`
+              :`<path d="M-13 -50 Q-17 -22 -19 0 L19 0 Q17 -22 13 -50 Q0 -56 -13 -50Z" fill="${robe}"/><path d="M-16.4 -30 L16.4 -30 L16.8 -26 L-16.8 -26Z" fill="${dk}"/>`;
+  let arms='',pre='';
+  switch(pose){
+    case 'walk':arms=arm(-8,sh,-14,sh+18)+`<path d="M21 ${sh-8} L27 0" stroke="#7a5534" stroke-width="3" stroke-linecap="round"/>`+arm(8,sh,20,sh+8);break;
+    case 'offer':arms=arm(-7,sh,23,sh+12)+arm(8,sh,26,sh+8);break;
+    case 'shake':arms=arm(-9,sh,-12,sh+22)+arm(8,sh,22,sh+10);break;
+    case 'dig':pre=`<path d="M-4 -66 L28 0" stroke="#7a5534" stroke-width="3.5" stroke-linecap="round"/><path d="M22 -4 L35 -2 L32 8 L22 6Z" fill="#9aa4ad"/>`;arms=arm(-8,sh,0,-58)+arm(8,sh,12,-34);break;
+    case 'climb':arms=arm(-8,sh,-12,sh-26)+arm(8,sh,12,sh-28);break;
+    case 'kneel':arms=arm(-6,sh,22,sh+12)+arm(8,sh,26,sh+8);break;
+    case 'sit':pre=`<path d="M20 -62 L24 0" stroke="#7a5534" stroke-width="3" stroke-linecap="round"/>`;arms=arm(-8,sh,-12,sh+20)+arm(8,sh,20,sh+6);break;
+    case 'raise':arms=arm(-9,sh,-12,sh+22)+arm(8,sh,18,sh-18);break;
+    default:arms=arm(-9,sh,-12,sh+22)+arm(9,sh,12,sh+22);
+  }
+  const head=o.veil?`<circle cx="0" cy="${h}" r="9.5" fill="${skin}"/><path d="M-12 ${h+2} Q-13 ${h-14} 0 ${h-14} Q13 ${h-14} 12 ${h+2} Q14 ${h+14} 18 ${h+20} L-18 ${h+20} Q-14 ${h+14} -12 ${h+2}Z" fill="${wrap}"/><ellipse cx="2.5" cy="${h+1}" rx="6.2" ry="7.4" fill="${skin}"/>`
+                   :`<circle cx="0" cy="${h}" r="9.5" fill="${skin}"/><path d="M-10.5 ${h-1} Q-11 ${h-15} 0 ${h-15} Q11 ${h-15} 10.5 ${h-1} Q0 ${h-6} -10.5 ${h-1}Z" fill="${wrap}"/><path d="M-9.5 ${h-3} Q-15 ${h+8} -11 ${h+15} L-6 ${h+2}Z" fill="${wrap}"/>`;
+  const feet=low?'':`<ellipse cx="-7" cy="0" rx="6" ry="2.4" fill="#4a3424"/><ellipse cx="8" cy="0" rx="6" ry="2.4" fill="#4a3424"/>`;
+  const anim=o.bob?bob(-2,.8):'';
+  return `<g transform="translate(${x} ${y}) scale(${o.flip?-s:s} ${s})"><g>${anim}${pre}${feet}${body}${head}${arms}${o.hold||''}</g></g>`;
+}
+function dog(x,y,s=1,o={}){
+  const c=o.c||'#c98a4e',d=shade(c,-.3),l=shade(c,.28),happy=o.mood==='happy';
+  if(o.mood==='sleep')return `<g transform="translate(${x} ${y}) scale(${s})"><g>${bob(-1,3)}<ellipse cx="0" cy="-10" rx="26" ry="11" fill="${c}"/><path d="M-24 -6 Q-36 4 -10 4 Q14 6 22 -2" stroke="${d}" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="22" cy="-12" r="10" fill="${c}"/><ellipse cx="31" cy="-8" rx="8" ry="5" fill="${c}"/><circle cx="38" cy="-9" r="2" fill="#2a1d17"/><path d="M16 -20 Q12 -10 18 -6 Q22 -12 22 -20Z" fill="${d}"/><path d="M22 -13 q2 2 4 0" stroke="#2a1d17" stroke-width="1.4" fill="none" stroke-linecap="round"/></g><text x="34" y="-26" font-family="Georgia" font-size="10" fill="#fff6d0">z<animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></text><text x="42" y="-36" font-family="Georgia" font-size="13" fill="#fff6d0">z<animate attributeName="opacity" values="0;1;0" dur="3s" begin="1s" repeatCount="indefinite"/></text></g>`;
+  const legs=[[-18,d],[-9,c],[8,d],[16,c]].map(([lx,lc])=>`<rect x="${lx}" y="-16" width="5.5" height="16" rx="2.5" fill="${lc}"/>`).join('');
+  const eye=happy?`<path d="M26.5 -37.5 q2.3 -2.6 4.6 0" stroke="#2a1d17" stroke-width="1.6" fill="none" stroke-linecap="round"/>`:`<circle cx="29" cy="-37" r="2" fill="#2a1d17"/><circle cx="29.6" cy="-37.7" r=".7" fill="#fff"/>`;
+  const tongue=happy?`<path d="M37 -27 q1 5 4 4.5 q1.5 -3 -.5 -5Z" fill="#e8707e"/>`:`<path d="M37.5 -26.5 q1 9 5 8 q2 -4 -1 -9Z" fill="#e8707e">${bob(1.6,.45)}</path>`;
+  const head=`<g ${o.drink?'transform="rotate(34 20 -30)"':''}><circle cx="26" cy="-34" r="11" fill="${c}"/><ellipse cx="36" cy="-30.5" rx="8.5" ry="5.8" fill="${c}"/><ellipse cx="37" cy="-28.6" rx="6" ry="3.4" fill="${l}"/><circle cx="44" cy="-32" r="2.4" fill="#2a1d17"/>${eye}${tongue}<path d="M19 -43 Q13 -31 20 -27 Q25 -34 25 -44Z" fill="${d}"/></g>`;
+  return `<g transform="translate(${x} ${y}) scale(${o.flip?-s:s} ${s})"><path d="M-22 -27 Q-36 -38 -32 -50" stroke="${c}" stroke-width="5" fill="none" stroke-linecap="round">${rot(-14,16,-22,-27,happy?.35:1.6)}</path>${legs}<ellipse cx="0" cy="-24" rx="25" ry="12" fill="${c}"/><ellipse cx="3" cy="-19" rx="15" ry="6" fill="${l}"/>${head}</g>`;
+}
+function cat(x,y,s=1,c='#41406e'){return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M10 -4 Q26 -2 22 -16" stroke="${c}" stroke-width="4" fill="none" stroke-linecap="round">${rot(-6,8,10,-4,3)}</path><ellipse cx="0" cy="-12" rx="12" ry="12" fill="${c}"/><circle cx="0" cy="-28" r="8" fill="${c}"/><path d="M-7 -32 L-6 -41 L-1 -35Z M7 -32 L6 -41 L1 -35Z" fill="${c}"/><path d="M-5 -28 q2 1.5 4 0 M1 -28 q2 1.5 4 0" stroke="#d9d4ff" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>`}
+function ant(x,y,s=1,o={}){
+  const c=o.c||'#3a2620';
+  const legs=[[-4,-8],[1,-4],[5,1]].map(([a,b])=>`<path d="M${a} -7 L${a-2} -3 L${b} 0" stroke="${c}" stroke-width="1.3" fill="none" stroke-linecap="round"/>`).join('');
+  const ante=o.wave?`<g>${rot(-14,10,8,-15,.6)}<path d="M9 -15.5 Q11 -23 17 -23" stroke="${c}" stroke-width="1.2" fill="none" stroke-linecap="round"/></g>`:`<path d="M9 -15.5 Q11 -23 17 -23" stroke="${c}" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
+  const call=o.call?`<ellipse cx="13.4" cy="-9" rx="1.5" ry="1.1" fill="#f6b3a6"/><g stroke="#fff3c8" stroke-width="1.3" fill="none" stroke-linecap="round"><path d="M19 -15 q3.5 4 0 8"><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite"/></path><path d="M23 -18 q6 7 0 14"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin=".3s" repeatCount="indefinite"/></path></g>`:'';
+  return `<g transform="translate(${x} ${y}) scale(${o.flip?-s:s} ${s})">${legs}<ellipse cx="-9" cy="-8" rx="7.5" ry="5.6" fill="${c}"/><ellipse cx="1" cy="-8" rx="4.5" ry="3.4" fill="${c}"/><circle cx="9" cy="-11" r="5" fill="${c}"/><circle cx="10.6" cy="-12" r="1.9" fill="#fff"/><circle cx="11.2" cy="-12" r="1" fill="#111"/><path d="M7.5 -15.5 Q7 -22 11 -24" stroke="${c}" stroke-width="1.2" fill="none" stroke-linecap="round"/>${ante}${call}</g>`;
+}
+function antLine(x1,x2,y,n,s,d,seed){const r=rng(seed);let g='';for(let i=0;i<n;i++){g+=`<g><animateTransform attributeName="transform" type="translate" values="${x1-x2} 0;0 0" dur="${d}s" begin="${(-i*d/n).toFixed(2)}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.85;1" dur="${d}s" begin="${(-i*d/n).toFixed(2)}s" repeatCount="indefinite"/>${ant(x2,y+(r()*4-2),s)}</g>`}return g}
+function anthill(x,y,s=1,c='#b8804e'){return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-44 0 Q-24 -32 0 -34 Q24 -32 44 0Z" fill="${c}"/><path d="M-32 -8 Q0 -16 32 -8 M-22 -20 Q0 -26 22 -20" stroke="${shade(c,-.18)}" stroke-width="1.2" fill="none"/><ellipse cx="0" cy="-30" rx="7" ry="3" fill="#3b2418"/><ellipse cx="-30" cy="-3" rx="7" ry="3.6" fill="#3b2418"/></g>`}
+function grass(x,y,n,h,c,seed){const r=rng(seed);let g='';for(let i=0;i<n;i++){const gx=x+i*(6+r()*6),gh=h*(.6+r()*.6),b=(r()*16-8);g+=`<path d="M${gx} ${y} Q${gx+b/2} ${y-gh/2} ${gx+b} ${y-gh}" stroke="${c}" stroke-width="${(2+r()*2).toFixed(1)}" fill="none" stroke-linecap="round">${rot(-3,3,gx,y,(3+r()*3).toFixed(1))}</path>`}return g}
+function flowers(n,seed,y1,y2,cols){const r=rng(seed);let g='';for(let i=0;i<n;i++){const x=r()*400,y=y1+r()*(y2-y1),c=cols[i%cols.length];g+=`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><line x1="0" y1="0" x2="0" y2="8" stroke="#3f7a44" stroke-width="1.2"/>${[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-3" rx="1.8" ry="3" fill="${c}" transform="rotate(${a})"/>`).join('')}<circle r="1.6" fill="#ffe27a"/></g>`}return g}
+function birds(x,y,n,seed,c='#4a3f5c',dx=160,d=26){const r=rng(seed);let s='';for(let i=0;i<n;i++){const bx=x+r()*70-35,by=y+r()*34-17,sc=(.7+r()*.6).toFixed(2),du=(.45+r()*.3).toFixed(2);s+=`<g transform="translate(${bx.toFixed(1)} ${by.toFixed(1)}) scale(${sc})"><path d="M-7 0 Q-3.5 -5 0 0 Q3.5 -5 7 0" stroke="${c}" stroke-width="1.8" fill="none" stroke-linecap="round"><animate attributeName="d" values="M-7 0 Q-3.5 -5 0 0 Q3.5 -5 7 0;M-7 -3 Q-3.5 2 0 0 Q3.5 2 7 -3;M-7 0 Q-3.5 -5 0 0 Q3.5 -5 7 0" dur="${du}s" repeatCount="indefinite"/></path></g>`}return `<g>${drift(dx,-12,d)}${s}</g>`}
+function banner(x,y,c,h=26){const a=`M0 ${-h} Q6 ${-h-3} 13 ${-h+1} L13 ${-h+9} Q6 ${-h+6} 0 ${-h+8}Z`,b=`M0 ${-h} Q6 ${-h+2} 13 ${-h-1} L13 ${-h+7} Q6 ${-h+10} 0 ${-h+8}Z`;return `<g transform="translate(${x} ${y})"><line x1="0" y1="0" x2="0" y2="${-h}" stroke="#5a4636" stroke-width="1.6"/><path d="${a}" fill="${c}"><animate attributeName="d" values="${a};${b};${a}" dur="1.6s" repeatCount="indefinite"/></path></g>`}
+function army(x0,y,n,gap,cols,moving=true,c='#43507a'){let s='';for(let i=0;i<n;i++){const x=x0+i*gap;s+=`<g transform="translate(${x} ${y+(i%2)})"><path d="M-3.5 0 L-2.5 -10 Q0 -13 2.5 -10 L3.5 0Z" fill="${c}"/><circle cx="0" cy="-13.5" r="2.4" fill="${c}"/></g>`;if(i%4===1)s+=banner(x+3,y-2,cols[(i>>2)%cols.length],24)}return `<g>${moving?drift(40,0,22):''}${s}</g>`}
+function palace(x,y,s=1,c='#efd9bd',g='#e7b54a'){return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-50" y="-40" width="100" height="40" fill="${c}"/><rect x="-63" y="-72" width="13" height="72" fill="${c}"/><rect x="50" y="-72" width="13" height="72" fill="${c}"/><path d="M-63 -72 Q-56.5 -88 -50 -72Z M50 -72 Q56.5 -88 63 -72Z" fill="${g}"/><path d="M-26 -40 Q-26 -78 0 -84 Q26 -78 26 -40Z" fill="${g}"/><line x1="0" y1="-84" x2="0" y2="-96" stroke="${g}" stroke-width="2"/>${[-36,-18,18,36].map(wx=>`<path d="M${wx-4} -8 V-22 A4 4 0 0 1 ${wx+4} -22 V-8Z" fill="${shade(c,-.35)}"/>`).join('')}<path d="M-8 0 V-20 A8 8 0 0 1 8 -20 V0Z" fill="${shade(c,-.42)}"/></g>`}
+function house(x,y,s=1,c='#e2b98a'){return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-26" y="-38" width="52" height="38" fill="${c}"/><rect x="-29" y="-42" width="58" height="6" rx="1" fill="${shade(c,-.2)}"/><path d="M-7 0 V-15 A7 7 0 0 1 7 -15 V0Z" fill="#5a3b28"/><path d="M12 -20 V-27 A4 4 0 0 1 20 -27 V-20Z" fill="${o_win}"/></g>`}
+let o_win='#5a3b28';
+function tree(x,y,s=1){return `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-6 0 Q-3 -40 -5 -70 Q-20 -88 -42 -96 M-5 -70 Q8 -92 36 -100 M-3 -60 Q0 -90 2 -110" stroke="#6b4a32" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M-9 0 L-11 -40 L3 -40 L7 0Z" fill="#6b4a32"/><g>${rot(-1,1,0,-100,7)}${[[-50,-104,34,16],[-14,-122,40,18],[30,-112,38,16],[0,-100,56,18],[-72,-96,22,10],[66,-104,24,11]].map(([cx,cy,rx,ry])=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#4f8a4a"/>`).join('')}<ellipse cx="-12" cy="-122" rx="28" ry="9" fill="#6aa65a"/><ellipse cx="32" cy="-116" rx="22" ry="7" fill="#6aa65a"/></g></g>`}
+function jar(u,x,y,s=1,o={}){const c=o.c||'#c4673c';const gold=o.gold?`<path d="M-11 -41 Q0 -55 11 -41Z" fill="#ffcc3d"/>${[[-6,-44],[3,-47],[-1,-50],[6,-42],[-8,-41]].map(([a,b])=>`<ellipse cx="${a}" cy="${b}" rx="4.4" ry="2" fill="#ffdc5c" stroke="#c9961f" stroke-width=".7"/>`).join('')}`:'';
+  return `<g transform="translate(${x} ${y}) scale(${s})">${o.glow?`<circle cx="0" cy="-34" r="60" fill="url(#${u}gold)"><animate attributeName="opacity" values=".65;1;.65" dur="2.8s" repeatCount="indefinite"/></circle>`:''}<path d="M-13 0 Q-25 -18 -14 -33 L-9 -38 L9 -38 L14 -33 Q25 -18 13 0Z" fill="${c}"/><path d="M-19 -21 Q0 -14 19 -21" stroke="${shade(c,.3)}" stroke-width="3" fill="none"/><path d="M-18 -14 Q0 -8 18 -14" stroke="${shade(c,-.25)}" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/><path d="M-8 -30 Q-12 -20 -8 -10" stroke="${shade(c,.45)}" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".6"/><rect x="-11" y="-42" width="22" height="5" rx="2" fill="${shade(c,-.22)}"/>${gold}</g>`}
+const sparkle=(x,y,r,d=0,c='#fff7d1')=>`<path transform="translate(${x} ${y})" d="M0 ${-r} L${r*.22} ${-r*.22} L${r} 0 L${r*.22} ${r*.22} L0 ${r} L${-r*.22} ${r*.22} L${-r} 0 L${-r*.22} ${-r*.22}Z" fill="${c}"><animate attributeName="opacity" values="0;1;0" dur="2.4s" begin="${d}s" repeatCount="indefinite"/></path>`;
+function sparkles(n,seed,x1,y1,x2,y2,c){const r=rng(seed);let s='';for(let i=0;i<n;i++)s+=sparkle((x1+r()*(x2-x1)).toFixed(1),(y1+r()*(y2-y1)).toFixed(1),(3+r()*5).toFixed(1),(r()*2.4).toFixed(1),c);return s}
+function hearts(n,x,y,seed,c='#ef7f8f'){const r=rng(seed);let s='';for(let i=0;i<n;i++){const hx=x+r()*50-25,d=(3+r()*2).toFixed(1),b=(-r()*4).toFixed(1),sc=(.9+r()*.8).toFixed(2);s+=`<g><animateTransform attributeName="transform" type="translate" values="0 0;${(r()*20-10).toFixed(0)} -60" dur="${d}s" begin="${b}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="${d}s" begin="${b}s" repeatCount="indefinite"/><path transform="translate(${hx.toFixed(1)} ${y}) scale(${sc})" d="M0 3 C-6 -2 -6 -8 -2.5 -8 C-1 -8 0 -7 0 -6 C0 -7 1 -8 2.5 -8 C6 -8 6 -2 0 3Z" fill="${c}"/></g>`}return s}
+function motes(n,seed,y1,y2,c='#ffe08a'){const r=rng(seed);let s='';for(let i=0;i<n;i++){const x=r()*400,y=y1+r()*(y2-y1),d=(4+r()*4).toFixed(1);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(1+r()*1.6).toFixed(1)}" fill="${c}"><animate attributeName="opacity" values="0;1;0" dur="${d}s" begin="${(-r()*4).toFixed(1)}s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;${(r()*20-10).toFixed(0)} -18;0 0" dur="${d}s" repeatCount="indefinite"/></circle>`}return s}
+const shoe=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-9 0 L-9 -11 Q-9 -15 -5 -15 L1 -15 L1 -6 Q9 -6 13 -2 L13 0Z" fill="#7b4b2a"/><ellipse cx="-4" cy="-15" rx="5" ry="1.8" fill="#6fc3e6"/><path d="M-9 -2 L13 -2" stroke="#5c3720" stroke-width="1.5"/></g>`;
+const heat=(x,y)=>`<path d="M${x} ${y} q5 -5 10 0 t10 0 t10 0" stroke="#fff6e0" stroke-width="1.6" fill="none" opacity=".0"><animate attributeName="opacity" values="0;.7;0" dur="2.6s" begin="${(x%7)/3}s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -10" dur="2.6s" begin="${(x%7)/3}s" repeatCount="indefinite"/></path>`;
+function rays(cx,cy,n,len,c,op=.35,a0=-160,a1=-20){let s='';for(let i=0;i<n;i++){const a=(a0+i*((a1-a0)/(n-1)))*Math.PI/180,a2=a+.07;s+=`<polygon points="${cx},${cy} ${(cx+Math.cos(a)*len).toFixed(1)},${(cy-Math.sin(a)*-len).toFixed(1)} ${(cx+Math.cos(a2)*len).toFixed(1)},${(cy-Math.sin(a2)*-len).toFixed(1)}" fill="${c}"/>`}return `<g opacity="${op}"><animate attributeName="opacity" values="${op};${op*.45};${op}" dur="5s" repeatCount="indefinite"/>${s}</g>`}
+function lanternString(y0,sag,n,cols,W=400){let s=`<path d="M-10 ${y0} Q${W/2} ${y0+sag*2} ${W+10} ${y0}" stroke="#d9b56b" stroke-width="1.2" fill="none"/>`;for(let i=1;i<=n;i++){const t=i/(n+1),x=-10+(W+20)*t,y=(1-t)*(1-t)*y0+2*(1-t)*t*(y0+sag*2)+t*t*y0,c=cols[i%cols.length],len=8+(i%3)*7;s+=`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><g>${rot(-6,6,0,0,3+i%3)}<line x1="0" y1="0" x2="0" y2="${len}" stroke="#d9b56b" stroke-width="1"/><circle cx="0" cy="${len+13}" r="17" fill="${c}" opacity=".22"/><path d="M-5 ${len} L5 ${len} L7.5 ${len+7} L4.5 ${len+20} L-4.5 ${len+20} L-7.5 ${len+7}Z" fill="${c}"/><path d="M-2 ${len+8} L2 ${len+8} L2 ${len+17} L-2 ${len+17}Z" fill="#fff6cf" opacity=".95"/><rect x="-3" y="${len+20}" width="6" height="3" fill="#b38a3a"/><path d="M-2 ${len} Q0 ${len-5} 2 ${len}" fill="${c}"/></g></g>`}return s}
+function starPts(r1,r2,n=8){const p=[];for(let i=0;i<n*2;i++){const a=Math.PI*i/n-Math.PI/2,r=i%2?r2:r1;p.push((Math.cos(a)*r).toFixed(2)+','+(Math.sin(a)*r).toFixed(2))}return p.join(' ')}
+function valueIcon(icon,u){
+  if(icon==='paw')return `<g fill="#5a3410"><ellipse cx="0" cy="8" rx="13" ry="11"/><ellipse cx="-15" cy="-7" rx="5.5" ry="7" transform="rotate(-20 -15 -7)"/><ellipse cx="-5" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="6" cy="-15" rx="5.5" ry="7.5"/><ellipse cx="16" cy="-6" rx="5.5" ry="7" transform="rotate(20 16 -6)"/></g>`;
+  if(icon==='ant')return ant(-2,12,2.1,{c:'#5a3410'});
+  return jar(u,0,22,.95,{c:'#8a3f1e',gold:true});
+}
+function badge(u,icon,size=1){return `<g transform="scale(${size})"><polygon points="${starPts(46,37)}" fill="url(#${u}bdg)" stroke="#fff3c4" stroke-width="2"/><polygon points="${starPts(40,32)}" fill="none" stroke="#a8701a" stroke-width="1.2" opacity=".7"/><circle r="27" fill="#ffe7a6" stroke="#c98a1f" stroke-width="1.5"/>${valueIcon(icon,u)}</g>`}
+function badgeSvg(icon){const u='b'+(UID++)+'_';return `<svg viewBox="-50 -50 100 100" aria-hidden="true"><defs>${lg(u+'bdg',['#ffe08a','#f2b84b','#c8841c'])}${rg(u+'gold','#ffd451',.9)}</defs>${badge(u,icon)}</svg>`}
+
+/* ================= Scenes ================= */
+const DESERT=['#f9b16e','#ffd9a0','#fff0d2'],DUNE=['#f0c27f','#e2a764','#cd8b4c'];
+const S={
+ desertWalk:u=>({label:'A man walks across the hot desert toward a far-off well',defs:lg(u+'sky',DESERT)+rg(u+'glow','#fff2c2',.75),
+  body:skyR(u)+sun(u,322,72,26)+birds(110,70,3,4,'#a0613b',90,30)+`<path d="M0 196 Q70 166 150 188 T300 182 T400 176 V300H0Z" fill="${DUNE[0]}"/>`+palm(52,196,.62)+palm(80,194,.48,'#7a5534','#3b8a63')+well(352,186,.32)+`<path d="M0 228 Q110 196 210 222 T400 210 V300H0Z" fill="${DUNE[1]}"/><path d="M0 260 Q130 234 250 257 T400 248 V300H0Z" fill="${DUNE[2]}"/>`+[96,116,136].map((fx,i)=>`<ellipse cx="${fx}" cy="${268-i}" rx="4" ry="1.6" fill="#b4733d" opacity=".7"/>`).join('')+person(172,264,1.08,{pose:'walk',robe:'#3f6fa3',bob:true})+heat(230,170)+heat(280,160)+heat(60,176)}),
+ wellDrink:u=>({label:'The man drinks cool water at the well',defs:lg(u+'sky',DESERT)+rg(u+'glow','#fff2c2',.75),
+  body:skyR(u)+sun(u,76,62,22)+dunes(DUNE)+palm(330,226,.9)+well(226,258,1.3)+person(140,262,1.05,{pose:'offer',robe:'#3f6fa3',hold:`<rect x="20" y="-46" width="13" height="11" rx="2" fill="#8a5f3b"/><ellipse cx="26.5" cy="-46" rx="6.5" ry="2" fill="#6fc3e6"/>`})+[0,1,2].map(i=>`<ellipse cx="${167+i*3}" cy="216" rx="1.6" ry="2.6" fill="#7fd0f0"><animateTransform attributeName="transform" type="translate" values="0 0;0 40" dur="1.4s" begin="${i*.45}s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.4s" begin="${i*.45}s" repeatCount="indefinite"/></ellipse>`).join('')+sparkles(5,3,110,170,200,215,'#ffffff')}),
+ thirstyDog:u=>({label:'A thirsty dog pants on the dry, cracked ground',defs:lg(u+'sky',['#f59a5b','#ffc985','#ffe8bd'])+rg(u+'glow','#fff0b8',.8),
+  body:skyR(u)+sun(u,300,58,32)+dunes(['#eeb06c','#dc9a57','#c98446'])+`<path d="M60 278 l14 -6 l8 8 l12 -5 M150 284 l10 -7 l14 4 M240 280 l12 -8 l6 9 l16 -3 M320 286 l10 -6 l12 5" stroke="#9e6232" stroke-width="1.6" fill="none"/>`+well(318,252,.9)+person(368,256,.82,{pose:'stand',robe:'#3f6fa3',flip:true})+dog(150,268,1.55,{mood:'thirsty'})+heat(90,200)+heat(200,190)+heat(140,170)}),
+ shoeClimb:u=>({label:'The man climbs back up the well carrying water in his shoe for the dog',defs:lg(u+'sky',DESERT)+rg(u+'glow','#fff2c2',.75)+lg(u+'soil',['#c98b52','#9a6338','#6e4427'])+lg(u+'shaft',['#3a2c35','#1d1a2a']),
+  body:skyR(u)+sun(u,70,46,18)+`<path d="M0 104 Q120 88 220 102 T400 96 V120 H0Z" fill="${DUNE[0]}"/><rect y="118" width="400" height="182" fill="url(#${u}soil)"/><path d="M0 160 Q100 150 200 162 T400 158 M0 210 Q120 200 220 214 T400 206 M0 252 Q90 244 200 256 T400 250" stroke="#7d4f2e" stroke-width="1.2" fill="none" opacity=".7"/>`+[[40,140],[90,190],[320,150],[350,230],[60,262],[300,280]].map(([a,b])=>`<ellipse cx="${a}" cy="${b}" rx="9" ry="5" fill="#8a5a36"/>`).join('')+`<rect x="168" y="114" width="64" height="186" fill="url(#${u}shaft)"/><path d="M168 114 v186 M232 114 v186" stroke="#a87650" stroke-width="5"/><rect x="160" y="108" width="80" height="12" rx="3" fill="#c4935f"/><line x1="200" y1="96" x2="200" y2="300" stroke="#e7d3a6" stroke-width="1.6"/><rect x="168" y="276" width="64" height="24" fill="#3c8fc0"/><path d="M168 278 q8 -4 16 0 t16 0 t16 0 t16 0" stroke="#9fe0ff" stroke-width="2" fill="none">${bob(2,2)}</path>`+`<g>${bob(-14,5)}${person(200,232,.92,{pose:'climb',robe:'#3f6fa3'})}${shoe(214,178,1)}${[0,1].map(i=>`<ellipse cx="210" cy="180" rx="1.4" ry="2.4" fill="#7fd0f0"><animateTransform attributeName="transform" type="translate" values="0 0;0 70" dur="1.6s" begin="${i*.8}s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" begin="${i*.8}s" repeatCount="indefinite"/></ellipse>`).join('')}</g>`+dog(282,114,1.1,{mood:'thirsty',flip:true})}),
+ dogDrinks:u=>({label:'The happy dog drinks water from the shoe while the man kneels beside it',defs:lg(u+'sky',['#f08a6a','#f9c08a','#fde3bd'])+rg(u+'glow','#ffe7b0',.8),
+  body:skyR(u)+sun(u,330,186,26,'#fff1c6')+dunes(['#eab07a','#d99561','#c27d4c'])+well(70,250,.78)+palm(30,232,.7)+shoe(222,266,1.5)+dog(158,268,1.45,{mood:'happy',drink:true})+person(300,266,1.05,{pose:'kneel',robe:'#3f6fa3',flip:true})+hearts(5,190,200,9)+sparkles(4,8,180,150,300,230)}),
+ kindNight:u=>({label:'Under the moon, a dog sleeps, a cat rests and a bird flies over the desert',defs:lg(u+'sky',['#121a45','#2b2f6e','#5a4a86'])+rg(u+'mglow','#fff2c2',.35),
+  body:skyR(u)+stars(70,11,180)+moon(u,312,70,24)+dunes(['#3d3c72','#2f2e5e','#24234b'])+palm(70,236,.95,'#1f1d3e','#1a2c45')+birds(160,110,2,6,'#c8c4ff',120,22)+dog(176,262,1.25,{mood:'sleep',c:'#b07a48'})+cat(272,258,1.15)+motes(14,5,170,270)}),
+ kingdom:u=>({label:'The shining kingdom of Prophet Sulayman with banners, people and flying birds',defs:lg(u+'sky',['#8cc9e8','#c4e6f2','#fdf0d5'])+rg(u+'glow','#fff7d6',.8),
+  body:skyR(u)+sun(u,334,58,20)+cloud(70,60,1.1)+cloud(230,40,.8,-30)+palace(200,180,1.05)+hills(['#a3c97d','#82b166','#62994f'])+banner(60,214,'#e05a4a',36)+banner(120,206,'#f2b84b',40)+banner(282,204,'#2fa59a',40)+banner(340,212,'#7a5cc2',36)+army(150,250,12,10,['#e05a4a','#f2b84b','#2fa59a'],false)+birds(110,120,9,2,'#3e4a6a',170,24)+palm(24,250,.8)+palm(384,252,.8)}),
+ march:u=>({label:'The great army marches over the hills toward a valley full of ants',defs:lg(u+'sky',['#9fd0ea','#d6eef5','#fff1d6'])+rg(u+'glow','#fff7d6',.8),
+  body:skyR(u)+sun(u,64,52,18)+cloud(260,56,1)+`<path d="M0 150 Q100 120 200 140 T400 128 V300H0Z" fill="#a9cb85"/>`+army(40,146,28,9,['#e05a4a','#f2b84b','#2fa59a','#7a5cc2'])+birds(120,90,6,8,'#3e4a6a',150,24)+`<path d="M0 196 Q120 172 230 194 T400 186 V300H0Z" fill="#86b768"/><path d="M0 240 Q140 222 260 240 T400 232 V300H0Z" fill="#6aa158"/>`+anthill(110,276,1.05)+anthill(300,284,.85)+antLine(150,300,288,6,1,7,3)+flowers(14,4,236,296,['#f7a8b8','#ffffff','#f6d66b'])}),
+ antCall:u=>({label:'A little ant on a leaf calls out to warn the other ants',defs:lg(u+'sky',['#ffe0a8','#fff1d0','#fffaf0'])+rg(u+'glow','#ffffff',.7),
+  body:skyR(u)+`<circle cx="70" cy="90" r="40" fill="#c9e3a5" opacity=".6"/><circle cx="160" cy="70" r="26" fill="#ffd9a0" opacity=".6"/><circle cx="330" cy="110" r="48" fill="#b8d98f" opacity=".55"/><circle cx="260" cy="60" r="18" fill="#fff" opacity=".7"/>`+`<path d="M0 220 Q100 205 200 222 T400 214 V300H0Z" fill="#8bbf6a"/><rect y="250" width="400" height="50" fill="#a67447"/><path d="M0 250 Q100 244 200 252 T400 248" stroke="#8bbf6a" stroke-width="6" fill="none"/>`+anthill(330,268,1.25,'#c08a55')+antLine(250,292,276,5,1.2,6,9)+grass(0,256,14,60,'#5e9a48',3)+`<path d="M90 256 Q130 190 260 196 Q200 236 90 256Z" fill="#5fa64c"/><path d="M96 252 Q170 214 252 198" stroke="#3f7f36" stroke-width="2" fill="none"/>`+ant(185,226,3.1,{call:true})+grass(300,262,10,50,'#4f8c3e',7)+sparkles(4,12,40,40,380,160,'#ffffff')}),
+ gratitude:u=>({label:'Golden light shines over the valley where the army has stopped for the ants',defs:lg(u+'sky',['#ffd27a','#ffe9b8','#fff7e4'])+rg(u+'glow','#fff8dc',.9),
+  body:skyR(u)+rays(200,-30,9,420,'#fff6d6',.45,25,155)+sun(u,200,20,24,'#fffbe8')+`<path d="M0 158 Q100 130 200 148 T400 138 V300H0Z" fill="#b5cf8a"/>`+army(70,154,24,11,['#e05a4a','#f2b84b','#2fa59a'],false)+`<path d="M0 206 Q120 184 230 204 T400 196 V300H0Z" fill="#94bf72"/><path d="M0 246 Q140 230 260 246 T400 240 V300H0Z" fill="#78ac5e"/>`+anthill(200,282,1.25)+ant(150,286,1.4)+ant(250,288,1.4,{flip:true})+flowers(16,9,240,298,['#f7a8b8','#ffffff','#f6d66b'])+sparkles(10,5,40,60,360,220,'#ffffff')}),
+ safeHome:u=>({label:'The ants are safe at home while the army walks on in the evening light',defs:lg(u+'sky',['#f6a07a','#fbd0a0','#fff0d8'])+rg(u+'glow','#fff1c6',.85),
+  body:skyR(u)+sun(u,312,128,22)+`<path d="M0 150 Q100 124 200 142 T400 134 V300H0Z" fill="#c3b07c"/>`+army(250,148,14,10,['#e05a4a','#f2b84b'],true,'#5a4a6a')+`<path d="M0 200 Q120 178 230 198 T400 190 V300H0Z" fill="#a3b56f"/><path d="M0 240 Q140 224 260 240 T400 234 V300H0Z" fill="#88a35c"/>`+anthill(200,288,2.1,'#c08a55')+ant(196,226,1.6,{wave:true})+ant(140,282,1.3)+ant(262,280,1.3,{flip:true})+hearts(3,200,214,4,'#f27d8c')+flowers(12,2,248,298,['#ffffff','#f7a8b8'])}),
+ sale:u=>({label:'Two men shake hands over a field as one sells his land to the other',defs:lg(u+'sky',['#a8d8ea','#e6f2f0','#fde6c4'])+rg(u+'glow','#fff6d0',.8),
+  body:skyR(u)+sun(u,70,70,20)+cloud(270,50,.9)+`<path d="M0 176 Q100 150 200 168 T400 158 V300H0Z" fill="#a9b87a"/>`+house(330,186,.85)+tree(52,196,.45)+`<path d="M0 206 Q200 190 400 202 V300H0Z" fill="#b5895a"/>`+[0,1,2,3,4,5,6,7].map(i=>`<path d="M${-40+i*70} 300 L${120+i*24} 206" stroke="#94693e" stroke-width="2.2"/>`).join('')+`<rect x="44" y="246" width="16" height="12" rx="3" fill="#9aa0a6"/><rect x="342" y="250" width="16" height="12" rx="3" fill="#9aa0a6"/>`+person(178,264,1.08,{pose:'shake',robe:'#3f6fa3'})+person(222,264,1.08,{pose:'shake',robe:'#8a4f7d',wrap:'#ffffff',flip:true})+birds(240,110,4,3,'#4a4a6a',120,24)}),
+ digging:u=>({label:'The new owner digs in the field and his shovel hits a buried jar',defs:lg(u+'sky',['#a8d8ea','#e6f2f0','#fde6c4'])+rg(u+'glow','#fff6d0',.8)+`<clipPath id="${u}hole"><rect x="0" y="0" width="400" height="268"/></clipPath>`,
+  body:skyR(u)+sun(u,330,60,20)+`<path d="M0 176 Q100 150 200 168 T400 158 V300H0Z" fill="#a9b87a"/>`+tree(330,190,.5)+`<path d="M0 206 Q200 190 400 202 V300H0Z" fill="#b5895a"/>`+[0,1,2,3,4,5].map(i=>`<path d="M${-60+i*90} 300 L${110+i*30} 206" stroke="#94693e" stroke-width="2.2"/>`).join('')+`<path d="M276 270 Q300 238 330 270Z" fill="#8a5d36"/><ellipse cx="236" cy="268" rx="34" ry="9" fill="#5a3b24"/>`+`<g clip-path="url(#${u}hole)">${jar(u,236,292,1.1)}</g>`+person(170,266,1.12,{pose:'dig',robe:'#3f6fa3'})+sparkle(222,250,8,0)+sparkle(250,244,6,.6)+[0,1,2].map(i=>`<circle cx="${226+i*8}" cy="262" r="2.6" fill="#7a5130"><animateTransform attributeName="transform" type="translate" values="0 0;${10+i*8} -26;${18+i*10} 4" dur="1.6s" begin="${i*.3}s" repeatCount="indefinite"/></circle>`).join('')}),
+ jarGlow:u=>({label:'The jar of gold glows under the starry sky',defs:lg(u+'sky',['#1d2457','#3d3f84','#7d5f8f'])+rg(u+'mglow','#fff2c2',.35)+rg(u+'gold','#ffd451',.9),
+  body:skyR(u)+stars(60,21,170)+moon(u,80,60,20)+`<path d="M0 214 Q200 196 400 210 V300H0Z" fill="#4a3d5e"/>`+[0,1,2,3,4,5].map(i=>`<path d="M${-60+i*90} 300 L${110+i*30} 212" stroke="#3b304c" stroke-width="2"/>`).join('')+`<ellipse cx="216" cy="270" rx="44" ry="10" fill="#2b2238"/>`+jar(u,216,268,1.55,{gold:true,glow:true})+person(118,268,1,{pose:'stand',robe:'#2f4f7a',wrap:'#d9cfe8',skin:'#a87856',flip:false})+sparkles(9,7,150,150,290,260,'#fff3b0')}),
+ backForth:u=>({label:'Each man pushes the jar of gold back to the other',defs:lg(u+'sky',['#ffd6a0','#ffeccc','#fff6e6'])+rg(u+'glow','#fff6d0',.8)+rg(u+'gold','#ffd451',.7),
+  body:skyR(u)+sun(u,60,64,20)+house(320,206,1.15)+`<path d="M0 210 Q200 196 400 208 V300H0Z" fill="#d9b07d"/><path d="M0 248 Q200 238 400 250 V300H0Z" fill="#c99d6b"/>`+person(118,266,1.12,{pose:'offer',robe:'#3f6fa3'})+person(282,266,1.12,{pose:'offer',robe:'#8a4f7d',wrap:'#ffffff',flip:true})+`<g><animateTransform attributeName="transform" type="translate" values="-34 0;34 0;-34 0" dur="4s" repeatCount="indefinite"/>${jar(u,200,232,.9,{gold:true,glow:true})}</g>`+`<path d="M150 180 Q200 150 250 180" stroke="#c46a3f" stroke-width="2" fill="none" stroke-dasharray="4 5"/><path d="M244 172 l8 9 -11 2" stroke="#c46a3f" stroke-width="2" fill="none"/><path d="M250 196 Q200 170 150 196" stroke="#3f6fa3" stroke-width="2" fill="none" stroke-dasharray="4 5"/><path d="M157 188 l-8 9 11 2" stroke="#3f6fa3" stroke-width="2" fill="none"/>`}),
+ wiseMan:u=>({label:'The two men ask a wise man under a shady tree to decide',defs:lg(u+'sky',['#b7dcea','#e9f3ec','#fbe9cc'])+rg(u+'glow','#fff6d0',.8)+rg(u+'gold','#ffd451',.7),
+  body:skyR(u)+cloud(80,50,.9)+`<path d="M0 200 Q200 182 400 198 V300H0Z" fill="#b9c98a"/><path d="M0 250 Q200 238 400 250 V300H0Z" fill="#a3b977"/>`+tree(200,262,1.25)+`<ellipse cx="200" cy="264" rx="70" ry="8" fill="#7f9a5a" opacity=".6"/>`+person(200,264,1.1,{pose:'sit',robe:'#f2ece0',wrap:'#ffffff',skin:'#b98258'})+person(92,266,1.05,{pose:'stand',robe:'#3f6fa3'})+person(308,266,1.05,{pose:'raise',robe:'#8a4f7d',wrap:'#ffffff',flip:true})+jar(u,140,266,.8,{gold:true,glow:true})+flowers(10,6,262,296,['#ffffff','#f7a8b8','#f6d66b'])}),
+ wedding:u=>({label:'Lanterns glow at night for the wedding of the son and the daughter',defs:lg(u+'sky',['#1b1f4f','#3b2f6e','#6a3f6e'])+rg(u+'mglow','#fff2c2',.3),
+  body:skyR(u)+stars(50,31,150)+moon(u,340,54,16)+lanternString(18,26,7,['#f2b84b','#ef7f8f','#56c7b4'])+`<path d="M0 230 Q200 214 400 228 V300H0Z" fill="#3a2f5e"/>`+`<g transform="translate(200 266)"><path d="M-74 0 V-92 Q-74 -134 0 -140 Q74 -134 74 -92 V0" fill="none" stroke="#e6c27a" stroke-width="5"/><path d="M-74 -94 Q-37 -70 0 -94 Q37 -70 74 -94" fill="none" stroke="#f3d9e6" stroke-width="3"/><path d="M-74 -92 Q-62 -40 -78 0 M74 -92 Q62 -40 78 0" stroke="#f3d9e6" stroke-width="6" fill="none" opacity=".6"/>${[-54,-27,0,27,54].map((fx,i)=>`<circle cx="${fx}" cy="${-120+Math.abs(fx)*.45}" r="4.5" fill="${['#f7b2c4','#fff2b3','#ffffff'][i%3]}"/>`).join('')}</g>`+person(180,266,.98,{robe:'#f6e6f0',wrap:'#ffffff',veil:true,skin:'#d2a07a'})+person(222,266,1.02,{robe:'#2f5f8f',wrap:'#f4e6c8',flip:true})+person(76,268,.9,{robe:'#3f6fa3',skin:'#b98258'})+person(326,268,.9,{robe:'#8a4f7d',wrap:'#ffffff',flip:true,skin:'#b98258'})+motes(16,8,120,260)}),
+ charity:u=>({label:'Gold is given in charity to help people in need as the sun rises',defs:lg(u+'sky',['#ffc98f','#ffe4bf','#eef4ea'])+rg(u+'glow','#fff3c8',.85)+rg(u+'gold','#ffd451',.7),
+  body:skyR(u)+sun(u,200,206,40)+rays(200,206,9,260,'#fff3cc',.22)+`<path d="M0 214 Q100 192 200 210 T400 204 V300H0Z" fill="#c8b98a"/><path d="M0 252 Q200 238 400 252 V300H0Z" fill="#b3a576"/>`+house(66,240,.9)+jar(u,120,268,.8,{gold:true,glow:true})+person(176,266,1.05,{pose:'offer',robe:'#3f6fa3',hold:`<circle cx="28" cy="-38" r="4" fill="#ffd451" stroke="#c9961f"/>`})+person(236,266,.66,{pose:'offer',robe:'#56a89a',wrap:'#ffe0b0',flip:true})+person(282,266,1,{pose:'stand',robe:'#9a7a5a',wrap:'#e8e0d0',flip:true,skin:'#a87856'})+`<path d="M310 246 q14 -12 28 0 l-4 16 h-20z" fill="#c98a4e"/><ellipse cx="324" cy="244" rx="12" ry="5" fill="#e6b77a"/>`+hearts(4,214,200,7)+sparkles(5,4,150,170,300,240)}),
+ night:u=>({label:'A quiet house under the crescent moon at bedtime',defs:lg(u+'sky',['#0f1640','#252c6a','#3e3a7a'])+rg(u+'mglow','#fff2c2',.4),
+  body:skyR(u)+stars(90,41,200)+moon(u,250,96,40)+cloud(110,150,1.4,20)+`<path d="M0 236 Q120 214 230 234 T400 226 V300H0Z" fill="#2a2a5c"/><path d="M0 262 Q140 246 260 262 T400 256 V300H0Z" fill="#1f1f48"/>`+(()=>{o_win='#ffd98a';const h=house(110,262,1.2,'#4b4783');o_win='#5a3b28';return h})()+`<circle cx="130" cy="232" r="14" fill="#ffd98a" opacity=".25"><animate attributeName="opacity" values=".15;.35;.15" dur="4s" repeatCount="indefinite"/></circle>`+palm(330,262,.9,'#1b1a3a','#1c2a48')+cat(214,262,.9,'#33325e')+motes(10,3,180,260)}),
+ talk:u=>({label:'Two speech bubbles for talking about the story together',defs:lg(u+'sky',['#1f6f78','#2f9a94','#7fcfb8']),
+  body:skyR(u)+stars(30,5,300,'#e9fff6')+`<g transform="translate(150 140)"><g>${bob(-6,4)}<path d="M-90 -70 h180 a24 24 0 0 1 24 24 v80 a24 24 0 0 1 -24 24 h-110 l-34 30 v-30 h-36 a24 24 0 0 1 -24 -24 v-80 a24 24 0 0 1 24 -24z" fill="#fffaf0"/><text x="0" y="22" text-anchor="middle" font-family="Young Serif, Georgia, serif" font-size="96" fill="#f2b84b">?</text></g></g><g transform="translate(300 214)"><g>${bob(5,3.4)}<path d="M-62 -40 h124 a20 20 0 0 1 20 20 v40 a20 20 0 0 1 -20 20 h-20 v24 l-26 -24 h-78 a20 20 0 0 1 -20 -20 v-40 a20 20 0 0 1 20 -20z" fill="#ffe08a"/>${[-26,0,26].map((dx,i)=>`<circle cx="${dx}" cy="0" r="7" fill="#1f6f78"><animate attributeName="opacity" values=".3;1;.3" dur="1.2s" begin="${i*.25}s" repeatCount="indefinite"/></circle>`).join('')}</g></g>`}),
+ lesson:(u,st)=>({label:'The '+st.value.name+' star',defs:lg(u+'sky',['#2b2366','#4a3a8a','#8a5ca0'])+lg(u+'bdg',['#ffe08a','#f2b84b','#c8841c'])+rg(u+'glow','#ffd98a',.6)+rg(u+'gold','#ffd451',.9),
+  body:skyR(u)+stars(50,13,300)+`<circle cx="200" cy="150" r="140" fill="url(#${u}glow)"/><g>${rot(0,30,200,150,30)}${[...Array(16)].map((_,i)=>`<polygon points="200,150 ${(200+Math.cos(i*Math.PI/8)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8)*260).toFixed(1)} ${(200+Math.cos(i*Math.PI/8+.09)*260).toFixed(1)},${(150+Math.sin(i*Math.PI/8+.09)*260).toFixed(1)}" fill="#ffe7a6" opacity=".12"/>`).join('')}</g><g transform="translate(200 150)"><g>${bob(-5,3)}${badge(u,st.value.icon,1.9)}</g></g>`+sparkles(12,17,40,30,360,270,'#fff3c4')})
+};
+let UID=0;
+function scene(key,st){const u='s'+(UID++)+'_',r=S[key](u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}</defs>${r.body}</svg>`}
+function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
+
+/* ================= Text with read-along spans ================= */
+function richText(paras,used){
+  let speech='',html='';
+  for(const para of paras){
+    let ph='',inQ=false;
+    para.split('\n').forEach((line,li)=>{
+      if(li)ph+='<br>';
+      line.split(/\s+/).filter(Boolean).forEach(w=>{
+        const start=speech.length;
+        speech+=w.replace(/ﷺ/g,'peace be upon him')+' ';
+        const startsQ=w.startsWith('"'),qn=(w.match(/"/g)||[]).length;
+        let cls='w'+((inQ||startsQ)?' said':'');
+        if(qn%2)inQ=!inQ;
+        let disp=w.replace(/^"/,'“').replace(/"/g,'”').replace(/'/g,'’');
+        const key=w.toLowerCase().replace(/[^a-zﷺ]/g,'');
+        const m=disp.match(/^([^A-Za-zﷺ]*)(.*?)([^A-Za-zﷺ]*)$/);
+        if(GLOSS[key]&&!used.has(key)&&m){used.add(key);ph+=`${esc(m[1])}<button type="button" class="${cls} g" data-g="${key}" data-s="${start}">${esc(m[2])}</button>${esc(m[3])} `}
+        else ph+=`<span class="${cls}" data-s="${start}">${esc(disp)}</span> `;
+      });
+      speech+=' ';
+    });
+    html+=`<p>${ph.trim()}</p>`;
+  }
+  return {html,speech};
+}
+const ORN=`<svg class="orn %c" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 2h30M2 2v30M8 8h18M8 8v18"/><polygon points="${starPts(9,6.8)}" transform="translate(17 17)"/><circle cx="17" cy="17" r="3"/></svg>`;
+
+/* ================= Home ================= */
+function bookCard(st,i){
+  const pages=st.pages.length+4, mins=Math.max(2,Math.round(st.pages.reduce((a,p)=>a+p.text.join(' ').split(' ').length,0)/70)+1);
+  return `<button class="book" type="button" data-open="${st.id}" style="--tint:${st.tint}">${i===STORIES.length-1?'<span class="newtag">New</span>':''}<div class="cover-art">${scene(st.cover,st)}</div><div class="body"><span class="chip">${esc(st.theme)}</span><h3>${esc(st.title)}</h3><p class="src">${esc(st.source)}</p><div class="meta"><span>${pages} pages · about ${mins} min</span>${store.read[st.id]?'<span class="ribbon">Read ✓</span>':''}</div></div></button>`;
+}
+function renderHome(){
+  const tonight=STORIES.find(s=>!store.read[s.id])||STORIES[STORIES.length-1];
+  $('#tonight').innerHTML=`<span class="tag">Tonight's story</span><div class="art">${scene(tonight.cover,tonight)}</div><div class="cap"><div><p class="eyebrow" style="color:${tonight.tint}">${esc(tonight.theme)}</p><h3>${esc(tonight.title)}</h3></div><button class="btn gold" type="button" data-open="${tonight.id}">Read</button></div>`;
+  $('#ctaTonight').dataset.open=tonight.id;
+  $('#books').innerHTML=STORIES.map(bookCard).join('');
+  $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
+  freeze($('#home'));
+}
+function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<5?'Assalamu alaikum. It is almost time for bed.':h<12?'Assalamu alaikum. Good morning, little reader.':'Assalamu alaikum, little reader.'}
+$('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4','#ffd98c'],1200);
+
+/* ================= Reader ================= */
+const R={st:null,i:0,pages:[],busy:false,playing:false,utt:null,timer:0};
+function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},{t:'night'}]}
+function makeLeaf(n){
+  const st=R.st,p=R.pages[n],used=new Set();
+  const leaf=document.createElement('article');leaf.className='leaf';leaf.style.setProperty('--tint',st.tint);
+  let art,words,rt={html:'',speech:''};
+  const orn=ORN.replace('%c','tl')+ORN.replace('%c','br');
+  if(p.t==='cover'){
+    art=scene(st.cover,st);
+    words=`${orn}<p class="eyebrow">${esc(st.theme)}</p><h2 id="cv">${esc(st.title)}</h2><p class="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p><p class="note">In the name of Allah, the Most Gracious, the Most Merciful.</p><p class="note"><b>Source:</b> ${esc(st.sourceLong)}</p><p class="hint">Swipe, tap the arrow, or press → to turn the page.</p>`;
+    rt.speech=st.title+'. Bismillah ir-Rahman ir-Raheem. In the name of Allah, the Most Gracious, the Most Merciful.';
+  }else if(p.t==='story'){
+    art=scene(p.scene,st);rt=richText(p.text,used);
+    words=`${orn}<div class="${p.first?'first':''}" style="display:flex;flex-direction:column;gap:16px">${rt.html}</div>`+(p.dua?`<div class="callout"><p class="ar">${p.dua.ar}</p><p class="note">${esc(p.dua.ref)}</p></div>`:'');
+  }else if(p.t==='lesson'){
+    art=scene('lesson',st);rt=richText([st.lesson],used);
+    words=`${orn}<p class="eyebrow">What we learned</p>${rt.html}<span class="earned">${badgeSvg(st.value.icon)}You lit the ${st.value.name} star</span><p class="note"><b>From:</b> ${esc(st.sourceLong)}</p>`;
+    rt.speech='What we learned. '+rt.speech+' You lit the '+st.value.name+' star!';
+  }else if(p.t==='ask'){
+    art=scene('talk',st);rt=richText([st.ask],used);
+    words=`${orn}<p class="eyebrow">Talk time</p>${rt.html}<p class="note"><b>Tip for parents:</b> ${esc(st.tip)}</p>`;
+    rt.speech='Talk time. '+rt.speech;
+  }else{
+    art=scene('night',st);
+    words=`${orn}<p class="eyebrow">Before you sleep</p><p class="ar">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</p><p><i>Bismika Allahumma amutu wa ahya.</i></p><p>In Your name, O Allah, I die and I live.</p><p class="note">The Prophet ﷺ said this when he lay down to sleep. (Sahih al-Bukhari 6324)</p><div class="row"><button class="btn gold" type="button" data-act="shelf">Back to the bookshelf</button><button class="btn ghost" type="button" data-act="again" style="color:var(--paper-ink)">Read again</button></div>`;
+    rt.speech='Before you sleep, say: Bismika Allahumma amutu wa ahya. In your name, O Allah, I die and I live. Good night.';
+  }
+  leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
+  leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
+  freeze(leaf);
+  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save()}
+  return leaf;
+}
+function openStory(id){
+  R.st=STORIES.find(s=>s.id===id);if(!R.st)return;
+  R.pages=buildPages(R.st);R.i=0;R.busy=false;
+  $('#rTitle').textContent=R.st.title;
+  $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
+  const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
+  $('#reader').hidden=false;document.body.classList.add('reading');
+  chrome();$('#rNext').focus();
+}
+function closeReader(){stopSpeech();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
+function goTo(n){
+  if(n<0||n>=R.pages.length||n===R.i||R.busy)return;
+  const keepPlaying=R.playing;stopSpeech(true);hideGloss();
+  const d=n>R.i?1:-1,bv=$('#bookview'),old=bv.querySelector('.leaf'),nw=makeLeaf(n);
+  R.busy=true;R.i=n;
+  nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);chrome();
+  setTimeout(()=>{old.remove();nw.className='leaf';R.busy=false;if(keepPlaying){R.playing=true;speak()}},reduced?20:760);
+}
+function chrome(){
+  [...$('#rDots').children].forEach((b,k)=>{b.classList.toggle('on',k===R.i);b.setAttribute('aria-current',k===R.i?'page':'false')});
+  $('#rCount').textContent=`${R.i+1} / ${R.pages.length}`;
+  $('#rPrev').disabled=R.i===0;$('#rNext').disabled=R.i===R.pages.length-1;
+}
+
+/* ================= Read aloud ================= */
+const synth=window.speechSynthesis;let voice=null;
+function pickVoice(){if(!synth)return;const vs=synth.getVoices();voice=vs.find(v=>/^en[-_]GB/i.test(v.lang)&&/female|libby|sonia|serena|kate|martha/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang)&&/samantha|female|aria|jenny|ava|google/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null}
+if(synth){pickVoice();synth.onvoiceschanged=pickVoice}else{$('#rPlay').hidden=true}
+function clearHl(){document.querySelectorAll('.w.on').forEach(e=>e.classList.remove('on'))}
+function speak(){
+  const leaf=$('#bookview .leaf:last-child');if(!synth||!leaf)return;
+  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;
+  if(voice)u.voice=voice;u.rate=store.bed?.8:.9;u.pitch=1.05;
+  u.onboundary=e=>{if(u!==R.utt||(e.name&&e.name!=='word'))return;let hit=null;for(const t of leaf._tokens){if(t.s<=e.charIndex)hit=t;else break}clearHl();if(hit){hit.el.classList.add('on');const w=leaf.querySelector('.words'),r=hit.el.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.bottom>wr.bottom-20||r.top<wr.top)hit.el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'})}};
+  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI()}};
+  synth.speak(u);
+}
+function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep){R.playing=false;playUI()}}
+function playUI(){$('#rPlay').setAttribute('aria-pressed',R.playing);$('#rPlayLbl').textContent=R.playing?'Pause':'Read to me'}
+$('#rPlay').onclick=()=>{if(R.playing){stopSpeech()}else{R.playing=true;playUI();speak()}};
+
+/* ================= Glossary ================= */
+function showGloss(btn){
+  const g=GLOSS[btn.dataset.g],box=$('#gloss');
+  box.innerHTML=`<span class="ar">${g.ar}</span><b>${esc(g.tr)}</b><p>${esc(g.m)}</p><div class="row"><button type="button" id="gSay">Listen</button><button type="button" id="gClose">Close</button></div>`;
+  box.hidden=false;const r=btn.getBoundingClientRect(),bw=box.offsetWidth,bh=box.offsetHeight;
+  let top=r.bottom+10;if(top+bh>innerHeight-10)top=Math.max(10,r.top-bh-10);
+  box.style.top=top+'px';box.style.left=Math.min(Math.max(16,r.left+r.width/2-bw/2),innerWidth-bw-16)+'px';
+  $('#gSay').onclick=()=>{if(!synth)return;stopSpeech();const u=new SpeechSynthesisUtterance(g.tr+'. '+g.m);if(voice)u.voice=voice;u.rate=.9;synth.speak(u)};
+  $('#gClose').onclick=hideGloss;$('#gClose').focus();
+}
+function hideGloss(){$('#gloss').hidden=true}
+if(!synth)document.documentElement.classList.add('nosynth');
+
+/* ================= Events ================= */
+document.addEventListener('click',e=>{
+  const g=e.target.closest('.g');if(g){showGloss(g);return}
+  if(!e.target.closest('#gloss'))hideGloss();
+  const o=e.target.closest('[data-open]');if(o){openStory(o.dataset.open);return}
+  const a=e.target.closest('[data-act]');if(a){if(a.dataset.act==='shelf')closeReader();else goTo(0);return}
+  const k=e.target.closest('#rDots [data-k]');if(k)goTo(+k.dataset.k);
+});
+$('#rPrev').onclick=()=>goTo(R.i-1);$('#rNext').onclick=()=>goTo(R.i+1);$('#rClose').onclick=closeReader;
+document.addEventListener('keydown',e=>{if($('#reader').hidden)return;if(e.key==='ArrowRight')goTo(R.i+1);else if(e.key==='ArrowLeft')goTo(R.i-1);else if(e.key==='Escape'){if(!$('#gloss').hidden)hideGloss();else closeReader()}});
+let sx=0,sy=0,st0=0;
+$('#bookview').addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st0=Date.now()});
+$('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1))});
+function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs)}
+$('#rBigger').onclick=()=>{store.fs=Math.min(1.4,+(store.fs+.12).toFixed(2));applyFs();save()};
+$('#rSmaller').onclick=()=>{store.fs=Math.max(.85,+(store.fs-.12).toFixed(2));applyFs();save()};
+function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
+$('#bedBtn').onclick=$('#rBed').onclick=()=>{store.bed=!store.bed;applyBed();save()};
+
+/* ================= Hero sky ================= */
+(function sky(){
+  const cv=$('#sky'),ctx=cv.getContext('2d');let w=0,h=0,pts=[],col='#fff',shoot=null,f=0;
+  function size(){const d=Math.min(2,devicePixelRatio||1);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);const r=rng(7);pts=Array.from({length:Math.round(w*h/2300)},()=>({x:r()*w,y:r()*h*.85,r:r()*1.3+.3,p:r()*6.3,s:.4+r()*1.4}))}
+  function draw(t){
+    if(f++%90===0)col=getComputedStyle(document.documentElement).getPropertyValue('--star').trim()||'#fff';
+    if(!document.body.classList.contains('reading')){
+      ctx.clearRect(0,0,w,h);ctx.fillStyle=col;
+      for(const s of pts){ctx.globalAlpha=reduced?.8:.3+.7*Math.abs(Math.sin(s.p+t/1000*s.s));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill()}
+      if(!reduced){
+        if(!shoot&&Math.random()<.004)shoot={x:Math.random()*w*.7+w*.2,y:Math.random()*h*.3,l:0};
+        if(shoot){shoot.l+=.02;const L=shoot.l,x=shoot.x-L*260,y=shoot.y+L*110;const gr=ctx.createLinearGradient(x,y,x+70,y-30);gr.addColorStop(0,col);gr.addColorStop(1,'transparent');ctx.globalAlpha=Math.sin(L*Math.PI);ctx.strokeStyle=gr;ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+70,y-30);ctx.stroke();if(L>=1)shoot=null}
+      }
+      ctx.globalAlpha=1;
+    }
+    if(!reduced)requestAnimationFrame(draw);
+  }
+  size();addEventListener('resize',size);requestAnimationFrame(draw);
+})();
+
+greet();applyFs();applyBed();renderHome();
+if(location.hash&&STORIES.some(s=>s.id===location.hash.slice(1)))openStory(location.hash.slice(1));
+</script>
+</body></html>
