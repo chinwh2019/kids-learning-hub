@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Qissa Time</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Andika:wght@400;700&family=Young+Serif&display=swap">
+<style>
+@@STYLES@@
+</style></head><body>
+
+<div id="home">
+  <header class="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <svg class="lanterns" id="heroLanterns" viewBox="0 0 1200 110" preserveAspectRatio="xMidYMin slice" aria-hidden="true"></svg>
+    <svg class="dunes" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 Q 80 20 170 48 T 330 40 T 400 36 V90 H0Z" fill="var(--dune)" opacity=".55"/><path d="M0 78 Q 120 46 240 72 T 400 64 V90 H0Z" fill="var(--night)"/></svg>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
+        <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
+      </div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="salaam"><span class="ar">السَّلَامُ عَلَيْكُمْ</span><span id="greet">Assalamu alaikum, little reader</span></div>
+          <h1>A true story, a gentle lesson, <em>then sweet dreams.</em></h1>
+          <p class="lead">Stories from the Quran and the Sunnah, told for little ones at bedtime. Turn the pages together, let the book read aloud, and talk about what each story teaches.</p>
+          <div class="hero-cta">
+            <button class="btn gold" id="ctaTonight" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></svg>Open tonight's story</button>
+            <a class="btn ghost" href="#shelf">Browse the bookshelf</a>
+          </div>
+        </div>
+        <div class="tonight" id="tonight"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="block" id="shelf">
+      <div class="sec-head"><div><p class="eyebrow">The bookshelf</p><h2>Pick a book for tonight</h2></div><p>Each book is short enough for one bedtime, and ends with a lesson and a question to talk about together.</p></div>
+      <div class="books" id="books"></div>
+    </section>
+    <section class="block">
+      <div class="sec-head"><div><p class="eyebrow">Value stars</p><h2>Stars you have collected</h2></div><p>Finish a book to light up its star. Each star is a good habit the story teaches.</p></div>
+      <div class="values" id="values"></div>
+    </section>
+    <section class="block">
+      <div class="sec-head"><div><p class="eyebrow">For parents</p><h2>How the books are made</h2></div></div>
+      <div class="parents">
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><path d="M8 6h18l6 6v22H8z"/><path d="M26 6v6h6M13 19h14M13 24h14M13 29h9"/></svg><h3>Every story is sourced</h3><p>The cover and the lesson page name the surah or the hadith collection the story comes from, so you can read the original together.</p></div>
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><path d="M6 10h20v13H14l-6 5v-5H6z"/><path d="M30 15h4v13h-2v5l-6-5h-8v-2"/></svg><h3>Talk time at the end</h3><p>A question for your child and a short tip for you turn the story into a conversation about kindness, gratitude and honesty.</p></div>
+        <div><svg viewBox="0 0 40 40" fill="none" stroke="var(--gold)" stroke-width="2" aria-hidden="true"><circle cx="20" cy="12" r="5"/><path d="M11 34c1-9 4-14 9-14s8 5 9 14z"/><path d="M5 20h4M31 20h4M20 2v3"/></svg><h3>No faces are drawn</h3><p>People appear as simple figures without faces, and prophets are never pictured. Their presence is shown with light, banners and the world around them.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span class="ar">بِسْمِ ٱللَّٰهِ</span>Tap any dotted word in a story to learn what it means.</footer>
+</div>
+
+<div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-labelledby="rTitle">
+  <div class="rbar">
+    <button class="ibtn" id="rClose" type="button" aria-label="Back to the bookshelf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ttl" id="rTitle"></div>
+    <button class="ibtn wide" id="rPlay" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span id="rPlayLbl">Read to me</span></button>
+    <button class="ibtn hide-sm" id="rSmaller" type="button" aria-label="Smaller text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="17" text-anchor="middle" font-size="13" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rBigger" type="button" aria-label="Bigger text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="19" text-anchor="middle" font-size="20" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rBed" type="button" aria-pressed="false" aria-label="Bedtime glow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
+  </div>
+  <div class="stage"><div class="bookview" id="bookview"></div></div>
+  <div class="rnav">
+    <button class="ibtn navbtn" id="rPrev" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div><div class="dots" id="rDots"></div><div class="counter" id="rCount"></div></div>
+    <button class="ibtn navbtn" id="rNext" type="button" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</div>
+<div class="gloss" id="gloss" hidden role="dialog" aria-label="Word meaning"></div>
+
+<script>
+@@SCRIPTS@@
+</script>
+</body></html>
