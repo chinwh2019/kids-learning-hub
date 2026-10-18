@@ -131,14 +131,15 @@ footer .ar{font-family:var(--arabic);font-size:1.4rem;color:var(--gold);display:
 .ibtn svg{width:22px;height:22px}
 .ibtn[aria-pressed="true"]{background:var(--gold);color:#22180a;border-color:var(--gold)}
 .ibtn.wide{width:auto;padding:0 16px;border-radius:999px;gap:8px;display:inline-flex;align-items:center;font-weight:700;font-size:.95rem}
-.stage{flex:1;min-height:0;display:grid;place-items:center;perspective:2200px}
-.bookview{position:relative;width:min(1120px,100%);height:min(100%,700px)}
-.leaf{position:absolute;inset:0;display:grid;grid-template-columns:1.08fr 1fr;border-radius:20px;overflow:hidden;background:var(--paper);color:var(--paper-ink);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),0 0 0 1px var(--line);backface-visibility:hidden;transform-style:preserve-3d}
-.leaf::after{content:"";position:absolute;top:0;bottom:0;left:calc(51.9% - 26px);width:52px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.28) 48%,rgba(255,255,255,.06) 52%,transparent);pointer-events:none}
+.stage{flex:1;min-height:0;display:grid;place-items:center;perspective:2200px;container-type:size}
+/* The picture side is always exactly 4:3, the shape every scene is drawn in, so nothing is cropped. */
+.bookview{position:relative;width:min(1220px,100cqw,220cqh);aspect-ratio:11/5}
+.leaf{position:absolute;inset:0;display:grid;grid-template-columns:4fr 2.6fr;border-radius:20px;overflow:hidden;background:var(--paper);color:var(--paper-ink);box-shadow:0 40px 80px -40px rgba(0,0,0,.8),0 0 0 1px var(--line);backface-visibility:hidden;transform-style:preserve-3d}
+.leaf::after{content:"";position:absolute;top:0;bottom:0;left:calc(60.6% - 26px);width:52px;background:linear-gradient(90deg,transparent,rgba(0,0,0,.28) 48%,rgba(255,255,255,.06) 52%,transparent);pointer-events:none}
 .leaf .art{position:relative;overflow:hidden;min-height:0;background:#0d1230}
 .leaf .art svg{position:absolute;inset:0;width:100%;height:100%;display:block;animation:kenburns 26s ease-in-out infinite alternate;transform-origin:50% 60%}
-@keyframes kenburns{to{transform:scale(1.07) translate(-1%,-1%)}}
-.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1));line-height:1.7}
+@keyframes kenburns{to{transform:scale(1.04)}}
+.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:safe center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1));line-height:1.7}
 .words .orn{position:absolute;width:64px;height:64px;color:var(--gold);opacity:.55;pointer-events:none}
 .words .orn.tl{top:12px;left:12px}.words .orn.br{bottom:12px;right:12px;transform:rotate(180deg)}
 :root{--fs-base:clamp(18px,1vw + 11px,23px)}
@@ -194,10 +195,16 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   .tonight{transform:none}
   .books,.values,.parents{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media (max-width:760px){
-  .leaf{grid-template-columns:1fr;grid-template-rows:minmax(0,44%) minmax(0,1fr)}
+/* Phones and portrait tablets: picture on top (still 4:3), words underneath. */
+@media (max-width:760px), (orientation:portrait) and (max-width:1100px){
+  .bookview{width:min(680px,100cqw);height:100cqh;aspect-ratio:auto}
+  .leaf{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+  .leaf .art{aspect-ratio:4/3}
   .leaf::after{display:none}
   .leaf .words{justify-content:flex-start;padding:22px 22px 28px}
+  .words .orn{display:none}
+}
+@media (max-width:760px){
   .words .orn{display:none}
   .rbar .hide-sm{display:none}
   .dots{max-width:48vw}
