@@ -15,7 +15,7 @@ tip: Before lights out, take turns naming three blessings from today and say Alh
 # Prophet Sulayman and the little ant 🐜
 
 <!-- page: kingdom -->
-Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of animals.
+Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of birds. He could even hear a tiny ant.
 
 <!-- page: march -->
 One day Sulayman was marching with his whole army. They came to a valley full of ants. <!-- page: antCall --> A little ant saw the big army coming and called out to the others: "O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!"
@@ -24,7 +24,7 @@ One day Sulayman was marching with his whole army. They came to a valley full of
 Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: "My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You."
 
 <!-- page: safeHome -->
-So the great king stopped his whole army to look after a few little ants. And the little ant looked after her friends too.
+We can imagine the great king making sure his army stepped carefully around the little ants. And the little ant looked after her friends too.
 
 **Lesson:** Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.
 

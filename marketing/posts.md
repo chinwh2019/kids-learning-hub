@@ -7,7 +7,6 @@ Paste-ready drafts. Replace `[APP LINK]` with the real link once it is final (pu
 - Ant story: Quran, Surah An-Naml 27:17-19 (the dua is from 27:19).
 - Gold story: Sahih al-Bukhari 3472 and Sahih Muslim 1721 (narrated by Abu Huraira).
 - Words in quotation marks are copied word for word from the story text in the app. Nothing is attributed to the Prophet ﷺ or the Quran beyond what the sources say.
-- One thing to be careful with: in the ant story, the line "So the great king stopped his whole army" is the story's own retelling, not something the Quran states (REVIEW.md points this out). None of the captions below say the Quran says it. If someone asks, the honest answer is: "The Quran tells us Sulayman smiled at the ant's words and made dua. The part about the army stopping is how we retold it for children."
 
 ---
 

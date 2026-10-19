@@ -32,3 +32,5 @@ Checked against quran.com and sunnah.com.
 - "licking the dry earth" should be "licking the wet mud". The hadith word الثَّرَى means moist earth.
 - Last line: "kindness that Allah loves" goes beyond the hadith. A closer version is "so we would remember that there is a reward for kindness to every living being" (فِي كُلِّ كَبِدٍ رَطْبَةٍ أَجْرٌ).
 - Harmless additions that are not in the hadith: desert, hot sun, cool water, "Alhamdulillah, he felt better", "until it was happy".
+
+**Ant story (fixed 2026-10-19):** "the speech of animals" is now "the speech of birds. He could even hear a tiny ant." (27:16). "So the great king stopped his whole army" is now "We can imagine the great king making sure his army stepped carefully around the little ants." The Quran does not say the army stopped.
