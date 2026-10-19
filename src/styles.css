@@ -72,7 +72,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tonight .art svg{width:100%;height:100%;display:block}
 .tonight .cap{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;flex-wrap:wrap}
 .tonight h3{font-size:1.3rem}
-.tonight .tag{position:absolute;top:14px;left:14px;background:rgba(16,22,58,.75);color:#ffe3a3;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(4px)}
+.tonight .tag{position:absolute;z-index:5;top:14px;left:14px;background:rgba(16,22,58,.75);color:#ffe3a3;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(4px)}
 
 /* ---------- Sections ---------- */
 section.block{padding-block:56px 8px}
@@ -214,6 +214,23 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
 }
 @media (max-width:560px){
   .books,.values,.parents{grid-template-columns:1fr}
+  /* Phones: a shorter hero, and tonight's book as a slim card (picture beside title) so it fits on screen above the bookshelf. */
+  .hero .lanterns{top:62px;height:80px}
+  .hero-grid{gap:22px;padding-block:64px 60px}
+  .hero h1{font-size:clamp(1.7rem,7.4vw,2.1rem)}
+  .salaam{margin-bottom:8px;gap:2px 10px}
+  .salaam .ar{font-size:1.35rem}
+  .hero-copy p.lead{margin-top:10px;font-size:.98rem}
+  .hero-cta{margin-top:16px}
+  .hero-cta .btn{padding:11px 18px;font-size:.95rem}
+  .hero-cta .btn.ghost{display:none}
+  .tonight{display:grid;grid-template-columns:42% minmax(0,1fr);align-items:center;border-radius:18px}
+  .tonight .art{margin:8px 0 8px 8px;border-radius:12px;overflow:hidden}
+  .tonight .tag{display:none}
+  .tonight .cap{flex-direction:column;align-items:flex-start;gap:10px;padding:12px 14px}
+  .tonight .cap .eyebrow{font-size:.66rem}
+  .tonight h3{font-size:1.05rem;line-height:1.25}
+  .tonight .cap .btn{padding:8px 18px;font-size:.9rem}
   .top .pill .lbl{display:none}
   .navbtn{width:48px;height:48px}
 }
