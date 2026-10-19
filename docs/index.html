@@ -93,7 +93,18 @@ section.block{padding-block:56px 8px}
 .sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .sec-head h2{font-size:clamp(1.6rem,3vw,2.2rem)}
 .sec-head p{color:var(--muted);max-width:32em}
-.books{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}
+.surprise{margin:-6px 0 8px}
+.shelves{display:flex;flex-direction:column;gap:10px}
+.rowhead{display:flex;align-items:baseline;gap:12px;padding-top:14px}
+.rowhead h3{font-size:1.3rem;display:flex;align-items:center;gap:10px}
+.rowhead h3::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--rtint);box-shadow:0 0 10px var(--rtint)}
+.rowhead span{color:var(--muted);font-size:.88rem}
+/* Each row scrolls sideways; rows with enough books drift on their own (shelf.js). */
+.track{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:14px 4px 28px;margin:0 -4px;overscroll-behavior-x:contain}
+.track::-webkit-scrollbar{display:none}
+.track.drifting{-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.lane{display:flex;gap:22px;width:max-content}
+.lane .book{flex:0 0 clamp(200px,20vw,250px)}
 .book{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);padding:0;border-radius:6px 18px 18px 6px;overflow:hidden;position:relative;box-shadow:0 18px 34px -20px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.3,1.5,.5,1), box-shadow .3s}
 .book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:13px;background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(0,0,0,.06) 70%,rgba(255,255,255,.18));z-index:2}
 .book:hover,.book:focus-visible{transform:translateY(-8px) rotate(-.8deg);box-shadow:0 30px 44px -22px rgba(0,0,0,.6)}
@@ -193,7 +204,7 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;padding-block:96px 100px}
   .tonight{transform:none}
-  .books,.values,.parents{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .values,.parents{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 /* Phones and portrait tablets: picture on top (still 4:3), words underneath. */
 @media (max-width:760px), (orientation:portrait) and (max-width:1100px){
@@ -227,7 +238,19 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   .dots{max-width:48vw}
 }
 @media (max-width:560px){
-  .books,.values,.parents{grid-template-columns:1fr}
+  .values,.parents{grid-template-columns:1fr}
+  .lane{gap:14px}
+  .lane .book{flex-basis:min(46vw,200px)}
+  .lane .book .body{padding:10px 12px 12px 20px;gap:5px}
+  .lane .book h3{font-size:1rem;line-height:1.25}
+  .lane .book .chip{font-size:.68rem;padding:3px 9px}
+  .lane .book .src,.lane .book .meta{font-size:.76rem}
+  .lane .newtag{top:8px;right:8px;font-size:.62rem;padding:4px 8px}
+  #shelf .sec-head p{display:none}
+  #shelf .sec-head{margin-bottom:16px}
+  .surprise{padding:10px 18px;font-size:.95rem}
+  .rowhead h3{font-size:1.15rem}
+  .track{padding-bottom:20px}
   /* Phones: a shorter hero, and tonight's book as a slim card (picture beside title) so it fits on screen above the bookshelf. */
   .hero .lanterns{top:62px;height:80px}
   .hero-grid{gap:22px;padding-block:64px 60px}
@@ -376,7 +399,8 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   <main class="wrap">
     <section class="block" id="shelf">
       <div class="sec-head"><div><p class="eyebrow">The bookshelf</p><h2>Pick a book for tonight</h2></div><p>Each book is short enough for one bedtime, and ends with a lesson and a question to talk about together.</p></div>
-      <div class="books" id="books"></div>
+      <button class="btn gold surprise" id="surprise" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 2.5l1.6 4.3 4.4.3-3.4 2.8 1.1 4.3-3.7-2.4-3.7 2.4 1.1-4.3L8 7.1l4.4-.3z"/><path d="M8.5 13.5L3 19M10.5 16.5L6.5 21M5.5 11.5L2 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".6"/></svg>Surprise me</button>
+      <div class="shelves" id="books"></div>
     </section>
     <section class="block" id="deeds">
       <div class="sec-head"><div><p class="eyebrow">Kindness missions</p><h2>Your sky of good deeds</h2></div><p>Every book ends with one small thing to do tomorrow. When it is done, a new star lights up here.</p></div>
@@ -420,7 +444,7 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
 
 <script>
 /* ================= Stories (generated from stories/*.md by build.mjs) ================= */
-const STORIES=[{"id":"dog","title":"The man who helped a thirsty dog","date":"2026-10-16","theme":"Kindness to animals","tint":"#56c7b4","source":"Sahih al-Bukhari 2363 and Sahih Muslim 2244","sourceLong":"Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari 2363 and Sahih Muslim 2244, narrated by Abu Huraira.","value":{"name":"Kindness","icon":"paw"},"cover":"dogDrinks","pages":[{"scene":"desertWalk","text":["A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty."]},{"scene":"wellDrink","text":["He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better."]},{"scene":"thirstyDog","text":["When he came back up, he saw a dog nearby. The dog was panting and licking the wet mud. It looked so thirsty, just like he had been."]},{"scene":"shoeClimb","text":["The man thought, \"This dog is thirsty the way I was thirsty.\" So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog."]},{"scene":"dogDrinks","text":["The dog drank and drank until it was happy.","Allah was so pleased with this kind act that He forgave the man's sins."]},{"scene":"kindNight","text":["The Prophet Muhammad ﷺ told us this story so we would remember that there is a reward for kindness to every living being."]}],"lesson":"Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.","ask":"If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?","mission":"Put out a bowl of water for the birds or a thirsty cat.","tip":"Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it."},{"id":"ant","title":"Prophet Sulayman and the little ant","date":"2026-10-17","theme":"Gentleness and gratitude","tint":"#f2b84b","source":"Quran, Surah An-Naml 27:17-19","sourceLong":"Quran, Surah An-Naml (The Ant), verses 17 to 19.","value":{"name":"Gratitude","icon":"ant"},"cover":"antCall","pages":[{"scene":"kingdom","text":["Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of birds. He could even hear a tiny ant."]},{"scene":"march","text":["One day Sulayman was marching with his whole army. They came to a valley full of ants."]},{"scene":"antCall","text":["A little ant saw the big army coming and called out to the others: \"O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!\""]},{"scene":"gratitude","text":["Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: \"My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You.\""],"dua":{"ar":"رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ","ref":"From Surah An-Naml 27:19"}},{"scene":"safeHome","text":["We can imagine the great king making sure his army stepped carefully around the little ants. And the little ant looked after her friends too."]}],"lesson":"Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.","ask":"The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?","mission":"Notice three good things Allah gave you tomorrow, and say Alhamdulillah for each one.","tip":"Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah."},{"id":"gold","title":"The honest men and the jar of gold","date":"2026-10-18","theme":"Honesty","tint":"#f08f80","source":"Sahih al-Bukhari 3472, Sahih Muslim 1721","sourceLong":"Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.","value":{"name":"Honesty","icon":"jar"},"cover":"jarGlow","pages":[{"scene":"sale","text":["Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.","One man owned a piece of land, and he sold it to another man."]},{"scene":"digging","text":["The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!"]},{"scene":"jarGlow","text":["Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land."]},{"scene":"backForth","text":["\"Here, take your gold,\" he said. \"I only bought the land from you. I didn't buy any gold.\"","But the other man shook his head. \"No, no,\" he said. \"I sold you the land and everything in it. The gold belongs to you.\""]},{"scene":"wiseMan","text":["Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.","The wise man listened. Then he asked, \"Do you have any children?\"","The first man said, \"I have a son.\"\nThe second man said, \"I have a daughter.\""]},{"scene":"wedding","text":["The wise man smiled. \"Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others.\""]},{"scene":"charity","text":["And so the gold that both men were too honest to keep became a blessing for their children and for the poor."]}],"lesson":"Be honest even when nobody is watching, because Allah always sees us. When we don't take what isn't ours, Allah puts blessing (barakah) in what we have.","ask":"If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?","mission":"Tell the truth tomorrow, even about a small thing, just like the honest men.","tip":"Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves."},{"id":"uwais","title":"Uwais and his mother","date":"2026-10-19","theme":"Kindness to parents","tint":"#9d8cf0","source":"Sahih Muslim 2542","sourceLong":"Sahih Muslim 2542, narrated by Usayr ibn Jabir from Umar ibn al-Khattab.","value":{"name":"Care for parents","icon":"hands"},"cover":"uwaisMother","pages":[{"scene":"farYemen","text":["A long time ago, our Prophet Muhammad ﷺ told his companion Umar about a man that Umar had never met. The man lived far away in Yemen, and his name was Uwais."]},{"scene":"listening","text":["The Prophet ﷺ said: \"One day, a man named Uwais will come to you with the travellers from Yemen. He once had a skin illness, and Allah healed him, except for one small spot the size of a coin. He has a mother, and he is very good to her. If he asks Allah for something, Allah answers him. So if you can, ask him to pray to Allah to forgive you.\""]},{"scene":"uwaisMother","text":["Think about that! Uwais was not a king. He was not rich or famous. But Allah loved him so much, because of how kindly he treated his mother."]},{"scene":"caravan","text":["Many years later, Umar had become the leader of the Muslims. Every time a group of travellers came from Yemen, Umar would walk up to them and ask, \"Is Uwais among you?\" Again and again, the answer was no. But Umar never forgot, and he kept asking."]},{"scene":"found","text":["Then one day, a group arrived, and Umar asked again. And this time, there he was!"]},{"scene":"meeting","text":["\"Are you Uwais?\" asked Umar.\n\"Yes,\" said Uwais.\n\"Did you have a skin illness, and Allah healed it, except for a spot the size of a coin?\"\n\"Yes.\"\n\"Do you have a mother?\"\n\"Yes,\" said Uwais."]},{"scene":"dua","text":["Then Umar told him what the Prophet ﷺ had said about him, and asked, \"Please, pray to Allah to forgive me.\" And Uwais made du'a for Umar.","Imagine that: Umar, the great leader of all the Muslims, asking a quiet, humble man to pray for him, all because that man took such good care of his mother."]},{"scene":"kufa","text":["Umar then asked, \"Where are you going?\" Uwais said, \"To Kufa.\" Umar offered to write a letter to the governor there so he would be looked after. But Uwais said, \"I would rather stay among the ordinary, poor people.\" He didn't want to be treated as someone special."]}],"lesson":"Being kind and gentle to our parents is something Allah loves very much. You don't have to be famous or rich to be special to Allah: helping and obeying your mum and dad can make you beloved to Him.","ask":"What is one kind thing you can do for Mama or Baba tomorrow, without them even asking?","mission":"Help Mama or Baba with one job tomorrow, with a smile, before they ask you.","tip":"Tell your child one way your own parents cared for you when you were small, and one way you try to care for them now."}];
+const STORIES=[{"id":"dog","title":"The man who helped a thirsty dog","date":"2026-10-16","theme":"Kindness to animals","tint":"#56c7b4","source":"Sahih al-Bukhari 2363 and Sahih Muslim 2244","sourceLong":"Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari 2363 and Sahih Muslim 2244, narrated by Abu Huraira.","value":{"name":"Kindness","icon":"paw"},"shelf":"Kindness and gentleness","cover":"dogDrinks","pages":[{"scene":"desertWalk","text":["A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty."]},{"scene":"wellDrink","text":["He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better."]},{"scene":"thirstyDog","text":["When he came back up, he saw a dog nearby. The dog was panting and licking the wet mud. It looked so thirsty, just like he had been."]},{"scene":"shoeClimb","text":["The man thought, \"This dog is thirsty the way I was thirsty.\" So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog."]},{"scene":"dogDrinks","text":["The dog drank and drank until it was happy.","Allah was so pleased with this kind act that He forgave the man's sins."]},{"scene":"kindNight","text":["The Prophet Muhammad ﷺ told us this story so we would remember that there is a reward for kindness to every living being."]}],"lesson":"Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.","ask":"If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?","mission":"Put out a bowl of water for the birds or a thirsty cat.","tip":"Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it."},{"id":"ant","title":"Prophet Sulayman and the little ant","date":"2026-10-17","theme":"Gentleness and gratitude","tint":"#f2b84b","source":"Quran, Surah An-Naml 27:17-19","sourceLong":"Quran, Surah An-Naml (The Ant), verses 17 to 19.","value":{"name":"Gratitude","icon":"ant"},"shelf":"Kindness and gentleness","cover":"antCall","pages":[{"scene":"kingdom","text":["Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of birds. He could even hear a tiny ant."]},{"scene":"march","text":["One day Sulayman was marching with his whole army. They came to a valley full of ants."]},{"scene":"antCall","text":["A little ant saw the big army coming and called out to the others: \"O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!\""]},{"scene":"gratitude","text":["Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: \"My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You.\""],"dua":{"ar":"رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ","ref":"From Surah An-Naml 27:19"}},{"scene":"safeHome","text":["We can imagine the great king making sure his army stepped carefully around the little ants. And the little ant looked after her friends too."]}],"lesson":"Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.","ask":"The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?","mission":"Notice three good things Allah gave you tomorrow, and say Alhamdulillah for each one.","tip":"Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah."},{"id":"gold","title":"The honest men and the jar of gold","date":"2026-10-18","theme":"Honesty","tint":"#f08f80","source":"Sahih al-Bukhari 3472, Sahih Muslim 1721","sourceLong":"Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.","value":{"name":"Honesty","icon":"jar"},"shelf":"Honesty and trust","cover":"jarGlow","pages":[{"scene":"sale","text":["Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.","One man owned a piece of land, and he sold it to another man."]},{"scene":"digging","text":["The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!"]},{"scene":"jarGlow","text":["Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land."]},{"scene":"backForth","text":["\"Here, take your gold,\" he said. \"I only bought the land from you. I didn't buy any gold.\"","But the other man shook his head. \"No, no,\" he said. \"I sold you the land and everything in it. The gold belongs to you.\""]},{"scene":"wiseMan","text":["Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.","The wise man listened. Then he asked, \"Do you have any children?\"","The first man said, \"I have a son.\"\nThe second man said, \"I have a daughter.\""]},{"scene":"wedding","text":["The wise man smiled. \"Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others.\""]},{"scene":"charity","text":["And so the gold that both men were too honest to keep became a blessing for their children and for the poor."]}],"lesson":"Be honest even when nobody is watching, because Allah always sees us. When we don't take what isn't ours, Allah puts blessing (barakah) in what we have.","ask":"If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?","mission":"Tell the truth tomorrow, even about a small thing, just like the honest men.","tip":"Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves."},{"id":"uwais","title":"Uwais and his mother","date":"2026-10-19","theme":"Kindness to parents","tint":"#9d8cf0","source":"Sahih Muslim 2542","sourceLong":"Sahih Muslim 2542, narrated by Usayr ibn Jabir from Umar ibn al-Khattab.","value":{"name":"Care for parents","icon":"hands"},"shelf":"Kindness and gentleness","cover":"uwaisMother","pages":[{"scene":"farYemen","text":["A long time ago, our Prophet Muhammad ﷺ told his companion Umar about a man that Umar had never met. The man lived far away in Yemen, and his name was Uwais."]},{"scene":"listening","text":["The Prophet ﷺ said: \"One day, a man named Uwais will come to you with the travellers from Yemen. He once had a skin illness, and Allah healed him, except for one small spot the size of a coin. He has a mother, and he is very good to her. If he asks Allah for something, Allah answers him. So if you can, ask him to pray to Allah to forgive you.\""]},{"scene":"uwaisMother","text":["Think about that! Uwais was not a king. He was not rich or famous. But Allah loved him so much, because of how kindly he treated his mother."]},{"scene":"caravan","text":["Many years later, Umar had become the leader of the Muslims. Every time a group of travellers came from Yemen, Umar would walk up to them and ask, \"Is Uwais among you?\" Again and again, the answer was no. But Umar never forgot, and he kept asking."]},{"scene":"found","text":["Then one day, a group arrived, and Umar asked again. And this time, there he was!"]},{"scene":"meeting","text":["\"Are you Uwais?\" asked Umar.\n\"Yes,\" said Uwais.\n\"Did you have a skin illness, and Allah healed it, except for a spot the size of a coin?\"\n\"Yes.\"\n\"Do you have a mother?\"\n\"Yes,\" said Uwais."]},{"scene":"dua","text":["Then Umar told him what the Prophet ﷺ had said about him, and asked, \"Please, pray to Allah to forgive me.\" And Uwais made du'a for Umar.","Imagine that: Umar, the great leader of all the Muslims, asking a quiet, humble man to pray for him, all because that man took such good care of his mother."]},{"scene":"kufa","text":["Umar then asked, \"Where are you going?\" Uwais said, \"To Kufa.\" Umar offered to write a letter to the governor there so he would be looked after. But Uwais said, \"I would rather stay among the ordinary, poor people.\" He didn't want to be treated as someone special."]}],"lesson":"Being kind and gentle to our parents is something Allah loves very much. You don't have to be famous or rich to be special to Allah: helping and obeying your mum and dad can make you beloved to Him.","ask":"What is one kind thing you can do for Mama or Baba tomorrow, without them even asking?","mission":"Help Mama or Baba with one job tomorrow, with a smile, before they ask you.","tip":"Tell your child one way your own parents cared for you when you were small, and one way you try to care for them now."}];
 /* ================= Glossary of Arabic words =================
    STORIES itself is generated by build.mjs from the Markdown files in stories/. */
 const GLOSS={
@@ -854,6 +878,72 @@ document.addEventListener('click',e=>{
   tip.style.left=Math.min(Math.max(8,x-pr.left-tip.offsetWidth/2),pr.width-tip.offsetWidth-8)+'px';tip.style.top=(y-pr.top+18)+'px';
   sfx.drop(1.6);burst(x,y,{n:8,spread:40});
 });
+/* ================= Bookshelf rows ================= */
+// The bookshelf is a few rows: books not read yet, one row per shelf (from the story's `shelf:` frontmatter), and books to read again.
+// Rows with enough books drift slowly from left to right in an endless loop. Touching, hovering or swiping a row stops it; it carries on a few seconds later.
+const DRIFT={speed:22,boost:1,tracks:[]};
+function shelfRows(){
+  const rows=[],unread=STORIES.filter(s=>!store.read[s.id]),done=STORIES.filter(s=>store.read[s.id]);
+  if(unread.length)rows.push({name:'Not read yet',books:unread,tint:'var(--gold)'});
+  const shelves=new Map();STORIES.forEach(s=>{if(!shelves.has(s.shelf))shelves.set(s.shelf,[]);shelves.get(s.shelf).push(s)});
+  shelves.forEach((books,name)=>rows.push({name,books,tint:books[0].tint}));
+  if(done.length)rows.push({name:'Read again',books:done,tint:'var(--teal)'});
+  return rows;
+}
+function renderShelf(){
+  $('#books').innerHTML=shelfRows().map(r=>`<div class="shelfrow" style="--rtint:${r.tint}"><div class="rowhead"><h3>${esc(r.name)}</h3><span>${r.books.length} ${r.books.length===1?'book':'books'}</span></div><div class="track"><div class="lane">${r.books.map(st=>bookCard(st,STORIES.indexOf(st))).join('')}</div></div></div>`).join('');
+  DRIFT.tracks=[...document.querySelectorAll('#books .track')].map(setupTrack);
+}
+function setupTrack(el){
+  const lane=el.firstElementChild,set=[...lane.children],t={el,lane,on:false,w:0,x:0,rest:0,hover:false};
+  const gap=parseFloat(getComputedStyle(lane).columnGap)||0;
+  t.w=set.reduce((a,c)=>a+c.offsetWidth+gap,0);
+  // Only rows with three or more books, or more books than fit, move; a row of one or two books stays still.
+  if(reduced||!t.w||(set.length<3&&t.w-gap<=el.clientWidth))return t;
+  const copies=3+Math.ceil(el.clientWidth/t.w);
+  for(let k=1;k<copies;k++)set.forEach(c=>{const d=c.cloneNode(true);d.setAttribute('aria-hidden','true');d.tabIndex=-1;lane.append(d)});
+  t.on=true;el.classList.add('drifting');
+  t.x=t.w*(1+Math.random());el.scrollLeft=Math.round(t.x);
+  const hold=()=>{t.rest=performance.now()+3500};
+  el.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'){t.hover=true;hold()}});
+  el.addEventListener('pointerleave',()=>{t.hover=false;hold()});
+  ['pointerdown','touchstart','wheel','focusin'].forEach(k=>el.addEventListener(k,hold,{passive:true}));
+  // Swiping by hand loops too: jump by one set of books before reaching either end.
+  el.addEventListener('scroll',()=>{
+    if(performance.now()<t.rest){hold();let s=el.scrollLeft;if(s<t.w*.5)s+=t.w;else if(s>lane.scrollWidth-el.clientWidth-t.w*.5)s-=t.w;if(s!==el.scrollLeft)el.scrollLeft=s;t.x=s}
+  },{passive:true});
+  return t;
+}
+(function drift(){
+  let last=performance.now();
+  requestAnimationFrame(function step(now){
+    const dt=Math.min(64,now-last);last=now;
+    if(!document.hidden&&$('#reader').hidden){
+      const v=DRIFT.speed*(store.bed?.6:1)*DRIFT.boost*dt/1000;
+      DRIFT.tracks.forEach(t=>{
+        if(!t.on||t.hover||now<t.rest||!t.el.isConnected)return;
+        const r=t.el.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+        // Moving left to right means the scroll position goes down; wrap round by one set of books.
+        t.x-=v;if(t.x<t.w)t.x+=t.w;t.el.scrollLeft=Math.round(t.x);
+      });
+    }
+    requestAnimationFrame(step);
+  });
+})();
+let lastSurprise='';
+// Surprise me: the rows race for a moment, then a book is picked (a book not read yet when there is one) and opens.
+function surprise(btn){
+  const unread=STORIES.filter(s=>!store.read[s.id]);let pool=(unread.length?unread:STORIES).filter(s=>s.id!==lastSurprise);
+  if(!pool.length)pool=STORIES;
+  const st=pool[Math.floor(Math.random()*pool.length)];lastSurprise=st.id;
+  const [x,y]=centre(btn);burst(x,y,{n:18,spread:100,big:true});sfx.glitter(12);buzz([10,30,10]);
+  const go=()=>{DRIFT.boost=1;const c=[...document.querySelectorAll(`#books [data-open="${st.id}"]`)].find(b=>{const r=b.getBoundingClientRect();return r.right>0&&r.left<innerWidth&&r.bottom>0&&r.top<innerHeight});openStory(st.id,c?c.querySelector('.cover-art'):null)};
+  if(reduced)return go();
+  const t0=performance.now();btn.disabled=true;
+  (function race(now){const k=Math.min(1,(now-t0)/900);DRIFT.boost=1+14*(1-k)*(1-k);if(k<1)requestAnimationFrame(race);else{btn.disabled=false;go()}})(t0);
+}
+$('#surprise').onclick=e=>surprise(e.currentTarget);
+const shelfW={w:innerWidth,t:0};addEventListener('resize',()=>{clearTimeout(shelfW.t);shelfW.t=setTimeout(()=>{if(Math.abs(innerWidth-shelfW.w)>40){shelfW.w=innerWidth;renderShelf()}},300)});
 /* ================= Text with read-along spans ================= */
 function richText(paras,used){
   let speech='',html='';
@@ -890,7 +980,7 @@ function renderHome(){
   const tonight=STORIES.find(s=>!store.read[s.id])||STORIES[STORIES.length-1];
   $('#tonight').innerHTML=`<span class="tag">Tonight's story</span><div class="art">${scene(tonight.cover,tonight)}</div><div class="cap"><div><p class="eyebrow" style="color:${tonight.tint}">${esc(tonight.theme)}</p><h3>${esc(tonight.title)}</h3></div><button class="btn gold" type="button" data-open="${tonight.id}">Read</button></div>`;
   $('#ctaTonight').dataset.open=tonight.id;
-  $('#books').innerHTML=STORIES.map(bookCard).join('');
+  renderShelf();
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
   renderSky();
   freeze($('#home'));

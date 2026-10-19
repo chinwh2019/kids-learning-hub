@@ -4,6 +4,7 @@ theme: kindness to parents
 source: Sahih Muslim 2542 (narrated by Usayr ibn Jabir, from Umar ibn al-Khattab)
 id: uwais
 value: Care for parents
+shelf: Kindness and gentleness
 icon: hands
 tint: "#9d8cf0"
 cover: uwaisMother
