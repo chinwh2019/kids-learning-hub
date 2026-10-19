@@ -24,7 +24,7 @@ The build needs only Node 18 or newer, with no packages to install. It reads the
 | `src/styles.css` | Colour tokens for dark and light themes, layout, page-turn animations. |
 | `src/js/glossary.js` | The glossary of Arabic words (`GLOSS`) shown when a dotted word is tapped. |
 | `src/js/helpers.js` | Small utilities and saved reading progress. |
-| `src/js/illustrations.js` | The SVG drawing kit (people, dog, ants, well, jar, lanterns and more) and every scene in `S`. |
+| `src/js/illustrations.js` | The SVG drawing kit (people, dog, ants, camels, well, jar, Yemeni tower houses, lanterns and more) and every scene in `S`. |
 | `src/js/fx.js` | Soft nature sounds made in the browser (paper, water drops, wind, birds, crickets; no music or sound files), the soundscape for each scene, sparkle bursts, the book-opening zoom and the tilting cards. |
 | `src/js/sky.js` | Kindness missions and the sky of good deeds on the home page. |
 | `src/js/app.js` | Read-along text, bookshelf, book reader, read-aloud, glossary pop-up, the starry hero sky and the add-to-home-screen button. |
@@ -40,6 +40,7 @@ The source text for each story lives in [`stories/`](stories) as Markdown with a
 | The man who helped a thirsty dog | Kindness | Sahih al-Bukhari and Sahih Muslim |
 | Prophet Sulayman and the little ant | Gratitude | Quran, Surah An-Naml 27:17-19 |
 | The honest men and the jar of gold | Honesty | Sahih al-Bukhari 3472, Sahih Muslim 1721 |
+| Uwais and his mother | Care for parents | Sahih Muslim 2542 |
 
 ## Illustrations
 
@@ -75,7 +76,7 @@ The second page.
 - `## Lesson` and `## Ask the kids` headings work too.
 - `value` (the star the story lights up, default: the first word of the theme) and `tip` (the tip for parents) are optional.
 - `mission` is one small thing to do tomorrow. It gets its own page after Talk time; the child accepts it there, and when it is done a grown-up holds the star on the home page to light it in the sky of good deeds. Leave it out and the book has no mission page.
-- More optional frontmatter: `id`, `icon` (`paw`, `ant` or `jar`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
+- More optional frontmatter: `id`, `icon` (`paw`, `ant`, `jar` or `hands`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
 - The HTML comments are invisible when the Markdown is read anywhere else, so the story text stays exactly as written.
 
 To give a story its own pictures, draw new scenes in `S` in `src/js/illustrations.js` and name them in the page markers.

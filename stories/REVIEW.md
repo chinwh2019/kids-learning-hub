@@ -34,3 +34,9 @@ Checked against quran.com and sunnah.com.
 - Harmless additions that are not in the hadith: desert, hot sun, cool water, "Alhamdulillah, he felt better", "until it was happy".
 
 **Ant story (fixed 2026-10-19):** "the speech of animals" is now "the speech of birds. He could even hear a tiny ant." (27:16). "So the great king stopped his whole army" is now "We can imagine the great king making sure his army stepped carefully around the little ants." The Quran does not say the army stopped.
+
+## 4. Uwais and his mother (checked 2026-10-19)
+Checked against Sahih Muslim 2542 on sunnah.com. The story is faithful: Uwais from Yemen, the skin illness healed except a spot the size of a coin (a dirham), his goodness to his mother, "ask him to pray for your forgiveness", Umar asking every group from Yemen, the three questions, Uwais making du'a for Umar, Kufa, the letter to the governor, and "I would rather be among the ordinary, poor people" (أَكُونُ فِي غَبْرَاءِ النَّاسِ). The Kufa part is in the narration numbered 2542c, so "Sahih Muslim 2542" covers the whole story.
+- "If he asks Allah for something, Allah answers him" is a gentle paraphrase. The hadith says "if he were to swear by Allah, Allah would fulfil it" (لَوْ أَقْسَمَ عَلَى اللَّهِ لأَبَرَّهُ). Fine for children; no change made.
+- "Allah loved him so much, because of how kindly he treated his mother" is a fair reading (the Prophet ﷺ names his goodness to his mother as what marks him out), but the hadith does not say it in those words.
+- Pictures: the Prophet ﷺ is not shown. On the page where he speaks, Umar is shown listening in the mosque of Madinah.
