@@ -8,6 +8,7 @@ icon: paw
 tint: "#56c7b4"
 cover: dogDrinks
 source_note: Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari 2363 and Sahih Muslim 2244, narrated by Abu Huraira.
+mission: Put out a bowl of water for the birds or a thirsty cat.
 tip: Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it.
 ---
 # The man who helped a thirsty dog

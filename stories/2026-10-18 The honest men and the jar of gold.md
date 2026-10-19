@@ -8,6 +8,7 @@ icon: jar
 tint: "#f08f80"
 cover: jarGlow
 source_note: Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.
+mission: Tell the truth tomorrow, even about a small thing, just like the honest men.
 tip: Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves.
 ---
 # The honest men and the jar of gold 🏺

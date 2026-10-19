@@ -85,6 +85,7 @@ function parseStory(file, index) {
     pages,
     lesson: paragraphs(parts.lesson).join(' '),
     ask: paragraphs(parts.ask).join(' '),
+    mission: meta.mission || '',
     tip: meta.tip || 'Ask your child what they liked most about the story, and share what you liked too.',
   };
 }
@@ -96,7 +97,7 @@ const STORIES = storyFiles.map(parseStory);
 
 /* ---------- docs/index.html ---------- */
 const scripts = `/* ================= Stories (generated from stories/*.md by build.mjs) ================= */\nconst STORIES=${JSON.stringify(STORIES)};\n`
-  + ['glossary.js', 'helpers.js', 'illustrations.js', 'app.js'].map((f) => read(`src/js/${f}`)).join('');
+  + ['glossary.js', 'helpers.js', 'illustrations.js', 'fx.js', 'sky.js', 'app.js'].map((f) => read(`src/js/${f}`)).join('');
 
 const html = read('src/index.html')
   .replace('@@STYLES@@\n', () => read('src/styles.css'))

@@ -36,6 +36,7 @@ function renderHome(){
   $('#ctaTonight').dataset.open=tonight.id;
   $('#books').innerHTML=STORIES.map(bookCard).join('');
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
+  renderSky();
   freeze($('#home'));
 }
 function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<5?'Assalamu alaikum. It is almost time for bed.':h<12?'Assalamu alaikum. Good morning, little reader.':'Assalamu alaikum, little reader.'}
@@ -43,7 +44,7 @@ $('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4
 
 /* ================= Reader ================= */
 const R={st:null,i:0,pages:[],busy:false,playing:false,utt:null,timer:0};
-function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},{t:'night'}]}
+function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},...(st.mission?[{t:'mission'}]:[]),{t:'night'}]}
 function makeLeaf(n){
   const st=R.st,p=R.pages[n],used=new Set();
   const leaf=document.createElement('article');leaf.className='leaf';leaf.style.setProperty('--tint',st.tint);
@@ -64,35 +65,43 @@ function makeLeaf(n){
     art=scene('talk',st);rt=richText([st.ask],used);
     words=`${orn}<p class="eyebrow">Talk time</p>${rt.html}<p class="note"><b>Tip for parents:</b> ${esc(st.tip)}</p>`;
     rt.speech='Talk time. '+rt.speech;
+  }else if(p.t==='mission'){
+    art=scene('mission',st);rt=richText([st.mission],used);
+    const on=M().pending&&M().pending.id===st.id;
+    words=`${orn}<p class="eyebrow">Tomorrow's kindness mission</p><div class="mission">${rt.html}</div><p class="note">Do it tomorrow, then open the bookshelf. A grown-up holds the star there to light it in your sky of good deeds.</p><div class="row"><button class="btn gold accept" type="button" data-act="accept" aria-pressed="${!!on}">${on?'Mission accepted ✓':'We accept the mission'}</button></div>`;
+    rt.speech="Tomorrow's kindness mission. "+rt.speech;
   }else{
     art=scene('night',st);
     words=`${orn}<p class="eyebrow">Before you sleep</p><p class="ar">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</p><p><i>Bismika Allahumma amutu wa ahya.</i></p><p>In Your name, O Allah, I die and I live.</p><p class="note">The Prophet ﷺ said this when he lay down to sleep. (Sahih al-Bukhari 6324)</p><div class="row"><button class="btn gold" type="button" data-act="shelf">Back to the bookshelf</button><button class="btn ghost" type="button" data-act="again" style="color:var(--paper-ink)">Read again</button></div>`;
     rt.speech='Before you sleep, say: Bismika Allahumma amutu wa ahya. In your name, O Allah, I die and I live. Good night.';
   }
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
-  leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
+  leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
   freeze(leaf);
-  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save()}
+  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save();leaf._earned=true}
   return leaf;
 }
-function openStory(id){
+function openStory(id,from){
   R.st=STORIES.find(s=>s.id===id);if(!R.st)return;
   R.pages=buildPages(R.st);R.i=0;R.busy=false;
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
   $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
-  chrome();$('#rNext').focus();
+  chrome();$('#rNext').focus();zoomFrom(from);sfx.page();ambience(AMB[lf._scene]||'wind');
 }
-function closeReader(){stopSpeech();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
+function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
 function goTo(n){
   if(n<0||n>=R.pages.length||n===R.i||R.busy)return;
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
   const d=n>R.i?1:-1,bv=$('#bookview'),old=bv.querySelector('.leaf'),nw=makeLeaf(n);
   R.busy=true;R.i=n;
   nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);fit(nw);chrome();
+  sfx.page();ambience(AMB[nw._scene]||'wind');if(nw._earned)setTimeout(()=>celebrate(nw),reduced?50:900);
   setTimeout(()=>{old.remove();nw.className='leaf';R.busy=false;if(keepPlaying){R.playing=true;speak()}},reduced?20:760);
 }
+// The value star pops with a shower of sparkles the first time a child reaches the lesson.
+function celebrate(leaf){const e=leaf.querySelector('.earned');if(!e||!leaf.isConnected)return;e.classList.add('pop');const [x,y]=centre(e.querySelector('svg')||e);burst(x,y,{n:24,spread:120,big:true});sfx.glitter(14);buzz([10,40,14])}
 // Shrink a page's words a little (never below 80%) until they fit without scrolling.
 function fit(leaf){
   const w=leaf&&leaf.querySelector('.words');if(!w)return;
@@ -113,13 +122,13 @@ if(synth){pickVoice();synth.onvoiceschanged=pickVoice}else{$('#rPlay').hidden=tr
 function clearHl(){document.querySelectorAll('.w.on').forEach(e=>e.classList.remove('on'))}
 function speak(){
   const leaf=$('#bookview .leaf:last-child');if(!synth||!leaf)return;
-  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;
+  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;duck(true);
   if(voice)u.voice=voice;u.rate=store.bed?.8:.9;u.pitch=1.05;
   u.onboundary=e=>{if(u!==R.utt||(e.name&&e.name!=='word'))return;let hit=null;for(const t of leaf._tokens){if(t.s<=e.charIndex)hit=t;else break}clearHl();if(hit){hit.el.classList.add('on');const w=leaf.querySelector('.words'),r=hit.el.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.bottom>wr.bottom-20||r.top<wr.top)hit.el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'})}};
-  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI()}};
+  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI();duck(false)}};
   synth.speak(u);
 }
-function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep){R.playing=false;playUI()}}
+function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep)duck(false);if(!keep){R.playing=false;playUI()}}
 function playUI(){$('#rPlay').setAttribute('aria-pressed',R.playing);$('#rPlayLbl').textContent=R.playing?'Pause':'Read to me'}
 $('#rPlay').onclick=()=>{if(R.playing){stopSpeech()}else{R.playing=true;playUI();speak()}};
 
@@ -140,20 +149,24 @@ if(!synth)document.documentElement.classList.add('nosynth');
 document.addEventListener('click',e=>{
   const g=e.target.closest('.g');if(g){showGloss(g);return}
   if(!e.target.closest('#gloss'))hideGloss();
-  const o=e.target.closest('[data-open]');if(o){openStory(o.dataset.open);return}
-  const a=e.target.closest('[data-act]');if(a){if(a.dataset.act==='shelf')closeReader();else goTo(0);return}
+  const o=e.target.closest('[data-open]');if(o){openStory(o.dataset.open,o.querySelector('.cover-art,.art')||(o.closest('.hero')&&$('#tonight .art')));return}
+  const a=e.target.closest('[data-act]');if(a){const k=a.dataset.act;if(k==='shelf')closeReader();else if(k==='accept')acceptMission(R.st.id,a);else goTo(0);return}
   const k=e.target.closest('#rDots [data-k]');if(k)goTo(+k.dataset.k);
 });
 $('#rPrev').onclick=()=>goTo(R.i-1);$('#rNext').onclick=()=>goTo(R.i+1);$('#rClose').onclick=closeReader;
 document.addEventListener('keydown',e=>{if($('#reader').hidden)return;if(e.key==='ArrowRight')goTo(R.i+1);else if(e.key==='ArrowLeft')goTo(R.i-1);else if(e.key==='Escape'){if(!$('#gloss').hidden)hideGloss();else closeReader()}});
 let sx=0,sy=0,st0=0;
 $('#bookview').addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st0=Date.now()});
-$('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1))});
+$('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1));
+  // Magic touch: tapping a picture scatters little lights with a water-drop sound.
+  else if(Math.hypot(dx,dy)<10&&e.target.closest('.leaf .art')){burst(e.clientX,e.clientY,{n:10,spread:60});sfx.drop()}});
 function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs);if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))}
 $('#rBigger').onclick=()=>{store.fs=Math.min(1.4,+(store.fs+.12).toFixed(2));applyFs();save()};
 $('#rSmaller').onclick=()=>{store.fs=Math.max(.85,+(store.fs-.12).toFixed(2));applyFs();save()};
-function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
+function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);volume();$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
 $('#bedBtn').onclick=$('#rBed').onclick=()=>{store.bed=!store.bed;applyBed();save()};
+function applySound(){$('#sndBtn').setAttribute('aria-pressed',!!store.sound);$('#rSnd').setAttribute('aria-pressed',!!store.sound)}
+$('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();applySound();if(!store.sound)stopAmbience();else{sfx.drop();if(!$('#reader').hidden)ambience(AMB[$('#bookview .leaf:last-child')._scene]||'wind')}};
 
 /* ================= Hero sky ================= */
 (function sky(){
@@ -189,5 +202,5 @@ $('#installBtn').onclick=()=>{
   else $('#installTip').hidden=!$('#installTip').hidden;
 };
 
-greet();applyFs();applyBed();renderHome();
+greet();applyFs();applyBed();applySound();renderHome();
 if(location.hash&&STORIES.some(s=>s.id===location.hash.slice(1)))openStory(location.hash.slice(1));
