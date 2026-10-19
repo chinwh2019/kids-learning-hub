@@ -4,6 +4,7 @@ theme: honesty
 source: Sahih al-Bukhari 3472, Sahih Muslim 1721 (narrated by Abu Huraira)
 id: gold
 value: Honesty
+shelf: Honesty and trust
 icon: jar
 tint: "#f08f80"
 cover: jarGlow

@@ -34,7 +34,7 @@ function renderHome(){
   const tonight=STORIES.find(s=>!store.read[s.id])||STORIES[STORIES.length-1];
   $('#tonight').innerHTML=`<span class="tag">Tonight's story</span><div class="art">${scene(tonight.cover,tonight)}</div><div class="cap"><div><p class="eyebrow" style="color:${tonight.tint}">${esc(tonight.theme)}</p><h3>${esc(tonight.title)}</h3></div><button class="btn gold" type="button" data-open="${tonight.id}">Read</button></div>`;
   $('#ctaTonight').dataset.open=tonight.id;
-  $('#books').innerHTML=STORIES.map(bookCard).join('');
+  renderShelf();
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
   renderSky();
   freeze($('#home'));

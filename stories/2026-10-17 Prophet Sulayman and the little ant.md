@@ -4,6 +4,7 @@ theme: gentleness and gratitude
 source: Quran, Surah An-Naml 27:17-19
 id: ant
 value: Gratitude
+shelf: Kindness and gentleness
 icon: ant
 tint: "#f2b84b"
 cover: antCall

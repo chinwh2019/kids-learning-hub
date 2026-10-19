@@ -4,6 +4,7 @@ theme: kindness to animals
 source: Sahih al-Bukhari 2363 and Sahih Muslim 2244 (hadith of the man who gave water to a thirsty dog)
 id: dog
 value: Kindness
+shelf: Kindness and gentleness
 icon: paw
 tint: "#56c7b4"
 cover: dogDrinks

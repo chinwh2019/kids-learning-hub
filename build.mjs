@@ -81,6 +81,7 @@ function parseStory(file, index) {
     source: source.replace(/\s*\([^)]*\)\s*$/, ''),
     sourceLong: meta.source_note || (source.endsWith('.') ? source : source + '.'),
     value: { name: meta.value || sentence((meta.theme || 'Goodness').split(/\s+and\s+|,/)[0]), icon: meta.icon || '' },
+    shelf: meta.shelf || meta.value || sentence((meta.theme || 'Goodness').split(/\s+and\s+|,/)[0]),
     cover: meta.cover || pages.find((p) => p.scene)?.scene || '',
     pages,
     lesson: paragraphs(parts.lesson).join(' '),
@@ -97,7 +98,7 @@ const STORIES = storyFiles.map(parseStory);
 
 /* ---------- docs/index.html ---------- */
 const scripts = `/* ================= Stories (generated from stories/*.md by build.mjs) ================= */\nconst STORIES=${JSON.stringify(STORIES)};\n`
-  + ['glossary.js', 'helpers.js', 'illustrations.js', 'fx.js', 'sky.js', 'app.js'].map((f) => read(`src/js/${f}`)).join('');
+  + ['glossary.js', 'helpers.js', 'illustrations.js', 'fx.js', 'sky.js', 'shelf.js', 'app.js'].map((f) => read(`src/js/${f}`)).join('');
 
 const html = read('src/index.html')
   .replace('@@STYLES@@\n', () => read('src/styles.css'))
