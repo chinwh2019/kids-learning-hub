@@ -25,6 +25,7 @@
         <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
         <div class="pills">
         <button class="pill" id="installBtn" type="button" aria-label="Add to home screen" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Add to home screen</span></button>
+        <button class="pill" id="sndBtn" aria-pressed="true" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h1.5M7 8.5v7M11 5v14M15 8.5v7M19 11v2"/></svg><span class="lbl">Sounds</span></button>
         <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
         </div>
         <p class="install-tip" id="installTip" hidden>To keep Qissa Time on your phone, tap the Share button, then <b>Add to Home Screen</b>. It will open even without the internet.</p>
@@ -38,6 +39,7 @@
             <button class="btn gold" id="ctaTonight" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></svg>Open tonight's story</button>
             <a class="btn ghost" href="#shelf">Browse the bookshelf</a>
           </div>
+          <a class="mchip" id="missionChip" href="#deeds" hidden></a>
         </div>
         <div class="tonight" id="tonight"></div>
       </div>
@@ -48,6 +50,10 @@
     <section class="block" id="shelf">
       <div class="sec-head"><div><p class="eyebrow">The bookshelf</p><h2>Pick a book for tonight</h2></div><p>Each book is short enough for one bedtime, and ends with a lesson and a question to talk about together.</p></div>
       <div class="books" id="books"></div>
+    </section>
+    <section class="block" id="deeds">
+      <div class="sec-head"><div><p class="eyebrow">Kindness missions</p><h2>Your sky of good deeds</h2></div><p>Every book ends with one small thing to do tomorrow. When it is done, a new star lights up here.</p></div>
+      <div class="skygrid"><div id="missionSlot"></div><div class="skypanel" id="skyPanel"></div></div>
     </section>
     <section class="block">
       <div class="sec-head"><div><p class="eyebrow">Value stars</p><h2>Stars you have collected</h2></div><p>Finish a book to light up its star. Each star is a good habit the story teaches.</p></div>
@@ -72,6 +78,7 @@
     <button class="ibtn wide" id="rPlay" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span id="rPlayLbl">Read to me</span></button>
     <button class="ibtn hide-sm" id="rSmaller" type="button" aria-label="Smaller text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="17" text-anchor="middle" font-size="13" font-family="Georgia" fill="currentColor">A</text></svg></button>
     <button class="ibtn" id="rBigger" type="button" aria-label="Bigger text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="19" text-anchor="middle" font-size="20" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rSnd" type="button" aria-pressed="true" aria-label="Sounds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h1.5M7 8.5v7M11 5v14M15 8.5v7M19 11v2"/></svg></button>
     <button class="ibtn" id="rBed" type="button" aria-pressed="false" aria-label="Bedtime glow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
   </div>
   <div class="stage"><div class="bookview" id="bookview"></div></div>
@@ -82,6 +89,7 @@
   </div>
 </div>
 <div class="gloss" id="gloss" hidden role="dialog" aria-label="Word meaning"></div>
+<div id="fx" aria-hidden="true"></div>
 
 <script>
 @@SCRIPTS@@

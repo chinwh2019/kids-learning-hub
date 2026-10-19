@@ -238,6 +238,91 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
 /* Paper grain over every illustration, so the flat colours read like a printed picture book */
 .art::after,.cover-art::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.5;mix-blend-mode:soft-light;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1.3 0 0 0 -.15 1.3 0 0 0 -.15 1.3 0 0 0 -.15 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='2.2 0 0 0 -.6 2.2 0 0 0 -.6 2.2 0 0 0 -.6 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");background-size:220px 220px,600px 600px}
 .tonight .art{position:relative}
+
+/* ---------- Sparkles, flying stars and the opening book ---------- */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:300;overflow:hidden}
+.mote{position:absolute;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:radial-gradient(circle,#fffbe8 0 30%,#ffd76a 55%,transparent 72%);box-shadow:0 0 10px 2px rgba(255,214,106,.55);animation:mote var(--t,1s) cubic-bezier(.15,.7,.3,1) forwards}
+.mote.star{border-radius:0;box-shadow:none;background:#fff3c4;clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);width:14px;height:14px;margin:-7px 0 0 -7px}
+.mote.big{width:13px;height:13px;margin:-6.5px 0 0 -6.5px}
+.mote.star.big{width:20px;height:20px;margin:-10px 0 0 -10px}
+@keyframes mote{0%{transform:translate(0,0) scale(0) rotate(0);opacity:1}25%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(var(--s)) rotate(160deg);opacity:0}}
+.flystar{position:absolute;left:0;top:0;width:34px;height:34px;filter:drop-shadow(0 0 10px #ffd76a) drop-shadow(0 0 22px rgba(255,214,106,.6))}
+.flystar svg{width:100%;height:100%;fill:#ffe9a8}
+.fly{position:fixed;z-index:60;overflow:hidden;transform-origin:0 0;pointer-events:none}
+.fly svg{width:100%;height:100%;display:block}
+.reader.opening{animation:fadeIn .45s ease both}
+.reader.opening .leaf .words>*{animation:rise .6s .35s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+
+/* The turning page catches the light as it lifts. */
+.leaf.out-next::before,.leaf.in-prev::before{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 48%,rgba(255,255,255,0) 62%);background-size:260% 100%;animation:sheen .75s ease both}
+@keyframes sheen{from{background-position:100% 0}to{background-position:0 0}}
+.leaf .art{cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* Cards lean towards the pointer, with a soft glint that follows it. */
+.book.tilting,.tonight.tilting{transition:transform .12s ease-out,box-shadow .3s}
+.book::after,.tonight::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.35),transparent 55%);mix-blend-mode:soft-light}
+.book.tilting::after,.tonight.tilting::after{opacity:1}
+.hero .lanterns{transform:translate(calc(var(--px,0) * -14px),calc(var(--py,0) * -6px));transition:transform .6s ease-out}
+.hero canvas{transform:translate(calc(var(--px,0) * -6px),calc(var(--py,0) * -4px)) scale(1.02);transition:transform .8s ease-out}
+.hero .dunes{transform:translateX(calc(var(--px,0) * 10px)) scaleX(1.04);transition:transform .6s ease-out}
+
+/* The value star bounces in when it is earned. */
+.earned.pop{animation:earn 1s cubic-bezier(.3,1.6,.5,1) both}
+.earned.pop svg{animation:spin 1.2s cubic-bezier(.2,.8,.3,1)}
+@keyframes earn{0%{transform:scale(1)}30%{transform:scale(1.18);box-shadow:0 0 0 10px color-mix(in srgb,var(--tint) 25%,transparent)}100%{transform:scale(1);box-shadow:0 0 0 0 transparent}}
+@keyframes spin{from{transform:rotate(-200deg) scale(.4)}}
+
+/* ---------- Mission page ---------- */
+.words .mission p{font-family:var(--display);font-size:1.32em;line-height:1.4;color:var(--paper-ink)}
+.words .accept[aria-pressed="true"]{background:color-mix(in srgb,var(--tint) 30%,var(--paper));color:var(--paper-ink);box-shadow:none;border:1.5px dashed var(--tint)}
+.words .accept.stamp{animation:stamp .55s cubic-bezier(.3,1.7,.5,1)}
+@keyframes stamp{0%{transform:scale(1.25) rotate(-4deg)}100%{transform:none}}
+
+/* ---------- Sky of good deeds ---------- */
+.mchip{display:inline-flex;align-items:center;gap:10px;margin-top:18px;max-width:100%;padding:9px 16px 9px 10px;border-radius:999px;background:color-mix(in srgb,var(--card) 75%,transparent);border:1px solid var(--line);backdrop-filter:blur(6px);color:var(--ink);text-decoration:none;font-size:.92rem;animation:fadeIn .6s .4s both}
+.mchip svg{width:26px;height:26px;flex:none;fill:var(--gold);animation:twinkle 2.4s ease-in-out infinite}
+.mchip span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes twinkle{50%{transform:scale(.82) rotate(18deg);opacity:.7}}
+.skygrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:22px;align-items:stretch}
+.mcard{position:relative;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-content:center;padding:22px;border-radius:22px;background:var(--card);border:1px solid var(--line);box-shadow:0 24px 40px -30px rgba(0,0,0,.6)}
+.mcard .mseal svg{width:58px;height:58px;display:block}
+.mcard.empty .mseal svg,.mcard.cheer .mseal svg{fill:var(--gold);opacity:.5;width:44px;height:44px;margin:6px}
+.mcard.cheer .mseal svg{opacity:1;animation:twinkle 2.4s ease-in-out infinite}
+.mcard.cheer{animation:fadeIn .5s both}
+.mtext{font-family:var(--display);font-size:1.18rem;line-height:1.35;margin:4px 0 0;color:var(--ink)}
+.mwhen{color:var(--muted);font-size:.88rem;margin:6px 0 0}
+.mcard .hold{grid-column:1 / -1;justify-self:start;margin-top:12px;display:inline-flex;align-items:center;gap:12px;padding:6px 20px 6px 6px;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#22180a;font-weight:700;font-size:1rem;user-select:none;-webkit-user-select:none;touch-action:none;box-shadow:0 10px 26px -10px var(--gold);transition:transform .2s}
+.hold svg{width:48px;height:48px}
+.hold .track{fill:rgba(255,255,255,.35);stroke:rgba(34,24,10,.15);stroke-width:3}
+.hold .prog{fill:none;stroke:#fff8dc;stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--p,0));transform:rotate(-90deg);transform-origin:24px 24px}
+.hold polygon{fill:#7a4a08;transition:transform .2s}
+.hold.holding{transform:scale(.97)}
+.hold.holding polygon{fill:#fff8dc;animation:shiver .12s linear infinite}
+@keyframes shiver{50%{transform:translate(24.6px,23.6px) scale(1.12)}}
+.mcard .hint{grid-column:1 / -1;margin:2px 0 0;color:var(--muted);font-size:.8rem}
+.skypanel{position:relative;min-height:260px;border-radius:22px;overflow:hidden;background:radial-gradient(120% 90% at 70% 0%,#2f3684,#151b4a 60%,#0d1236);box-shadow:inset 0 0 0 1px rgba(255,236,190,.12),0 24px 40px -30px rgba(0,0,0,.7);transition:box-shadow .8s}
+.skypanel::before{content:"";position:absolute;inset:0;opacity:.7;background-image:radial-gradient(1px 1px at 12% 20%,#fff 50%,transparent),radial-gradient(1px 1px at 33% 72%,#fff 50%,transparent),radial-gradient(1.4px 1.4px at 54% 14%,#fff 50%,transparent),radial-gradient(1px 1px at 71% 48%,#fff 50%,transparent),radial-gradient(1px 1px at 88% 26%,#fff 50%,transparent),radial-gradient(1.2px 1.2px at 22% 50%,#fff 50%,transparent),radial-gradient(1px 1px at 63% 66%,#fff 50%,transparent),radial-gradient(1px 1px at 95% 60%,#fff 50%,transparent),radial-gradient(1px 1px at 5% 8%,#fff 50%,transparent),radial-gradient(1px 1px at 45% 38%,#fff 50%,transparent);animation:shimmer 6s ease-in-out infinite alternate}
+@keyframes shimmer{to{opacity:.35}}
+.skypanel.glow{box-shadow:inset 0 0 80px rgba(255,214,106,.35),0 0 0 2px rgba(255,214,106,.5),0 24px 50px -20px rgba(255,190,80,.5)}
+.skypanel .links{position:absolute;inset:0;width:100%;height:100%}
+.skypanel line{stroke:rgba(255,236,190,.4);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.skypanel line.new{animation:draw 1.4s .4s ease-out both}
+@keyframes draw{from{opacity:0}}
+.dstar{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;padding:6px;border:0;background:none;border-radius:50%;cursor:pointer;z-index:2}
+.dstar svg{width:100%;height:100%;fill:#fff1c4;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--tint) 80%,#fff)) drop-shadow(0 0 12px color-mix(in srgb,var(--tint) 60%,transparent));animation:twinkle 3.2s ease-in-out infinite}
+.dstar:nth-child(3n) svg{animation-delay:-1.1s}.dstar:nth-child(3n+1) svg{animation-delay:-2.2s}
+.dstar.ignite svg{animation:ignite 1.4s cubic-bezier(.2,1.4,.4,1) both,twinkle 3.2s 1.4s ease-in-out infinite}
+@keyframes ignite{0%{transform:scale(0) rotate(-120deg)}40%{transform:scale(2.2)}100%{transform:scale(1)}}
+.slot{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:1.5px dashed rgba(255,236,190,.45);animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.35);opacity:.4}}
+.skypanel .skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:56px}
+.skypanel .count{position:absolute;left:18px;bottom:10px;margin:0;color:#e9e3ff;font-size:.9rem;z-index:2}
+.skypanel .count b{font-family:var(--display);font-weight:400;font-size:1.5rem;color:#ffe3a3;margin-right:4px}
+.stip{position:absolute;z-index:3;max-width:240px;padding:10px 14px;border-radius:14px;background:rgba(255,250,236,.96);color:#2a2638;font-size:.85rem;box-shadow:0 14px 30px -12px rgba(0,0,0,.6);animation:fadeIn .25s both}
+.stip span{display:block;color:#6b6478;margin-top:2px}
+@media (max-width:900px){.skygrid{grid-template-columns:1fr}.skypanel{min-height:230px}}
+@media (max-width:420px){.rbar #rPlayLbl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.rbar .ibtn.wide{padding:0;width:38px;justify-content:center}}
 </style></head><body>
 
 <div id="home">
@@ -250,6 +335,7 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
         <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><mask id="bm"><rect width="40" height="40" fill="#fff"/><circle cx="25" cy="15" r="12" fill="#000"/></mask></defs><circle cx="19" cy="20" r="14" fill="var(--gold)" mask="url(#bm)"/><path d="M29 9 l1.6 3.4 3.6.4 -2.7 2.4.8 3.6-3.3-1.9-3.3 1.9.8-3.6-2.7-2.4 3.6-.4z" fill="var(--gold-2)"/></svg><div>Qissa Time<small>قصة</small></div></div>
         <div class="pills">
         <button class="pill" id="installBtn" type="button" aria-label="Add to home screen" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg><span class="lbl">Add to home screen</span></button>
+        <button class="pill" id="sndBtn" aria-pressed="true" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h1.5M7 8.5v7M11 5v14M15 8.5v7M19 11v2"/></svg><span class="lbl">Sounds</span></button>
         <button class="pill" id="bedBtn" aria-pressed="false" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg><span class="lbl">Bedtime glow</span></button>
         </div>
         <p class="install-tip" id="installTip" hidden>To keep Qissa Time on your phone, tap the Share button, then <b>Add to Home Screen</b>. It will open even without the internet.</p>
@@ -263,6 +349,7 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
             <button class="btn gold" id="ctaTonight" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></svg>Open tonight's story</button>
             <a class="btn ghost" href="#shelf">Browse the bookshelf</a>
           </div>
+          <a class="mchip" id="missionChip" href="#deeds" hidden></a>
         </div>
         <div class="tonight" id="tonight"></div>
       </div>
@@ -273,6 +360,10 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
     <section class="block" id="shelf">
       <div class="sec-head"><div><p class="eyebrow">The bookshelf</p><h2>Pick a book for tonight</h2></div><p>Each book is short enough for one bedtime, and ends with a lesson and a question to talk about together.</p></div>
       <div class="books" id="books"></div>
+    </section>
+    <section class="block" id="deeds">
+      <div class="sec-head"><div><p class="eyebrow">Kindness missions</p><h2>Your sky of good deeds</h2></div><p>Every book ends with one small thing to do tomorrow. When it is done, a new star lights up here.</p></div>
+      <div class="skygrid"><div id="missionSlot"></div><div class="skypanel" id="skyPanel"></div></div>
     </section>
     <section class="block">
       <div class="sec-head"><div><p class="eyebrow">Value stars</p><h2>Stars you have collected</h2></div><p>Finish a book to light up its star. Each star is a good habit the story teaches.</p></div>
@@ -297,6 +388,7 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
     <button class="ibtn wide" id="rPlay" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg><span id="rPlayLbl">Read to me</span></button>
     <button class="ibtn hide-sm" id="rSmaller" type="button" aria-label="Smaller text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="17" text-anchor="middle" font-size="13" font-family="Georgia" fill="currentColor">A</text></svg></button>
     <button class="ibtn" id="rBigger" type="button" aria-label="Bigger text"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="19" text-anchor="middle" font-size="20" font-family="Georgia" fill="currentColor">A</text></svg></button>
+    <button class="ibtn" id="rSnd" type="button" aria-pressed="true" aria-label="Sounds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h1.5M7 8.5v7M11 5v14M15 8.5v7M19 11v2"/></svg></button>
     <button class="ibtn" id="rBed" type="button" aria-pressed="false" aria-label="Bedtime glow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></button>
   </div>
   <div class="stage"><div class="bookview" id="bookview"></div></div>
@@ -307,10 +399,11 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   </div>
 </div>
 <div class="gloss" id="gloss" hidden role="dialog" aria-label="Word meaning"></div>
+<div id="fx" aria-hidden="true"></div>
 
 <script>
 /* ================= Stories (generated from stories/*.md by build.mjs) ================= */
-const STORIES=[{"id":"dog","title":"The man who helped a thirsty dog","date":"2026-10-16","theme":"Kindness to animals","tint":"#56c7b4","source":"Sahih al-Bukhari 2363 and Sahih Muslim 2244","sourceLong":"Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari 2363 and Sahih Muslim 2244, narrated by Abu Huraira.","value":{"name":"Kindness","icon":"paw"},"cover":"dogDrinks","pages":[{"scene":"desertWalk","text":["A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty."]},{"scene":"wellDrink","text":["He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better."]},{"scene":"thirstyDog","text":["When he came back up, he saw a dog nearby. The dog was panting and licking the wet mud. It looked so thirsty, just like he had been."]},{"scene":"shoeClimb","text":["The man thought, \"This dog is thirsty the way I was thirsty.\" So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog."]},{"scene":"dogDrinks","text":["The dog drank and drank until it was happy.","Allah was so pleased with this kind act that He forgave the man's sins."]},{"scene":"kindNight","text":["The Prophet Muhammad ﷺ told us this story so we would remember that there is a reward for kindness to every living being."]}],"lesson":"Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.","ask":"If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?","tip":"Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it."},{"id":"ant","title":"Prophet Sulayman and the little ant","date":"2026-10-17","theme":"Gentleness and gratitude","tint":"#f2b84b","source":"Quran, Surah An-Naml 27:17-19","sourceLong":"Quran, Surah An-Naml (The Ant), verses 17 to 19.","value":{"name":"Gratitude","icon":"ant"},"cover":"antCall","pages":[{"scene":"kingdom","text":["Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of birds. He could even hear a tiny ant."]},{"scene":"march","text":["One day Sulayman was marching with his whole army. They came to a valley full of ants."]},{"scene":"antCall","text":["A little ant saw the big army coming and called out to the others: \"O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!\""]},{"scene":"gratitude","text":["Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: \"My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You.\""],"dua":{"ar":"رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ","ref":"From Surah An-Naml 27:19"}},{"scene":"safeHome","text":["We can imagine the great king making sure his army stepped carefully around the little ants. And the little ant looked after her friends too."]}],"lesson":"Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.","ask":"The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?","tip":"Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah."},{"id":"gold","title":"The honest men and the jar of gold","date":"2026-10-18","theme":"Honesty","tint":"#f08f80","source":"Sahih al-Bukhari 3472, Sahih Muslim 1721","sourceLong":"Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.","value":{"name":"Honesty","icon":"jar"},"cover":"jarGlow","pages":[{"scene":"sale","text":["Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.","One man owned a piece of land, and he sold it to another man."]},{"scene":"digging","text":["The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!"]},{"scene":"jarGlow","text":["Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land."]},{"scene":"backForth","text":["\"Here, take your gold,\" he said. \"I only bought the land from you. I didn't buy any gold.\"","But the other man shook his head. \"No, no,\" he said. \"I sold you the land and everything in it. The gold belongs to you.\""]},{"scene":"wiseMan","text":["Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.","The wise man listened. Then he asked, \"Do you have any children?\"","The first man said, \"I have a son.\"\nThe second man said, \"I have a daughter.\""]},{"scene":"wedding","text":["The wise man smiled. \"Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others.\""]},{"scene":"charity","text":["And so the gold that both men were too honest to keep became a blessing for their children and for the poor."]}],"lesson":"Be honest even when nobody is watching, because Allah always sees us. When we don't take what isn't ours, Allah puts blessing (barakah) in what we have.","ask":"If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?","tip":"Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves."}];
+const STORIES=[{"id":"dog","title":"The man who helped a thirsty dog","date":"2026-10-16","theme":"Kindness to animals","tint":"#56c7b4","source":"Sahih al-Bukhari 2363 and Sahih Muslim 2244","sourceLong":"Hadith of the man who gave water to a thirsty dog, in Sahih al-Bukhari 2363 and Sahih Muslim 2244, narrated by Abu Huraira.","value":{"name":"Kindness","icon":"paw"},"cover":"dogDrinks","pages":[{"scene":"desertWalk","text":["A long time ago, a man was walking through the desert. The sun was hot, and he was very thirsty."]},{"scene":"wellDrink","text":["He found a well, climbed down carefully, and drank some cool water. Alhamdulillah, he felt better."]},{"scene":"thirstyDog","text":["When he came back up, he saw a dog nearby. The dog was panting and licking the wet mud. It looked so thirsty, just like he had been."]},{"scene":"shoeClimb","text":["The man thought, \"This dog is thirsty the way I was thirsty.\" So he climbed down the well again, filled his shoe with water, held it carefully in his mouth so he could climb, and gave the water to the dog."]},{"scene":"dogDrinks","text":["The dog drank and drank until it was happy.","Allah was so pleased with this kind act that He forgave the man's sins."]},{"scene":"kindNight","text":["The Prophet Muhammad ﷺ told us this story so we would remember that there is a reward for kindness to every living being."]}],"lesson":"Even a small act of kindness, like giving water to a thirsty animal, can mean a lot to Allah.","ask":"If you saw a thirsty bird or a hungry cat today, what is one kind thing you could do to help?","mission":"Put out a bowl of water for the birds or a thirsty cat.","tip":"Plan one small kindness together for tomorrow, like putting out a bowl of water for birds, and remind your child of the man and the dog when you do it."},{"id":"ant","title":"Prophet Sulayman and the little ant","date":"2026-10-17","theme":"Gentleness and gratitude","tint":"#f2b84b","source":"Quran, Surah An-Naml 27:17-19","sourceLong":"Quran, Surah An-Naml (The Ant), verses 17 to 19.","value":{"name":"Gratitude","icon":"ant"},"cover":"antCall","pages":[{"scene":"kingdom","text":["Prophet Sulayman (Solomon), peace be upon him, was a very special prophet. Allah gave him a huge army of people, jinn, and birds, and He taught him to understand the speech of birds. He could even hear a tiny ant."]},{"scene":"march","text":["One day Sulayman was marching with his whole army. They came to a valley full of ants."]},{"scene":"antCall","text":["A little ant saw the big army coming and called out to the others: \"O ants! Go into your homes, so that Sulayman and his soldiers don't crush you without realising it!\""]},{"scene":"gratitude","text":["Sulayman heard the tiny ant, and he smiled. He wasn't angry. He was happy and thankful. He prayed: \"My Lord, help me to be grateful for the blessings You gave me and my parents, and help me do good deeds that please You.\""],"dua":{"ar":"رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ","ref":"From Surah An-Naml 27:19"}},{"scene":"safeHome","text":["We can imagine the great king making sure his army stepped carefully around the little ants. And the little ant looked after her friends too."]}],"lesson":"Strong people are gentle with small creatures, and when Allah blesses us, we say thank you to Him.","ask":"The ant warned her friends to keep them safe. How can you look out for your brothers, sisters, or friends?","mission":"Notice three good things Allah gave you tomorrow, and say Alhamdulillah for each one.","tip":"Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah."},{"id":"gold","title":"The honest men and the jar of gold","date":"2026-10-18","theme":"Honesty","tint":"#f08f80","source":"Sahih al-Bukhari 3472, Sahih Muslim 1721","sourceLong":"Sahih al-Bukhari 3472 and Sahih Muslim 1721, narrated by Abu Huraira.","value":{"name":"Honesty","icon":"jar"},"cover":"jarGlow","pages":[{"scene":"sale","text":["Our Prophet Muhammad ﷺ once told his companions a true story about two men who lived long, long ago, before his time.","One man owned a piece of land, and he sold it to another man."]},{"scene":"digging","text":["The new owner was happy with his land, and he began to dig in it. Suddenly, his shovel hit something hard. He dug a little more and found a jar. He opened it, and it was full of shining gold!"]},{"scene":"jarGlow","text":["Now, he could have kept it all for himself. Nobody had seen him find it. But he knew Allah sees everything. So he picked up the jar and went straight to the man who sold him the land."]},{"scene":"backForth","text":["\"Here, take your gold,\" he said. \"I only bought the land from you. I didn't buy any gold.\"","But the other man shook his head. \"No, no,\" he said. \"I sold you the land and everything in it. The gold belongs to you.\""]},{"scene":"wiseMan","text":["Each man wanted the other to have the gold! Neither of them wanted to take something that might not be his. So they went to a wise man and asked him to decide.","The wise man listened. Then he asked, \"Do you have any children?\"","The first man said, \"I have a son.\"\nThe second man said, \"I have a daughter.\""]},{"scene":"wedding","text":["The wise man smiled. \"Then let your son and your daughter marry each other. Spend some of the gold on them, and give the rest in charity to help others.\""]},{"scene":"charity","text":["And so the gold that both men were too honest to keep became a blessing for their children and for the poor."]}],"lesson":"Be honest even when nobody is watching, because Allah always sees us. When we don't take what isn't ours, Allah puts blessing (barakah) in what we have.","ask":"If you found some money on the floor at school or in the park, and nobody saw you, what would you do? Why?","mission":"Tell the truth tomorrow, even about a small thing, just like the honest men.","tip":"Share a time you returned something that was not yours, even a small thing. Children remember the stories their parents tell about themselves."}];
 /* ================= Glossary of Arabic words =================
    STORIES itself is generated by build.mjs from the Markdown files in stories/. */
 const GLOSS={
@@ -328,7 +421,7 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function shade(hex,a){const n=parseInt(hex.slice(1),16),c=[n>>16,n>>8&255,n&255].map(v=>Math.round(a<0?v*(1+a):v+(255-v)*a));return'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('')}
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-let store={read:{},fs:1,bed:false};
+let store={read:{},fs:1,bed:false,sound:true,missions:{pending:null,done:[]}};
 try{Object.assign(store,JSON.parse(localStorage.getItem('qissa-time')||'{}'))}catch(e){}
 function save(){try{localStorage.setItem('qissa-time',JSON.stringify(store))}catch(e){}}
 
@@ -521,6 +614,8 @@ const S={
   body:skyR(u)+stars(50,31,150)+moon(u,350,50,14)+lanternString(18,26,7,['#f2b84b','#ef7f8f','#56c7b4'])+`<path d="M0 236 Q200 220 400 234 V300H0Z" fill="#3a2f5e"/>`+`<g transform="translate(200 280) scale(1.25)"><path d="M-74 0 V-92 Q-74 -134 0 -140 Q74 -134 74 -92 V0" fill="none" stroke="#e6c27a" stroke-width="5"/><path d="M-74 -94 Q-37 -70 0 -94 Q37 -70 74 -94" fill="none" stroke="#f3d9e6" stroke-width="3"/><path d="M-74 -92 Q-62 -40 -78 0 M74 -92 Q62 -40 78 0" stroke="#f3d9e6" stroke-width="6" fill="none" opacity=".6"/>${[-54,-27,0,27,54].map((fx,i)=>`<circle cx="${fx}" cy="${-120+Math.abs(fx)*.45}" r="4.5" fill="${['#f7b2c4','#fff2b3','#ffffff'][i%3]}"/>`).join('')}</g>`+person(176,280,1.3,as('daughter'))+person(226,280,1.35,as('son',{flip:true}))+person(84,288,1.1,as('buyer',{pose:'joy',emote:'joy'}))+person(318,288,1.1,as('seller',{pose:'heart',flip:true}))+motes(16,8,120,260)}),
  charity:u=>({label:'Gold is given in charity to help people in need as the sun rises',defs:lg(u+'sky',['#ffc98f','#ffe4bf','#eef4ea'])+rg(u+'glow','#fff3c8',.85)+rg(u+'gold','#ffd451',.7),
   body:skyR(u)+sun(u,200,200,40)+rays(200,200,9,260,'#fff3cc',.22)+`<path d="M0 210 Q100 190 200 206 T400 200 V300H0Z" fill="#c8b98a"/><path d="M0 252 Q200 238 400 252 V300H0Z" fill="#b3a576"/>`+house(48,236,.9)+jar(u,112,282,1,{gold:true,glow:true})+person(174,284,1.45,as('buyer',{pose:'give',hold:`<circle cx="29" cy="-42" r="4.5" fill="#ffd451" stroke="#c9961f"/>`}))+person(236,284,.95,{pose:'joy',robe:'#56a89a',hat:'kufi',wrap:'#ffe0b0',flip:true,emote:'love'})+person(292,284,1.4,{pose:'heart',robe:'#9a7a5a',wrap:'#e8e0d0',hat:'hood',flip:true,skin:'#a87856',staff:true})+`<path d="M318 266 q14 -12 28 0 l-4 16 h-20z" fill="#c98a4e"/><ellipse cx="332" cy="264" rx="12" ry="5" fill="#e6b77a"/>`+hearts(4,236,196,7)+sparkles(5,4,150,160,320,240)}),
+ mission:u=>({label:'The sun rising over the hills on a new day, with a new star waiting in the sky',defs:lg(u+'sky',['#3b3a80','#a8668f','#f4b48a','#ffe0a3'])+rg(u+'glow','#fff1c4',.75)+rg(u+'sg','#ffe9a8',.9),
+  body:skyR(u)+stars(22,7,80)+`<circle cx="300" cy="62" r="32" fill="url(#${u}sg)"><animate attributeName="r" values="24;38;24" dur="3s" repeatCount="indefinite"/></circle><g transform="translate(300 62)"><g>${rot(-14,14,0,0,6)}<polygon points="${starPts(17,7,5)}" fill="#fff3c4" fill-opacity=".18" stroke="#fff3c4" stroke-width="2" stroke-dasharray="4 3" stroke-linejoin="round"/></g></g>`+sun(u,130,182,30,'#ffe7a6')+cloud(84,112,1,24)+birds(230,150,4,9,'#6a4a6e',120,22)+hills(['#c98a8a','#9a6a86','#6e5683'])+flowers(16,4,250,292,['#ffd1dc','#fff3c4','#c8f0e2'])+motes(10,8,150,260,'#fff1c4')}),
  night:u=>({label:'A quiet house under the crescent moon at bedtime',defs:lg(u+'sky',['#0f1640','#252c6a','#3e3a7a'])+rg(u+'mglow','#fff2c2',.4),
   body:skyR(u)+stars(90,41,200)+moon(u,250,96,40)+cloud(110,150,1.4,20)+`<path d="M0 236 Q120 214 230 234 T400 226 V300H0Z" fill="#2a2a5c"/><path d="M0 262 Q140 246 260 262 T400 256 V300H0Z" fill="#1f1f48"/>`+(()=>{o_win='#ffd98a';const h=house(110,262,1.2,'#4b4783');o_win='#5a3b28';return h})()+`<circle cx="130" cy="232" r="14" fill="#ffd98a" opacity=".25"><animate attributeName="opacity" values=".15;.35;.15" dur="4s" repeatCount="indefinite"/></circle>`+palm(330,262,.9,'#1b1a3a','#1c2a48')+cat(214,262,.9,'#33325e')+motes(10,3,180,260)}),
  talk:u=>({label:'Two speech bubbles for talking about the story together',defs:lg(u+'sky',['#1f6f78','#2f9a94','#7fcfb8']),
@@ -536,6 +631,178 @@ const FINISH=u=>`<linearGradient id="${u}gsh" x1="0" y1="0" x2="0" y2="1"><stop 
 function scene(key,st){const u='s'+(UID++)+'_',r=(S[key]||S.night)(u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}${FINISH(u)}</defs>${paint(u,r.body)}<rect width="400" height="300" fill="url(#${u}vig)" pointer-events="none"/></svg>`}
 function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
 
+/* ================= Sound: soft nature and paper sounds made in the browser ================= */
+// No music, no instruments and no sound files: paper rustles, water drops, wind, birds and crickets,
+// all synthesised with Web Audio so they work offline. Nothing plays until the reader taps something.
+const SND={ctx:null,master:null,amb:null,kind:''};
+function actx(){
+  if(!store.sound)return null;
+  if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.connect(SND.ctx.destination);volume()}
+  if(SND.ctx.state==='suspended')SND.ctx.resume();
+  return SND.ctx;
+}
+function volume(){if(SND.master)SND.master.gain.value=store.bed?.45:.8}
+let NOISE=null;
+function noise(c){if(!NOISE){const n=c.sampleRate*2;NOISE=c.createBuffer(1,n,c.sampleRate);const d=NOISE.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}return NOISE}
+function env(g,t,a,v,d){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d)}
+function hiss(c,{type='bandpass',f0,f1,q=1,a=.01,d=.3,v=.3,t=0,out}){
+  const s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),T=c.currentTime+t;
+  s.buffer=noise(c);f.type=type;f.Q.value=q;f.frequency.setValueAtTime(f0,T);f.frequency.exponentialRampToValueAtTime(f1,T+a+d);
+  env(g,T,a,v,d);s.connect(f).connect(g).connect(out||SND.master);s.start(T,Math.random()*1.5);s.stop(T+a+d+.05);
+}
+function tone(c,{f0,f1=f0,a=.005,d=.15,v=.2,t=0,out}){
+  const o=c.createOscillator(),g=c.createGain(),T=c.currentTime+t;
+  o.frequency.setValueAtTime(f0,T);o.frequency.exponentialRampToValueAtTime(f1,T+a+d*.6);
+  env(g,T,a,v,d);o.connect(g).connect(out||SND.master);o.start(T);o.stop(T+a+d+.05);
+}
+const sfx={
+  page(){const c=actx();if(!c)return;hiss(c,{f0:900,f1:4200,q:.7,a:.05,d:.34,v:.2});hiss(c,{type:'lowpass',f0:420,f1:160,a:.004,d:.14,v:.16,t:.3})},
+  drop(p=1){const c=actx();if(!c)return;const f=(480+Math.random()*260)*p;tone(c,{f0:f,f1:f*2.6,d:.13,v:.2})},
+  glitter(n=8){const c=actx();if(!c)return;for(let i=0;i<n;i++){const f=2400+Math.random()*2600;tone(c,{f0:f,f1:f*1.25,d:.07+Math.random()*.12,v:.045,t:i*.055+Math.random()*.03})}},
+  whoosh(){const c=actx();if(!c)return;hiss(c,{f0:260,f1:2600,q:1.4,a:.3,d:.5,v:.18})},
+  tap(){const c=actx();if(!c)return;tone(c,{f0:1300,f1:900,d:.05,v:.05})}
+};
+
+/* Ambience: each scene has a soundscape that fades in under the story. */
+const AMB={desertWalk:'wind',wellDrink:'water',thirstyDog:'wind',shoeClimb:'water',dogDrinks:'water',kindNight:'night',kingdom:'birds',march:'birds',antCall:'birds',gratitde:'birds',safeHome:'birds',sale:'birds',digging:'birds',jarGlow:'night',backForth:'birds',wiseMan:'birds',wedding:'birds',charity:'birds',lesson:'wind',talk:'birds',mission:'birds',night:'night'};
+const AMB_EVENTS={
+  birds(c,out){const n=2+Math.floor(Math.random()*3),f=2600+Math.random()*1600,up=Math.random()>.5;for(let k=0;k<n;k++)tone(c,{f0:f,f1:f*(up?1.45:.7),d:.07,v:.035,t:k*.12,out});return 1400+Math.random()*3600},
+  night(c,out){for(let r=0;r<2;r++)for(let k=0;k<3;k++)tone(c,{f0:4700,f1:4550,a:.004,d:.022,v:.018,t:r*.36+k*.05,out});return 900+Math.random()*900},
+  water(c,out){const f=380+Math.random()*420;tone(c,{f0:f,f1:f*2.4,d:.12,v:.06,out});return 700+Math.random()*2200},
+  wind(){return 4000}
+};
+function ambience(kind){
+  if(!kind||kind===SND.kind&&SND.amb)return;
+  stopAmbience();const c=actx();if(!c)return;
+  const out=c.createGain(),s=c.createBufferSource(),f=c.createBiquadFilter(),lfo=c.createOscillator(),lg=c.createGain(),wg=c.createGain();
+  out.gain.value=.0001;out.connect(SND.master);out.gain.setTargetAtTime(R.playing?.4:1,c.currentTime,.6);
+  s.buffer=noise(c);s.loop=true;f.type='lowpass';f.frequency.value=380;lfo.frequency.value=.07;lg.gain.value=230;lfo.connect(lg).connect(f.frequency);
+  wg.gain.value={wind:.15,night:.03,water:.045,birds:.04}[kind];s.connect(f).connect(wg).connect(out);s.start();lfo.start();
+  const me={out,nodes:[s,lfo],timer:0};SND.amb=me;SND.kind=kind;
+  (function next(){if(SND.amb!==me)return;me.timer=setTimeout(next,AMB_EVENTS[kind](c,out))})();
+}
+function stopAmbience(){
+  const a=SND.amb;SND.amb=null;SND.kind='';if(!a)return;clearTimeout(a.timer);
+  const c=SND.ctx;a.out.gain.cancelScheduledValues(c.currentTime);a.out.gain.setTargetAtTime(.0001,c.currentTime,.35);
+  setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}});a.out.disconnect()},1600);
+}
+// Keep the soundscape quieter while the book is reading aloud.
+function duck(on){if(SND.amb&&SND.ctx)SND.amb.out.gain.setTargetAtTime(on?.4:1,SND.ctx.currentTime,.4)}
+document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else if(store.sound)SND.ctx.resume()});
+
+/* ================= Sparkles ================= */
+// A burst of little lights at a point on the screen: the "magic touch" on pictures, and every celebration.
+function burst(x,y,{n=12,spread=70,big=false}={}){
+  if(reduced)return;const layer=$('#fx');
+  for(let i=0;i<n;i++){
+    const m=document.createElement('i'),a=Math.random()*6.283,d=spread*(.35+Math.random()*.65);
+    m.className='mote'+(i%3?'':' star')+(big?' big':'');
+    m.style.cssText=`left:${x}px;top:${y}px;--dx:${(Math.cos(a)*d).toFixed(1)}px;--dy:${(Math.sin(a)*d-spread*.3).toFixed(1)}px;--s:${(.5+Math.random()*.9).toFixed(2)};--t:${(700+Math.random()*600)|0}ms`;
+    layer.append(m);setTimeout(()=>m.remove(),1400);
+  }
+}
+const centre=el=>{const r=el.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+
+/* ================= Opening a book ================= */
+// The cover lifts off the shelf and grows into the open book.
+function zoomFrom(src){
+  const dst=$('#bookview .leaf .art');if(reduced||!src||!dst)return;
+  const a=src.getBoundingClientRect(),b=dst.getBoundingClientRect();if(!a.width||!b.width)return;
+  const fly=document.createElement('div');fly.className='fly';fly.innerHTML=dst.innerHTML;
+  fly.style.cssText=`left:${b.left}px;top:${b.top}px;width:${b.width}px;height:${b.height}px`;
+  document.body.append(fly);dst.style.visibility='hidden';$('#reader').classList.add('opening');
+  fly.animate([{transform:`translate(${a.left-b.left}px,${a.top-b.top}px) scale(${a.width/b.width},${a.height/b.height})`,borderRadius:'18px',boxShadow:'0 20px 40px -20px rgba(0,0,0,.5)'},{transform:'none',borderRadius:'20px',boxShadow:'0 40px 80px -30px rgba(0,0,0,.7)'}],{duration:700,easing:'cubic-bezier(.2,.85,.25,1)'})
+    .onfinish=()=>{dst.style.visibility='';fly.remove();$('#reader').classList.remove('opening')};
+}
+
+/* ================= Living cards and hero ================= */
+// Cards tilt towards the pointer with a soft glint; the hero's lanterns and dunes shift with depth.
+if(!reduced&&matchMedia('(hover:hover) and (pointer:fine)').matches){
+  document.addEventListener('pointermove',e=>{
+    const card=e.target.closest('.book,.tonight');
+    document.querySelectorAll('.tilting').forEach(c=>{if(c!==card){c.classList.remove('tilting');c.style.removeProperty('transform')}});
+    if(card){const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;card.classList.add('tilting');card.style.transform=`perspective(900px) rotateX(${((.5-y)*8).toFixed(2)}deg) rotateY(${((x-.5)*10).toFixed(2)}deg) translateY(-6px)`;card.style.setProperty('--gx',(x*100).toFixed(1)+'%');card.style.setProperty('--gy',(y*100).toFixed(1)+'%')}
+    const h=$('.hero');if(h&&!document.body.classList.contains('reading')){h.style.setProperty('--px',(e.clientX/innerWidth-.5).toFixed(3));h.style.setProperty('--py',(e.clientY/innerHeight-.5).toFixed(3))}
+  });
+}
+/* ================= Kindness missions and the sky of good deeds ================= */
+// Each book ends with one small thing to do tomorrow. When it is done, a grown-up holds the button
+// and a new star flies up into the family's sky. Everything stays on this device.
+const M=()=>store.missions;
+const dayDiff=t=>{const a=new Date(t),b=new Date();a.setHours(0,0,0,0);b.setHours(0,0,0,0);return Math.round((b-a)/864e5)};
+const fmtDay=t=>new Date(t).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
+// Star i sits on a golden-ratio scatter, so the sky fills evenly however many stars there are.
+function starPos(i){const r=rng(i*97+13);return{x:7+((i*.618034+.11)%1)*86,y:14+r()*50}}
+
+function acceptMission(id,btn){
+  M().pending={id,at:Date.now()};save();
+  btn.setAttribute('aria-pressed','true');btn.textContent='Mission accepted ✓';btn.classList.remove('stamp');void btn.offsetWidth;btn.classList.add('stamp');
+  const [x,y]=centre(btn);burst(x,y,{n:16,spread:90});sfx.glitter(10);buzz(12);
+}
+
+function missionCard(){
+  const p=M().pending,st=p&&STORIES.find(s=>s.id===p.id);
+  if(!st)return `<div class="mcard empty"><span class="mseal">${starSvg()}</span><div><p class="eyebrow">No mission yet</p><p class="mtext">Finish a book to get a kindness mission for tomorrow.</p></div></div>`;
+  const d=dayDiff(p.at),when=d===0?'Accepted today. Do it tomorrow, then come back here.':`Accepted ${d===1?'yesterday':d+' days ago'}. Did you do it?`;
+  return `<div class="mcard" style="--tint:${st.tint}"><span class="mseal">${badgeSvg(st.value.icon)}</span><div class="mbody"><p class="eyebrow">Mission from “${esc(st.title)}”</p><p class="mtext">${esc(st.mission)}</p><p class="mwhen">${when}</p></div><button class="hold" type="button" id="holdBtn" aria-describedby="holdHint"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" class="track"/><circle cx="24" cy="24" r="21" class="prog" pathLength="1"/><polygon points="${starPts(11,4.6,5)}" transform="translate(24 24)"/></svg><span>We did it!</span></button><p class="hint" id="holdHint">A grown-up holds the star to light it.</p></div>`;
+}
+function starSvg(){return `<svg viewBox="-12 -12 24 24" aria-hidden="true"><polygon points="${starPts(11,4.6,5)}"/></svg>`}
+
+function renderSky(){
+  const done=M().done,n=done.length;
+  let lines='';
+  for(let i=1;i<n;i++){const a=starPos(i-1),b=starPos(i);if(Math.hypot(a.x-b.x,(a.y-b.y)*.5)<34)lines+=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" ${i===n-1?'class="new"':''}/>`}
+  const stars=done.map((m,i)=>{const st=STORIES.find(s=>s.id===m.id),p=starPos(i);return `<button type="button" class="dstar" data-star="${i}" style="left:${p.x}%;top:${p.y}%;--tint:${st?st.tint:'#f2b84b'}" aria-label="${esc((st?st.value.name:'Good deed')+', '+fmtDay(m.at))}">${starSvg()}</button>`}).join('');
+  const nx=starPos(n);
+  $('#skyPanel').innerHTML=`<svg class="links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${stars}<span class="slot" style="left:${nx.x}%;top:${nx.y}%" aria-hidden="true"></span><svg class="skyline" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 Q70 14 150 30 T300 26 T400 22 V60H0Z" fill="#232a63"/><path d="M0 46 Q120 30 230 44 T400 40 V60H0Z" fill="#161c48"/></svg><p class="count">${n?`<b>${n}</b> good deed${n>1?'s':''} so far`:'Your first star is waiting'}</p><div class="stip" id="skyTip" hidden></div>`;
+  $('#missionSlot').innerHTML=missionCard();
+  const p=M().pending,st=p&&STORIES.find(s=>s.id===p.id);
+  $('#missionChip').hidden=!st;
+  if(st)$('#missionChip').innerHTML=`${starSvg()}<span><b>Your mission:</b> ${esc(st.mission)}</span>`;
+  wireHold();
+}
+
+/* Hold to confirm: a ring fills while a grown-up keeps a finger on the star. Keyboard users press it once. */
+function wireHold(){
+  const b=$('#holdBtn');if(!b)return;let t0=0,raf=0;
+  const set=v=>b.style.setProperty('--p',v);
+  const tick=()=>{const v=Math.min(1,(performance.now()-t0)/1100);set(v);if(v>=1){stop();completeMission(b)}else raf=requestAnimationFrame(tick)};
+  const stop=()=>{cancelAnimationFrame(raf);t0=0;b.classList.remove('holding')};
+  b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture&&b.setPointerCapture(e.pointerId);t0=performance.now();b.classList.add('holding');sfx.tap();tick()};
+  b.onpointerup=b.onpointercancel=()=>{if(t0){stop();set(0)}};
+  b.oncontextmenu=e=>e.preventDefault();
+  b.onclick=e=>{if(e.detail===0)completeMission(b)};
+}
+
+function completeMission(btn){
+  const p=M().pending;if(!p)return;
+  M().done.push({id:p.id,at:Date.now()});M().pending=null;save();
+  const i=M().done.length-1,panel=$('#skyPanel'),pos=starPos(i),pr=panel.getBoundingClientRect();
+  const [x0,y0]=centre(btn),x1=pr.left+pr.width*pos.x/100,y1=pr.top+pr.height*pos.y/100;
+  const land=()=>{renderSky();const s=panel.querySelector(`[data-star="${i}"]`);if(s){s.classList.add('ignite');const [x,y]=centre(s);burst(x,y,{n:22,spread:110,big:true})}panel.classList.add('glow');setTimeout(()=>panel.classList.remove('glow'),1600);sfx.glitter(14);buzz([10,40,14]);cheer()};
+  burst(x0,y0,{n:14,spread:70});
+  if(reduced){land();return}
+  sfx.whoosh();
+  const f=document.createElement('i');f.className='flystar';f.innerHTML=starSvg();$('#fx').append(f);
+  const mx=(x0+x1)/2+(x1>x0?-80:80),my=Math.min(y0,y1)-140,frames=[];
+  for(let k=0;k<=24;k++){const t=k/24,x=(1-t)*(1-t)*x0+2*(1-t)*t*mx+t*t*x1,y=(1-t)*(1-t)*y0+2*(1-t)*t*my+t*t*y1;frames.push({transform:`translate(${x}px,${y}px) translate(-50%,-50%) scale(${1.6-t*.8}) rotate(${t*300}deg)`})}
+  let trail=setInterval(()=>{const r=f.getBoundingClientRect();if(r.width)burst(r.left+r.width/2,r.top+r.height/2,{n:2,spread:18})},50);
+  f.animate(frames,{duration:1000,easing:'cubic-bezier(.45,.05,.35,1)'}).onfinish=()=>{clearInterval(trail);f.remove();land()};
+}
+function cheer(){
+  const slot=$('#missionSlot');slot.innerHTML=`<div class="mcard cheer"><span class="mseal">${starSvg()}</span><div><p class="eyebrow">MashaAllah!</p><p class="mtext">A new star is shining in your sky. Read another book for your next mission.</p></div></div>`;
+}
+
+document.addEventListener('click',e=>{
+  const s=e.target.closest('.dstar'),tip=$('#skyTip');
+  if(!s){if(tip&&!e.target.closest('#skyTip'))tip.hidden=true;return}
+  const m=M().done[+s.dataset.star],st=STORIES.find(x=>x.id===m.id);
+  tip.innerHTML=`<b>${esc(st?st.value.name:'A good deed')}</b> · ${fmtDay(m.at)}${st&&st.mission?`<span>${esc(st.mission)}</span>`:''}`;
+  tip.hidden=false;const pr=$('#skyPanel').getBoundingClientRect(),[x,y]=centre(s);
+  tip.style.left=Math.min(Math.max(8,x-pr.left-tip.offsetWidth/2),pr.width-tip.offsetWidth-8)+'px';tip.style.top=(y-pr.top+18)+'px';
+  sfx.drop(1.6);burst(x,y,{n:8,spread:40});
+});
 /* ================= Text with read-along spans ================= */
 function richText(paras,used){
   let speech='',html='';
@@ -574,6 +841,7 @@ function renderHome(){
   $('#ctaTonight').dataset.open=tonight.id;
   $('#books').innerHTML=STORIES.map(bookCard).join('');
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
+  renderSky();
   freeze($('#home'));
 }
 function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<5?'Assalamu alaikum. It is almost time for bed.':h<12?'Assalamu alaikum. Good morning, little reader.':'Assalamu alaikum, little reader.'}
@@ -581,7 +849,7 @@ $('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4
 
 /* ================= Reader ================= */
 const R={st:null,i:0,pages:[],busy:false,playing:false,utt:null,timer:0};
-function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},{t:'night'}]}
+function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},...(st.mission?[{t:'mission'}]:[]),{t:'night'}]}
 function makeLeaf(n){
   const st=R.st,p=R.pages[n],used=new Set();
   const leaf=document.createElement('article');leaf.className='leaf';leaf.style.setProperty('--tint',st.tint);
@@ -602,35 +870,43 @@ function makeLeaf(n){
     art=scene('talk',st);rt=richText([st.ask],used);
     words=`${orn}<p class="eyebrow">Talk time</p>${rt.html}<p class="note"><b>Tip for parents:</b> ${esc(st.tip)}</p>`;
     rt.speech='Talk time. '+rt.speech;
+  }else if(p.t==='mission'){
+    art=scene('mission',st);rt=richText([st.mission],used);
+    const on=M().pending&&M().pending.id===st.id;
+    words=`${orn}<p class="eyebrow">Tomorrow's kindness mission</p><div class="mission">${rt.html}</div><p class="note">Do it tomorrow, then open the bookshelf. A grown-up holds the star there to light it in your sky of good deeds.</p><div class="row"><button class="btn gold accept" type="button" data-act="accept" aria-pressed="${!!on}">${on?'Mission accepted ✓':'We accept the mission'}</button></div>`;
+    rt.speech="Tomorrow's kindness mission. "+rt.speech;
   }else{
     art=scene('night',st);
     words=`${orn}<p class="eyebrow">Before you sleep</p><p class="ar">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</p><p><i>Bismika Allahumma amutu wa ahya.</i></p><p>In Your name, O Allah, I die and I live.</p><p class="note">The Prophet ﷺ said this when he lay down to sleep. (Sahih al-Bukhari 6324)</p><div class="row"><button class="btn gold" type="button" data-act="shelf">Back to the bookshelf</button><button class="btn ghost" type="button" data-act="again" style="color:var(--paper-ink)">Read again</button></div>`;
     rt.speech='Before you sleep, say: Bismika Allahumma amutu wa ahya. In your name, O Allah, I die and I live. Good night.';
   }
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
-  leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
+  leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
   freeze(leaf);
-  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save()}
+  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save();leaf._earned=true}
   return leaf;
 }
-function openStory(id){
+function openStory(id,from){
   R.st=STORIES.find(s=>s.id===id);if(!R.st)return;
   R.pages=buildPages(R.st);R.i=0;R.busy=false;
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
   $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
-  chrome();$('#rNext').focus();
+  chrome();$('#rNext').focus();zoomFrom(from);sfx.page();ambience(AMB[lf._scene]||'wind');
 }
-function closeReader(){stopSpeech();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
+function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
 function goTo(n){
   if(n<0||n>=R.pages.length||n===R.i||R.busy)return;
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
   const d=n>R.i?1:-1,bv=$('#bookview'),old=bv.querySelector('.leaf'),nw=makeLeaf(n);
   R.busy=true;R.i=n;
   nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);fit(nw);chrome();
+  sfx.page();ambience(AMB[nw._scene]||'wind');if(nw._earned)setTimeout(()=>celebrate(nw),reduced?50:900);
   setTimeout(()=>{old.remove();nw.className='leaf';R.busy=false;if(keepPlaying){R.playing=true;speak()}},reduced?20:760);
 }
+// The value star pops with a shower of sparkles the first time a child reaches the lesson.
+function celebrate(leaf){const e=leaf.querySelector('.earned');if(!e||!leaf.isConnected)return;e.classList.add('pop');const [x,y]=centre(e.querySelector('svg')||e);burst(x,y,{n:24,spread:120,big:true});sfx.glitter(14);buzz([10,40,14])}
 // Shrink a page's words a little (never below 80%) until they fit without scrolling.
 function fit(leaf){
   const w=leaf&&leaf.querySelector('.words');if(!w)return;
@@ -651,13 +927,13 @@ if(synth){pickVoice();synth.onvoiceschanged=pickVoice}else{$('#rPlay').hidden=tr
 function clearHl(){document.querySelectorAll('.w.on').forEach(e=>e.classList.remove('on'))}
 function speak(){
   const leaf=$('#bookview .leaf:last-child');if(!synth||!leaf)return;
-  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;
+  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;duck(true);
   if(voice)u.voice=voice;u.rate=store.bed?.8:.9;u.pitch=1.05;
   u.onboundary=e=>{if(u!==R.utt||(e.name&&e.name!=='word'))return;let hit=null;for(const t of leaf._tokens){if(t.s<=e.charIndex)hit=t;else break}clearHl();if(hit){hit.el.classList.add('on');const w=leaf.querySelector('.words'),r=hit.el.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.bottom>wr.bottom-20||r.top<wr.top)hit.el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'})}};
-  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI()}};
+  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI();duck(false)}};
   synth.speak(u);
 }
-function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep){R.playing=false;playUI()}}
+function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep)duck(false);if(!keep){R.playing=false;playUI()}}
 function playUI(){$('#rPlay').setAttribute('aria-pressed',R.playing);$('#rPlayLbl').textContent=R.playing?'Pause':'Read to me'}
 $('#rPlay').onclick=()=>{if(R.playing){stopSpeech()}else{R.playing=true;playUI();speak()}};
 
@@ -678,20 +954,24 @@ if(!synth)document.documentElement.classList.add('nosynth');
 document.addEventListener('click',e=>{
   const g=e.target.closest('.g');if(g){showGloss(g);return}
   if(!e.target.closest('#gloss'))hideGloss();
-  const o=e.target.closest('[data-open]');if(o){openStory(o.dataset.open);return}
-  const a=e.target.closest('[data-act]');if(a){if(a.dataset.act==='shelf')closeReader();else goTo(0);return}
+  const o=e.target.closest('[data-open]');if(o){openStory(o.dataset.open,o.querySelector('.cover-art,.art')||(o.closest('.hero')&&$('#tonight .art')));return}
+  const a=e.target.closest('[data-act]');if(a){const k=a.dataset.act;if(k==='shelf')closeReader();else if(k==='accept')acceptMission(R.st.id,a);else goTo(0);return}
   const k=e.target.closest('#rDots [data-k]');if(k)goTo(+k.dataset.k);
 });
 $('#rPrev').onclick=()=>goTo(R.i-1);$('#rNext').onclick=()=>goTo(R.i+1);$('#rClose').onclick=closeReader;
 document.addEventListener('keydown',e=>{if($('#reader').hidden)return;if(e.key==='ArrowRight')goTo(R.i+1);else if(e.key==='ArrowLeft')goTo(R.i-1);else if(e.key==='Escape'){if(!$('#gloss').hidden)hideGloss();else closeReader()}});
 let sx=0,sy=0,st0=0;
 $('#bookview').addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st0=Date.now()});
-$('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1))});
+$('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1));
+  // Magic touch: tapping a picture scatters little lights with a water-drop sound.
+  else if(Math.hypot(dx,dy)<10&&e.target.closest('.leaf .art')){burst(e.clientX,e.clientY,{n:10,spread:60});sfx.drop()}});
 function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs);if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))}
 $('#rBigger').onclick=()=>{store.fs=Math.min(1.4,+(store.fs+.12).toFixed(2));applyFs();save()};
 $('#rSmaller').onclick=()=>{store.fs=Math.max(.85,+(store.fs-.12).toFixed(2));applyFs();save()};
-function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
+function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);volume();$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
 $('#bedBtn').onclick=$('#rBed').onclick=()=>{store.bed=!store.bed;applyBed();save()};
+function applySound(){$('#sndBtn').setAttribute('aria-pressed',!!store.sound);$('#rSnd').setAttribute('aria-pressed',!!store.sound)}
+$('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();applySound();if(!store.sound)stopAmbience();else{sfx.drop();if(!$('#reader').hidden)ambience(AMB[$('#bookview .leaf:last-child')._scene]||'wind')}};
 
 /* ================= Hero sky ================= */
 (function sky(){
@@ -727,7 +1007,7 @@ $('#installBtn').onclick=()=>{
   else $('#installTip').hidden=!$('#installTip').hidden;
 };
 
-greet();applyFs();applyBed();renderHome();
+greet();applyFs();applyBed();applySound();renderHome();
 if(location.hash&&STORIES.some(s=>s.id===location.hash.slice(1)))openStory(location.hash.slice(1));
 </script>
 </body></html>
