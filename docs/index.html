@@ -139,7 +139,7 @@ footer .ar{font-family:var(--arabic);font-size:1.4rem;color:var(--gold);display:
 .leaf .art{position:relative;overflow:hidden;min-height:0;background:#0d1230}
 .leaf .art svg{position:absolute;inset:0;width:100%;height:100%;display:block;animation:kenburns 26s ease-in-out infinite alternate;transform-origin:50% 60%}
 @keyframes kenburns{to{transform:scale(1.04)}}
-.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:safe center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1));line-height:1.7}
+.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:safe center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1) * var(--fit,1));line-height:1.7}
 .words .orn{position:absolute;width:64px;height:64px;color:var(--gold);opacity:.55;pointer-events:none}
 .words .orn.tl{top:12px;left:12px}.words .orn.br{bottom:12px;right:12px;transform:rotate(180deg)}
 :root{--fs-base:clamp(18px,1vw + 11px,23px)}
@@ -203,6 +203,23 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   .leaf::after{display:none}
   .leaf .words{justify-content:flex-start;padding:22px 22px 28px}
   .words .orn{display:none}
+}
+/* Phones: smaller text, tighter spacing and slimmer bars so a page fits on screen without scrolling. */
+@media (max-width:600px){
+  :root{--fs-base:clamp(15.5px,3.2vw + 4px,17.5px)}
+  .reader{padding-inline:max(10px, env(safe-area-inset-left, 0px))}
+  .rbar{padding-block:6px;gap:6px}
+  .rbar .ibtn{width:38px;height:38px}
+  .rbar .ibtn.wide{width:auto;padding:0 12px}
+  .leaf{border-radius:16px}
+  .leaf .words{padding:14px 18px 16px;gap:10px;line-height:1.55}
+  .words h2{font-size:1.55rem}
+  .words .ar{font-size:1.4em;line-height:1.75}
+  .first p:first-of-type::first-letter{font-size:2.7em;padding:4px 8px 0 0}
+  .words .hint{display:none}
+  .words .row .btn{padding:9px 15px;font-size:.85em}
+  .rnav{padding-block:6px 8px}
+  .navbtn{width:44px;height:44px}
 }
 @media (max-width:760px){
   .words .orn{display:none}
@@ -602,7 +619,7 @@ function openStory(id){
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
-  $('#reader').hidden=false;document.body.classList.add('reading');
+  $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
   chrome();$('#rNext').focus();
 }
 function closeReader(){stopSpeech();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
@@ -611,9 +628,16 @@ function goTo(n){
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
   const d=n>R.i?1:-1,bv=$('#bookview'),old=bv.querySelector('.leaf'),nw=makeLeaf(n);
   R.busy=true;R.i=n;
-  nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);chrome();
+  nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);fit(nw);chrome();
   setTimeout(()=>{old.remove();nw.className='leaf';R.busy=false;if(keepPlaying){R.playing=true;speak()}},reduced?20:760);
 }
+// Shrink a page's words a little (never below 80%) until they fit without scrolling.
+function fit(leaf){
+  const w=leaf&&leaf.querySelector('.words');if(!w)return;
+  let f=1;w.style.setProperty('--fit',f);
+  while(w.scrollHeight>w.clientHeight+1&&f>.8){f=+(f-.04).toFixed(2);w.style.setProperty('--fit',f)}
+}
+addEventListener('resize',()=>{if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))});
 function chrome(){
   [...$('#rDots').children].forEach((b,k)=>{b.classList.toggle('on',k===R.i);b.setAttribute('aria-current',k===R.i?'page':'false')});
   $('#rCount').textContent=`${R.i+1} / ${R.pages.length}`;
@@ -663,7 +687,7 @@ document.addEventListener('keydown',e=>{if($('#reader').hidden)return;if(e.key==
 let sx=0,sy=0,st0=0;
 $('#bookview').addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st0=Date.now()});
 $('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1))});
-function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs)}
+function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs);if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))}
 $('#rBigger').onclick=()=>{store.fs=Math.min(1.4,+(store.fs+.12).toFixed(2));applyFs();save()};
 $('#rSmaller').onclick=()=>{store.fs=Math.max(.85,+(store.fs-.12).toFixed(2));applyFs();save()};
 function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}
