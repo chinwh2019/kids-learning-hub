@@ -81,7 +81,7 @@ function openStory(id){
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
-  $('#reader').hidden=false;document.body.classList.add('reading');
+  $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
   chrome();$('#rNext').focus();
 }
 function closeReader(){stopSpeech();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
@@ -90,9 +90,16 @@ function goTo(n){
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
   const d=n>R.i?1:-1,bv=$('#bookview'),old=bv.querySelector('.leaf'),nw=makeLeaf(n);
   R.busy=true;R.i=n;
-  nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);chrome();
+  nw.classList.add(d>0?'in-next':'in-prev');old.classList.add(d>0?'out-next':'out-prev');bv.append(nw);fit(nw);chrome();
   setTimeout(()=>{old.remove();nw.className='leaf';R.busy=false;if(keepPlaying){R.playing=true;speak()}},reduced?20:760);
 }
+// Shrink a page's words a little (never below 80%) until they fit without scrolling.
+function fit(leaf){
+  const w=leaf&&leaf.querySelector('.words');if(!w)return;
+  let f=1;w.style.setProperty('--fit',f);
+  while(w.scrollHeight>w.clientHeight+1&&f>.8){f=+(f-.04).toFixed(2);w.style.setProperty('--fit',f)}
+}
+addEventListener('resize',()=>{if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))});
 function chrome(){
   [...$('#rDots').children].forEach((b,k)=>{b.classList.toggle('on',k===R.i);b.setAttribute('aria-current',k===R.i?'page':'false')});
   $('#rCount').textContent=`${R.i+1} / ${R.pages.length}`;
@@ -142,7 +149,7 @@ document.addEventListener('keydown',e=>{if($('#reader').hidden)return;if(e.key==
 let sx=0,sy=0,st0=0;
 $('#bookview').addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st0=Date.now()});
 $('#bookview').addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.4&&Date.now()-st0<800)goTo(R.i+(dx<0?1:-1))});
-function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs)}
+function applyFs(){document.documentElement.style.setProperty('--fs-mult',store.fs);if(!$('#reader').hidden)fit($('#bookview .leaf:last-child'))}
 $('#rBigger').onclick=()=>{store.fs=Math.min(1.4,+(store.fs+.12).toFixed(2));applyFs();save()};
 $('#rSmaller').onclick=()=>{store.fs=Math.max(.85,+(store.fs-.12).toFixed(2));applyFs();save()};
 function applyBed(){document.body.classList.toggle('bedtime',!!store.bed);$('#bedBtn').setAttribute('aria-pressed',!!store.bed);$('#rBed').setAttribute('aria-pressed',!!store.bed)}

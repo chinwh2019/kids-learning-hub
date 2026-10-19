@@ -125,7 +125,7 @@ footer .ar{font-family:var(--arabic);font-size:1.4rem;color:var(--gold);display:
 .leaf .art{position:relative;overflow:hidden;min-height:0;background:#0d1230}
 .leaf .art svg{position:absolute;inset:0;width:100%;height:100%;display:block;animation:kenburns 26s ease-in-out infinite alternate;transform-origin:50% 60%}
 @keyframes kenburns{to{transform:scale(1.04)}}
-.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:safe center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1));line-height:1.7}
+.leaf .words{position:relative;min-height:0;overflow:auto;padding:clamp(22px,4.2vw,56px);display:flex;flex-direction:column;justify-content:safe center;gap:18px;background:radial-gradient(140% 100% at 100% 0%,var(--paper),var(--paper-2));font-size:calc(var(--fs-base) * var(--fs-mult,1) * var(--fit,1));line-height:1.7}
 .words .orn{position:absolute;width:64px;height:64px;color:var(--gold);opacity:.55;pointer-events:none}
 .words .orn.tl{top:12px;left:12px}.words .orn.br{bottom:12px;right:12px;transform:rotate(180deg)}
 :root{--fs-base:clamp(18px,1vw + 11px,23px)}
@@ -189,6 +189,23 @@ body.bedtime .leaf .art svg, body.bedtime .tonight svg, body.bedtime .book svg{f
   .leaf::after{display:none}
   .leaf .words{justify-content:flex-start;padding:22px 22px 28px}
   .words .orn{display:none}
+}
+/* Phones: smaller text, tighter spacing and slimmer bars so a page fits on screen without scrolling. */
+@media (max-width:600px){
+  :root{--fs-base:clamp(15.5px,3.2vw + 4px,17.5px)}
+  .reader{padding-inline:max(10px, env(safe-area-inset-left, 0px))}
+  .rbar{padding-block:6px;gap:6px}
+  .rbar .ibtn{width:38px;height:38px}
+  .rbar .ibtn.wide{width:auto;padding:0 12px}
+  .leaf{border-radius:16px}
+  .leaf .words{padding:14px 18px 16px;gap:10px;line-height:1.55}
+  .words h2{font-size:1.55rem}
+  .words .ar{font-size:1.4em;line-height:1.75}
+  .first p:first-of-type::first-letter{font-size:2.7em;padding:4px 8px 0 0}
+  .words .hint{display:none}
+  .words .row .btn{padding:9px 15px;font-size:.85em}
+  .rnav{padding-block:6px 8px}
+  .navbtn{width:44px;height:44px}
 }
 @media (max-width:760px){
   .words .orn{display:none}
