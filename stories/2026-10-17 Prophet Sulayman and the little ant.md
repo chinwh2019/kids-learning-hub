@@ -9,7 +9,7 @@ tint: "#f2b84b"
 cover: antCall
 source_note: Quran, Surah An-Naml (The Ant), verses 17 to 19.
 dua: رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ
-dua_ref: Surah An-Naml 27:19
+dua_ref: From Surah An-Naml 27:19
 tip: Before lights out, take turns naming three blessings from today and say Alhamdulillah after each one, the way Sulayman thanked Allah.
 ---
 # Prophet Sulayman and the little ant 🐜
