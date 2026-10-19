@@ -22,3 +22,13 @@ All three stories are warm, short and easy for children aged about 4 to 8 to fol
 - Story 3 uses `## Lesson` headings, while stories 1 and 2 use `**Lesson:**`. Pick one style so the files stay consistent.
 - Two titles have emoji and one does not.
 - Optional extra frontmatter fields would make new stories easier to add to the app: `value` (e.g. Kindness), `age`, and a `tip` for parents.
+
+## Verification (2026-10-19)
+Checked against quran.com and sunnah.com.
+
+**Ant story dua (27:19): correct (label now "From Surah An-Naml 27:19").** All 14 Arabic words and their vowels match the Quran. The app uses modern spelling, not Mushaf (Uthmani) spelling, which is fine. Range 27:17-19 is right (27:20 starts the hoopoe). The verse actually begins with "So he smiled, amused at her speech, and said", so label it "From Surah An-Naml 27:19", not "the first part". Omitted ending: وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ, "And admit me by Your mercy into [the ranks of] Your righteous servants." The bedtime dua (Bukhari 6324) and the glossary Arabic are also correct.
+
+**Dog story (fixed: source numbers, "wet mud", reward line): cite "Sahih al-Bukhari 2363 and Sahih Muslim 2244 (narrated by Abu Huraira)".** Bukhari 173, 2466 and 6009 tell the same story. It is not mixed up with the similar hadith about the woman who watered a dog (Bukhari 3467, Muslim 2245). Suggested text changes:
+- "licking the dry earth" should be "licking the wet mud". The hadith word الثَّرَى means moist earth.
+- Last line: "kindness that Allah loves" goes beyond the hadith. A closer version is "so we would remember that there is a reward for kindness to every living being" (فِي كُلِّ كَبِدٍ رَطْبَةٍ أَجْرٌ).
+- Harmless additions that are not in the hadith: desert, hot sun, cool water, "Alhamdulillah, he felt better", "until it was happy".
