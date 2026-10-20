@@ -2,14 +2,18 @@
 function richText(paras,used){
   let speech='',html='';
   for(const para of paras){
-    let ph='',inQ=false;
+    let ph='',inQ=false,inB=false;
     para.split('\n').forEach((line,li)=>{
       if(li)ph+='<br>';
-      line.split(/\s+/).filter(Boolean).forEach(w=>{
+      line.split(/\s+/).filter(Boolean).forEach(raw=>{
+        /* **bold** in the Markdown, such as a du'a to learn by heart, is shown strong and read without the stars. */
+        const opensB=raw.startsWith('**'),closesB=/\*\*\W*$/.test(raw),w=raw.replace(/\*\*/g,'');
+        if(opensB)inB=true;
         const start=speech.length;
         speech+=w.replace(/ﷺ/g,'peace be upon him')+' ';
         const startsQ=w.startsWith('"'),qn=(w.match(/"/g)||[]).length;
-        let cls='w'+((inQ||startsQ)?' said':'');
+        let cls='w'+((inQ||startsQ)?' said':'')+(inB?' strong':'');
+        if(closesB)inB=false;
         if(qn%2)inQ=!inQ;
         let disp=w.replace(/^"/,'“').replace(/"/g,'”').replace(/'/g,'’');
         const key=w.toLowerCase().replace(/[^a-zﷺ]/g,'');
