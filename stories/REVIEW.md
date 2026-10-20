@@ -40,3 +40,10 @@ Checked against Sahih Muslim 2542 on sunnah.com. The story is faithful: Uwais fr
 - "If he asks Allah for something, Allah answers him" is a gentle paraphrase. The hadith says "if he were to swear by Allah, Allah would fulfil it" (لَوْ أَقْسَمَ عَلَى اللَّهِ لأَبَرَّهُ). Fine for children; no change made.
 - "Allah loved him so much, because of how kindly he treated his mother" is a fair reading (the Prophet ﷺ names his goodness to his mother as what marks him out), but the hadith does not say it in those words.
 - Pictures: the Prophet ﷺ is not shown. On the page where he speaks, Umar is shown listening in the mosque of Madinah.
+
+## 5. Prophet Yunus and the big fish (checked 2026-10-20)
+Checked against Surah Al-Anbiya 21:87-88, As-Saffat 37:139-148, Yunus 10:98 and Jami' at-Tirmidhi 3505. The story is faithful: Yunus leaving his people in anger, the laden ship (37:140), drawing lots (37:141), the fish swallowing him (37:142), the three darknesses (from the tafsir of "he called out within the darknesses", 21:87), the du'a, "So We answered him and saved him from distress; and thus do We save the believers" (21:88), being cast onto the shore while ill (37:145), the gourd plant (37:146), being sent to a hundred thousand or more (37:147), and their belief and enjoyment "for a time" (37:148, 10:98). The hadith in Tirmidhi 3505 says that no Muslim makes du'a with these words for anything without Allah answering him.
+- "He would have stayed inside that fish for a very, very long time" softens 37:144, which says "until the Day they are resurrected". Fine for children; no change made.
+- "Left the town before Allah told him to go" and the reason for drawing lots (the ship was too heavy) come from the classical tafsir, not the verses themselves. Both are the common explanation.
+- Arabic of the du'a shown in the app is 21:87 (لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ), in modern spelling. Please have it checked like the ant story's dua.
+- Pictures: Prophet Yunus is never shown. He appears only as a soft, warm light, including inside the fish.
