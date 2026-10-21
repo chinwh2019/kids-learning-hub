@@ -1119,8 +1119,17 @@ function bookCard(st,i){
   const pages=st.pages.length+4, mins=Math.max(2,Math.round(st.pages.reduce((a,p)=>a+p.text.join(' ').split(' ').length,0)/70)+1);
   return `<button class="book" type="button" data-open="${st.id}" style="--tint:${st.tint}">${i===STORIES.length-1?'<span class="newtag">New</span>':''}<div class="cover-art">${scene(st.cover,st)}</div><div class="body"><span class="chip">${esc(st.theme)}</span><h3>${esc(st.title)}</h3><p class="src">${esc(st.source)}</p><div class="meta"><span>${pages} pages · about ${mins} min</span>${store.read[st.id]?'<span class="ribbon">Read ✓</span>':''}</div></div></button>`;
 }
+/* Tonight's story: the newest book not read yet on this device, so a new story shows up here as soon as it is added.
+   Once every book is read, a different one each night (the night turns over at 5am), skipping the one read last. */
+function pickTonight(){
+  const unread=STORIES.filter(s=>!store.read[s.id]);
+  if(unread.length)return unread.reduce((a,b)=>b.date>=a.date?b:a);
+  const pool=STORIES.length>1?STORIES.filter(s=>s.id!==store.lastRead):STORIES;
+  const d=new Date(Date.now()-5*36e5),night=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+  return pool[night%pool.length];
+}
 function renderHome(){
-  const tonight=STORIES.find(s=>!store.read[s.id])||STORIES[STORIES.length-1];
+  const tonight=pickTonight();
   $('#tonight').innerHTML=`<span class="tag">Tonight's story</span><div class="art">${scene(tonight.cover,tonight)}</div><div class="cap"><div><p class="eyebrow" style="color:${tonight.tint}">${esc(tonight.theme)}</p><h3>${esc(tonight.title)}</h3></div><button class="btn gold" type="button" data-open="${tonight.id}">Read</button></div>`;
   $('#ctaTonight').dataset.open=tonight.id;
   renderShelf();
@@ -1167,7 +1176,7 @@ function makeLeaf(n){
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
   leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
   freeze(leaf);
-  if(p.t==='lesson'&&!store.read[st.id]){store.read[st.id]=true;save();leaf._earned=true}
+  if(p.t==='lesson'){store.lastRead=st.id;if(!store.read[st.id]){store.read[st.id]=true;leaf._earned=true}save()}
   return leaf;
 }
 function openStory(id,from){
