@@ -25,6 +25,8 @@ self.addEventListener('fetch', (e) => {
       .catch(() => caches.match('./')));
     return;
   }
+  // Narration clips are saved by the app itself in their own cache (qissa-audio), which outlives app updates.
+  if (url.origin === location.origin && url.pathname.includes('/audio/')) return;
   // Icons, the manifest and the Google fonts: use the saved copy, and save anything new.
   if (url.origin === location.origin || FONTS.test(req.url)) {
     e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((res) => {

@@ -1,32 +1,3 @@
-/* ================= Text with read-along spans ================= */
-function richText(paras,used){
-  let speech='',html='';
-  for(const para of paras){
-    let ph='',inQ=false,inB=false;
-    para.split('\n').forEach((line,li)=>{
-      if(li)ph+='<br>';
-      line.split(/\s+/).filter(Boolean).forEach(raw=>{
-        /* **bold** in the Markdown, such as a du'a to learn by heart, is shown strong and read without the stars. */
-        const opensB=raw.startsWith('**'),closesB=/\*\*\W*$/.test(raw),w=raw.replace(/\*\*/g,'');
-        if(opensB)inB=true;
-        const start=speech.length;
-        speech+=w.replace(/ﷺ/g,'peace be upon him')+' ';
-        const startsQ=w.startsWith('"'),qn=(w.match(/"/g)||[]).length;
-        let cls='w'+((inQ||startsQ)?' said':'')+(inB?' strong':'');
-        if(closesB)inB=false;
-        if(qn%2)inQ=!inQ;
-        let disp=w.replace(/^"/,'“').replace(/"/g,'”').replace(/'/g,'’');
-        const key=w.toLowerCase().replace(/[^a-zﷺ]/g,'');
-        const m=disp.match(/^([^A-Za-zﷺ]*)(.*?)([^A-Za-zﷺ]*)$/);
-        if(GLOSS[key]&&!used.has(key)&&m){used.add(key);ph+=`${esc(m[1])}<button type="button" class="${cls} g" data-g="${key}" data-s="${start}">${esc(m[2])}</button>${esc(m[3])} `}
-        else ph+=`<span class="${cls}" data-s="${start}">${esc(disp)}</span> `;
-      });
-      speech+=' ';
-    });
-    html+=`<p>${ph.trim()}</p>`;
-  }
-  return {html,speech};
-}
 const ORN=`<svg class="orn %c" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 2h30M2 2v30M8 8h18M8 8v18"/><polygon points="${starPts(9,6.8)}" transform="translate(17 17)"/><circle cx="17" cy="17" r="3"/></svg>`;
 
 /* ================= Home ================= */
@@ -56,40 +27,34 @@ function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<
 $('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4','#ffd98c'],1200);
 
 /* ================= Reader ================= */
-const R={st:null,i:0,pages:[],busy:false,playing:false,utt:null,timer:0};
-function buildPages(st){return [{t:'cover'},...st.pages.map((p,k)=>({t:'story',...p,first:k===0})),{t:'lesson'},{t:'ask'},...(st.mission?[{t:'mission'}]:[]),{t:'night'}]}
+const R={st:null,i:0,pages:[],busy:false,playing:false,utt:null,timer:0,tok:0,raf:0};
 function makeLeaf(n){
   const st=R.st,p=R.pages[n],used=new Set();
   const leaf=document.createElement('article');leaf.className='leaf';leaf.style.setProperty('--tint',st.tint);
-  let art,words,rt={html:'',speech:''};
+  let art,words,rt={html:''};
   const orn=ORN.replace('%c','tl')+ORN.replace('%c','br');
   if(p.t==='cover'){
     art=scene(st.cover,st);
     words=`${orn}<p class="eyebrow">${esc(st.theme)}</p><h2 id="cv">${esc(st.title)}</h2><p class="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p><p class="note">In the name of Allah, the Most Gracious, the Most Merciful.</p><p class="note"><b>Source:</b> ${esc(st.sourceLong)}</p><p class="hint">Swipe, tap the arrow, or press → to turn the page.</p>`;
-    rt.speech=st.title+'. Bismillah ir-Rahman ir-Raheem. In the name of Allah, the Most Gracious, the Most Merciful.';
   }else if(p.t==='story'){
     art=scene(p.scene,st);rt=richText(p.text,used);
     words=`${orn}<div class="${p.first?'first':''}" style="display:flex;flex-direction:column;gap:16px">${rt.html}</div>`+(p.dua?`<div class="callout"><p class="ar">${p.dua.ar}</p><p class="note">${esc(p.dua.ref)}</p></div>`:'');
   }else if(p.t==='lesson'){
     art=scene('lesson',st);rt=richText([st.lesson],used);
     words=`${orn}<p class="eyebrow">What we learned</p>${rt.html}<span class="earned">${badgeSvg(st.value.icon)}You lit the ${st.value.name} star</span><p class="note"><b>From:</b> ${esc(st.sourceLong)}</p>`;
-    rt.speech='What we learned. '+rt.speech+' You lit the '+st.value.name+' star!';
   }else if(p.t==='ask'){
     art=scene('talk',st);rt=richText([st.ask],used);
     words=`${orn}<p class="eyebrow">Talk time</p>${rt.html}<p class="note"><b>Tip for parents:</b> ${esc(st.tip)}</p>`;
-    rt.speech='Talk time. '+rt.speech;
   }else if(p.t==='mission'){
     art=scene('mission',st);rt=richText([st.mission],used);
     const on=M().pending&&M().pending.id===st.id;
     words=`${orn}<p class="eyebrow">Tomorrow's kindness mission</p><div class="mission">${rt.html}</div><p class="note">Do it tomorrow, then open the bookshelf. A grown-up holds the star there to light it in your sky of good deeds.</p><div class="row"><button class="btn gold accept" type="button" data-act="accept" aria-pressed="${!!on}">${on?'Mission accepted ✓':'We accept the mission'}</button></div>`;
-    rt.speech="Tomorrow's kindness mission. "+rt.speech;
   }else{
     art=scene('night',st);
     words=`${orn}<p class="eyebrow">Before you sleep</p><p class="ar">بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا</p><p><i>Bismika Allahumma amutu wa ahya.</i></p><p>In Your name, O Allah, I die and I live.</p><p class="note">The Prophet ﷺ said this when he lay down to sleep. (Sahih al-Bukhari 6324)</p><div class="row"><button class="btn gold" type="button" data-act="shelf">Back to the bookshelf</button><button class="btn ghost" type="button" data-act="again" style="color:var(--paper-ink)">Read again</button></div>`;
-    rt.speech='Before you sleep, say: Bismika Allahumma amutu wa ahya. In your name, O Allah, I die and I live. Good night.';
   }
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
-  leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];leaf._speech=rt.speech;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
+  leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];const sp=pageSpeech(st,p);leaf._speech=sp.text;leaf._off=sp.off;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
   freeze(leaf);
   if(p.t==='lesson'){store.lastRead=st.id;if(!store.read[st.id]){store.read[st.id]=true;leaf._earned=true}save()}
   return leaf;
@@ -128,22 +93,64 @@ function chrome(){
   $('#rPrev').disabled=R.i===0;$('#rNext').disabled=R.i===R.pages.length-1;
 }
 
-/* ================= Read aloud ================= */
+/* ================= Read aloud =================
+   Pages with a recorded clip (NARR, made by narrate.mjs) play it; other pages use the phone's own voice.
+   Either way the word being said lights up, and the nature sounds dip underneath. */
 const synth=window.speechSynthesis;let voice=null;
 function pickVoice(){if(!synth)return;const vs=synth.getVoices();voice=vs.find(v=>/^en[-_]GB/i.test(v.lang)&&/female|libby|sonia|serena|kate|martha/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang)&&/samantha|female|aria|jenny|ava|google/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))||null}
-if(synth){pickVoice();synth.onvoiceschanged=pickVoice}else{$('#rPlay').hidden=true}
+if(synth){pickVoice();synth.onvoiceschanged=pickVoice}
+if(!synth&&!Object.keys(NARR).length)$('#rPlay').hidden=true;
+const clipOf=()=>(NARR[R.st?.id]||[])[R.i]||null;
+const SILENT='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAABQAAAqAAbW1tbW1tbW1tbW1tbW1tbW1tbZKSkpKSkpKSkpKSkpKSkpKSkpKStra2tra2tra2tra2tra2tra2trbb29vb29vb29vb29vb29vb29vb2///////////////////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQEUAAAAAAAAAKgvT9A1gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExFMAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKYAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+const voiceA=new Audio();voiceA.preload='auto';
 function clearHl(){document.querySelectorAll('.w.on').forEach(e=>e.classList.remove('on'))}
+function highlight(leaf,at){
+  let hit=null;for(const t of leaf._tokens){if(t.s<=at-leaf._off)hit=t;else break}
+  if(hit&&hit.el.classList.contains('on'))return;clearHl();
+  if(hit){hit.el.classList.add('on');const w=leaf.querySelector('.words'),r=hit.el.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.bottom>wr.bottom-20||r.top<wr.top)hit.el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'})}
+}
+function pageDone(){clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI();duck(false)}}
 function speak(){
-  const leaf=$('#bookview .leaf:last-child');if(!synth||!leaf)return;
-  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;duck(true);
+  const leaf=$('#bookview .leaf:last-child');if(!leaf)return;
+  const clip=clipOf();duck(true);
+  if(clip)playClip(leaf,clip);else speakSynth(leaf);
+}
+function speakSynth(leaf){
+  if(!synth){pageDone();return}
+  synth.cancel();const u=new SpeechSynthesisUtterance(leaf._speech||'');R.utt=u;
   if(voice)u.voice=voice;u.rate=store.bed?.8:.9;u.pitch=1.05;
-  u.onboundary=e=>{if(u!==R.utt||(e.name&&e.name!=='word'))return;let hit=null;for(const t of leaf._tokens){if(t.s<=e.charIndex)hit=t;else break}clearHl();if(hit){hit.el.classList.add('on');const w=leaf.querySelector('.words'),r=hit.el.getBoundingClientRect(),wr=w.getBoundingClientRect();if(r.bottom>wr.bottom-20||r.top<wr.top)hit.el.scrollIntoView({block:'center',behavior:reduced?'auto':'smooth'})}};
-  u.onend=()=>{if(u!==R.utt)return;clearHl();if(!R.playing)return;if(R.i<R.pages.length-1)R.timer=setTimeout(()=>{if(R.playing)goTo(R.i+1)},1200);else{R.playing=false;playUI();duck(false)}};
+  u.onboundary=e=>{if(u!==R.utt||(e.name&&e.name!=='word'))return;highlight(leaf,e.charIndex)};
+  u.onend=()=>{if(u===R.utt)pageDone()};
   synth.speak(u);
 }
-function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;if(synth)synth.cancel();clearHl();if(!keep)duck(false);if(!keep){R.playing=false;playUI()}}
+// Clips are kept in their own cache once heard, so a book read once can be read aloud offline.
+const AUDIO_CACHE='qissa-audio';
+let clipUrl='';
+async function loadClip(f){
+  const url='audio/'+f;
+  if(!('caches' in window)||!/^https?:$/.test(location.protocol))return url;
+  try{
+    const c=await caches.open(AUDIO_CACHE);let res=await c.match(url);
+    if(!res){res=await fetch(url);if(!res.ok)throw 0;await c.put(url,res.clone())}
+    if(clipUrl)URL.revokeObjectURL(clipUrl);return clipUrl=URL.createObjectURL(await res.blob());
+  }catch(e){return url}
+}
+async function playClip(leaf,clip){
+  const tok=R.tok=(R.tok||0)+1,w=clip.w;
+  const src=await loadClip(clip.f);if(tok!==R.tok)return;
+  voiceA.onended=()=>{if(tok===R.tok){cancelAnimationFrame(R.raf);pageDone()}};
+  voiceA.onerror=()=>{if(tok===R.tok&&voiceA.src!==SILENT){cancelAnimationFrame(R.raf);speakSynth(leaf)}};
+  voiceA.src=src;voiceA.playbackRate=store.bed?.9:1;voiceA.preservesPitch=true;
+  voiceA.play().catch(()=>{if(tok===R.tok)speakSynth(leaf)});
+  const follow=()=>{if(tok!==R.tok)return;const t=voiceA.currentTime;let at=-1;for(let k=0;k<w.length;k+=2){if(w[k+1]<=t+.05)at=w[k];else break}if(at>=0)highlight(leaf,at);R.raf=requestAnimationFrame(follow)};
+  R.raf=requestAnimationFrame(follow);
+}
+function stopSpeech(keep){clearTimeout(R.timer);R.utt=null;R.tok=(R.tok||0)+1;cancelAnimationFrame(R.raf);voiceA.pause();if(synth)synth.cancel();clearHl();if(!keep)duck(false);if(!keep){R.playing=false;playUI()}}
 function playUI(){$('#rPlay').setAttribute('aria-pressed',R.playing);$('#rPlayLbl').textContent=R.playing?'Pause':'Read to me'}
-$('#rPlay').onclick=()=>{if(R.playing){stopSpeech()}else{R.playing=true;playUI();speak()}};
+// Phones only let sound start from a tap, so the tap itself plays a moment of silence first.
+$('#rPlay').onclick=()=>{if(R.playing){stopSpeech()}else{R.playing=true;playUI();if(clipOf()){voiceA.src=SILENT;voiceA.play().catch(()=>{})}speak()}};
+// Clear out clips from older recordings that no story uses any more.
+if('caches' in window)caches.open(AUDIO_CACHE).then(c=>c.keys().then(ks=>{const live=new Set(Object.values(NARR).flat().filter(Boolean).map(c=>new URL('audio/'+c.f,location.href).href));ks.forEach(k=>{if(!live.has(k.url))c.delete(k)})})).catch(()=>{});
 
 /* ================= Glossary ================= */
 function showGloss(btn){
