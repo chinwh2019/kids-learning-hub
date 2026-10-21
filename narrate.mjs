@@ -96,7 +96,8 @@ async function timings(mp3) {
   form.append('response_format', 'verbose_json');
   form.append('timestamp_granularities[]', 'word');
   const res = await call('audio/transcriptions', { method: 'POST', body: form });
-  return (await res.json()).words || [];
+  const j = await res.json();
+  return { words: j.words || [], duration: j.duration || 0 };
 }
 
 /* ---------- Lining up heard words with page words ---------- */
@@ -112,7 +113,7 @@ function close(a, b) {
   return d[b.length] <= Math.max(1, Math.floor(Math.max(a.length, b.length) / 3));
 }
 // Returns [characterOffset, seconds] for each page word: when the voice starts saying it.
-function align(text, spoken, heard) {
+function align(text, spoken, heard, duration) {
   const A = spoken.map((s) => norm(s.w)), B = heard.map((h) => norm(h.word));
   const n = A.length, m = B.length, cost = Array.from({ length: n + 1 }, () => new Float64Array(m + 1));
   for (let i = 0; i <= n; i++) cost[i][0] = i;
@@ -126,7 +127,13 @@ function align(text, spoken, heard) {
     else j--;
   }
   // Words the transcript missed get a time between their neighbours.
-  const end = heard.length ? heard[heard.length - 1].end : 0;
+  // If the transcript barely matches (it sometimes drops most of a clip), share the time out by word length instead.
+  const end = Math.max(duration - 0.4, heard.length ? heard[heard.length - 1].end : 0);
+  if (start.filter((t) => t != null).length < n / 2) {
+    const len = A.map((w) => w.length + 2), total = len.reduce((a, b) => a + b, 0), t0 = heard[0]?.start || 0.2;
+    let acc = 0;
+    for (let i = 0; i < n; i++) { start[i] = t0 + ((end - t0) * acc) / total; acc += len[i]; }
+  }
   for (let i = 0; i < n; i++) if (start[i] == null) {
     const before = i ? start[i - 1] : 0;
     let k = i + 1; while (k < n && start[k] == null) k++;
@@ -190,11 +197,11 @@ async function narrate() {
     made++;
     if (dryRun) { clips[file] = {}; continue; }
     const raw = await tts(p.spoken.map((s) => s.w).join(' '));
-    const heard = await timings(raw);
+    const { words: heard, duration } = await timings(raw);
     mkdirSync(new URL(file.replace(/[^/]+$/, ''), AUDIO), { recursive: true });
     writeFileSync(new URL(file, AUDIO), squeeze(raw));
-    clips[file] = { hash: p.hash, text: p.text, words: align(p.text, p.spoken, heard) };
-    seconds += heard.length ? heard[heard.length - 1].end : 0;
+    clips[file] = { hash: p.hash, text: p.text, words: align(p.text, p.spoken, heard, duration) };
+    seconds += duration;
     // Save as we go, so a stopped run picks up where it left off.
     writeFileSync(MANIFEST, JSON.stringify({ model: MODEL, voice: VOICE, stories, clips: { ...old.clips, ...clips } }, null, 1));
   }
