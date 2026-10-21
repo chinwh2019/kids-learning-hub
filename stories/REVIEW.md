@@ -47,3 +47,16 @@ Checked against Surah Al-Anbiya 21:87-88, As-Saffat 37:139-148, Yunus 10:98 and 
 - "Left the town before Allah told him to go" and the reason for drawing lots (the ship was too heavy) come from the classical tafsir, not the verses themselves. Both are the common explanation.
 - Arabic of the du'a shown in the app is 21:87 (لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ), in modern spelling. Please have it checked like the ant story's dua.
 - Pictures: Prophet Yunus is never shown. He appears only as a soft, warm light, including inside the fish.
+
+## 6. The three men and the angel (checked 2026-10-21)
+Checked against Sahih al-Bukhari 3464 and Sahih Muslim 2964 on sunnah.com. The story is faithful: three men of the Children of Israel (one with a skin disease, one bald, one blind), Allah testing them through an angel, each man's wish, the angel wiping over him, the pregnant she-camel, cow and sheep with "May Allah bless it for you", the valleys full of animals, the angel returning in each man's old form as a poor traveller, the first two denying ("the obligations are many", "I inherited it") and the warning "if you are lying, may Allah make you as you were", the third man's "take whatever you want", and "Allah is pleased with you and displeased with your two companions".
+Changes made, with the user's go-ahead to correct this time:
+- "Good skin and a nice color" is now "Good skin and a healthy color". The hadith's "good colour" is about the patches of the skin disease; "nice color" can sound to children like one skin colour is nicer than another. A judgement call.
+- "he looked like a poor, tired traveler, looking just like each man used to look" is now "he looked like a poor, tired traveler, just like each man used to look" (repeated word).
+- "The second man said the same thing" is now "The angel asked the second man the same way, and he said the same thing, so the angel said the same words to him", so it is clear the angel spoke first.
+- Title in sentence case like the other books: "The three men and the angel".
+Left as written:
+- "The angel smiled" is not in the hadith. Harmless.
+- In the hadith the angel also asks each man which animal he would like before giving it. The story leaves this out; fine for children.
+- "I have too many things to pay for" is a fair child's wording of "the obligations are many" (الحقوق كثيرة), and "I got all this from my family" of "I inherited it from my forefathers".
+- Pictures: the angel is never shown as a person. He is a cool silver light, and as the poor traveller a dim, dusty light with a walking staff and a travel bundle. The three men have no faces, as in every story.

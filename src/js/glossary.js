@@ -8,6 +8,8 @@ const GLOSS={
  sulayman:{ar:'سُلَيْمَان',tr:'Sulayman',m:'A prophet and a king. In English his name is Solomon. Allah let him understand the birds and the little ant.'},
  yunus:{ar:'يُونُس',tr:'Yunus',m:'A prophet of Allah. In English his name is Jonah. He made a special du\'a inside the big fish.'},
  dua:{ar:'دُعَاء',tr:'Du\'a',m:'Talking to Allah and asking Him for help, anytime and anywhere.'},
+ angel:{ar:'مَلَك',tr:'Malak',m:'Angels are created by Allah from light, and they always obey Him. We cannot see them, but Allah can send one in the shape of a person.'},
+ israel:{ar:'بَنُو إِسْرَائِيل',tr:'Bani Isra\'il',m:'The Children of Israel: the family of Prophet Yaqub (Jacob), who was also called Israel, and the people who came from them.'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 
