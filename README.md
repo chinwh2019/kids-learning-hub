@@ -28,7 +28,9 @@ The build needs only Node 18 or newer, with no packages to install. It reads the
 | `src/js/fx.js` | Soft nature sounds made in the browser (paper, water drops, wind, birds, crickets; no music or sound files), the soundscape for each scene, sparkle bursts, the book-opening zoom and the tilting cards. |
 | `src/js/sky.js` | Kindness missions and the sky of good deeds on the home page. |
 | `src/js/shelf.js` | Bookshelf rows (not read yet, one row per shelf, read again), the slow left-to-right drift, and the Surprise me button. |
-| `src/js/app.js` | Read-along text, bookshelf, book reader, read-aloud, glossary pop-up, the starry hero sky and the add-to-home-screen button. |
+| `src/js/speech.js` | Read-along text and the words each page says aloud (also used by `narrate.mjs`). |
+| `src/stories.mjs` | Reads `stories/*.md` for `build.mjs` and `narrate.mjs`. |
+| `src/js/app.js` | Bookshelf, book reader, read-aloud (recorded clips, or the phone's voice when a page has none), glossary pop-up, the starry hero sky and the add-to-home-screen button. |
 | `src/sw.js` | The service worker that keeps the app working offline. The build fills in its version, so every rebuild refreshes phones. |
 | `src/manifest.webmanifest`, `src/icons/` | App name, colours and icons used when the app is added to a home screen. |
 
@@ -44,6 +46,19 @@ The source text for each story lives in [`stories/`](stories) as Markdown with a
 | Uwais and his mother | Care for parents | Sahih Muslim 2542 |
 | Prophet Yunus and the big fish | Turning to Allah | Quran 21:87-88, 37:139-148, 10:98; Jami' at-Tirmidhi 3505 |
 | The three men and the angel | Thankful giving | Sahih al-Bukhari 3464, Sahih Muslim 2964 |
+
+## Narration
+
+"Read to me" plays recorded narration made with OpenAI's text-to-speech, one clip per page, with the word being said lit up. The clips live in [`audio/`](audio) (`audio/<story>/<page>-<id>.mp3`, plus `audio/common/` for pages every story shares, like the du'a before sleep), and `audio/narration.json` lists them with their word timings. A page without an up-to-date clip falls back to the phone's own voice. Clips are saved on the phone the first time they play, so a book heard once can be heard offline.
+
+To record clips for a new or changed story:
+
+```sh
+node narrate.mjs            # records only missing or changed pages, removes unused clips
+node build.mjs              # copies the clips into docs/audio/
+```
+
+It needs an OpenAI API key in `OPENAI_API_KEY` or in a `.env` file in the repo root (`OPENAI_API_KEY=...`; `.env` is git-ignored, never commit it). ffmpeg, if installed, makes the clips smaller. `node narrate.mjs --samples` records a short passage in a few voices into `audio/samples/` for choosing a voice; `--dry-run` lists what would be recorded. The voice, its reading instructions and spoken spellings for hard words (`PRONOUNCE`) are at the top of `narrate.mjs`; they change only the recording, never the words on the page.
 
 ## Illustrations
 
