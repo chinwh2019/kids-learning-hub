@@ -96,7 +96,7 @@ The second page.
 - `shelf` is the bookshelf row the book sits on, such as `Kindness and gentleness` (default: the value). Books that share a shelf name share a row. Rows with three or more books drift slowly from left to right; touching or swiping a row stops it for a moment.
 - `value` (the star the story lights up, default: the first word of the theme) and `tip` (the tip for parents) are optional.
 - `mission` is one small thing to do tomorrow. It gets its own page after Talk time; the child accepts it there, and when it is done a grown-up holds the star on the home page to light it in the sky of good deeds. Leave it out and the book has no mission page.
-- More optional frontmatter: `id`, `icon` (`paw`, `ant`, `jar`, `hands`, `fish` or `sheep`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
+- More optional frontmatter: `id`, `icon` (`paw`, `ant`, `jar`, `hands`, `fish`, `sheep` or `lamp`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
 - The HTML comments are invisible when the Markdown is read anywhere else, so the story text stays exactly as written.
 
 To give a story its own pictures, draw new scenes in `S` in `src/js/illustrations.js` and name them in the page markers.
