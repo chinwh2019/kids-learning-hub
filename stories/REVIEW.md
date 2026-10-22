@@ -60,3 +60,17 @@ Left as written:
 - In the hadith the angel also asks each man which animal he would like before giving it. The story leaves this out; fine for children.
 - "I have too many things to pay for" is a fair child's wording of "the obligations are many" (الحقوق كثيرة), and "I got all this from my family" of "I inherited it from my forefathers".
 - Pictures: the angel is never shown as a person. He is a cool silver light, and as the poor traveller a dim, dusty light with a walking staff and a travel bundle. The three men have no faces, as in every story.
+
+## 7. The guest and the dark lamp (checked 2026-10-22)
+Checked against Sahih al-Bukhari 3798 and Sahih Muslim 2054 on sunnah.com, and Surah Al-Hashr 59:9. The story is faithful: a hungry man comes to the Prophet ﷺ, his wives' homes have nothing but water, "Who will host this man tonight?", a man of the Ansar takes him home, his wife has only the children's food, they put the children to sleep, put out the lamp and pretend to eat, they go to bed hungry, and in the morning the Prophet ﷺ tells him what Allah thought of it, and 59:9 is revealed. Bukhari 4889 tells the same story; one narration in Muslim names the man as Abu Talha.
+Changes made, with the user's go-ahead to correct:
+- "a man from the Ansar, the kind people of Madinah" is now "a man from the Ansar, the helpers of Madinah". Ansar means "helpers", which is why they have that name.
+- "Then, oops, the lamp went out!" is now "Then the wife got up as if to fix the lamp, and, oops, the lamp went out!" In the hadith she put it out on purpose while pretending to fix it; the old line could sound like an accident.
+- "Allah mentioned it in the Quran forever" is now "Allah sent down a verse about it in the Quran that we still read today". The verse praises people who put others first; it does not name this family or retell the dinner.
+- Title in sentence case like the other books: "The guest and the dark lamp".
+Left as written:
+- "Allah was pleased with what he and his wife had done" is a gentle wording. The hadith says Allah "laughed" or "marvelled" at it (ضَحِكَ اللَّهُ ... أَوْ عَجِبَ). Many children's books say "pleased"; a religious judgement call for the user.
+- "Nobody had told the Prophet about it!" is not said in the hadith, but it is the clear sense: he knew from Allah.
+- "He was very, very hungry" (Muslim: "I am exhausted"), "the guest ate until he was full" and "with happy hearts" are harmless additions.
+- The Arabic shown under the verse page is the part of 59:9 that is quoted (وَيُؤْثِرُونَ عَلَىٰ أَنْفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ), in modern spelling. Please have it checked like the other Arabic.
+- Pictures: the Prophet ﷺ is never shown, not even as a light. His pages show the guest, the companions in the palm-roofed mosque and his family's homes with only a jug of water. The guest, the husband, the wife and the children have no faces, as in every story.

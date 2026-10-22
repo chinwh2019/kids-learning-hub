@@ -10,6 +10,8 @@ const GLOSS={
  dua:{ar:'دُعَاء',tr:'Du\'a',m:'Talking to Allah and asking Him for help, anytime and anywhere.'},
  angel:{ar:'مَلَك',tr:'Malak',m:'Angels are created by Allah from light, and they always obey Him. We cannot see them, but Allah can send one in the shape of a person.'},
  israel:{ar:'بَنُو إِسْرَائِيل',tr:'Bani Isra\'il',m:'The Children of Israel: the family of Prophet Yaqub (Jacob), who was also called Israel, and the people who came from them.'},
+ ansar:{ar:'ٱلْأَنْصَار',tr:'Al-Ansar',m:'The helpers: the Muslims of Madinah who welcomed the Prophet ﷺ and the Muslims from Makkah, and shared their homes and food with them.'},
+ madinah:{ar:'ٱلْمَدِينَة',tr:'Al-Madinah',m:'The city where the Prophet Muhammad ﷺ lived after he left Makkah. Its name means "the city".'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 
