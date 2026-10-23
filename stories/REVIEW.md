@@ -85,4 +85,4 @@ Left as written:
 - In 38:44 Allah speaks as "We", so the verse says "he was one who constantly turns back", with "to Allah" understood. Adding "to Allah" is how many translations make it clear; fine.
 - 38:41 (Ayyub saying Shaytan had touched him with hardship) and 38:44 (the bunch of grass and his oath) are left out. Fine for children.
 - The Arabic shown on the du'a page is 21:83 (أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ), in modern spelling. Please have it checked like the other Arabic.
-- Pictures: Prophet Ayyub is never shown. He is a soft, warm light, as with Yunus; while he is ill the light is smaller and paler, but it never goes out. His family have no faces, as in every story.
+- Pictures: at the user's request (2026-10-23), Prophet Ayyub is a figure made only of soft, warm light, with no face or features, and a shining star on his heart, so children can tell where he is. A single light was hard for children to follow. While he is ill the figure is paler, sitting on his mat, but it never goes out. His family have no faces, as in every story. Yunus is still shown only as a light.
