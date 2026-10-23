@@ -74,3 +74,15 @@ Left as written:
 - "He was very, very hungry" (Muslim: "I am exhausted"), "the guest ate until he was full" and "with happy hearts" are harmless additions.
 - The Arabic shown under the verse page is the part of 59:9 that is quoted (وَيُؤْثِرُونَ عَلَىٰ أَنْفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ), in modern spelling. Please have it checked like the other Arabic.
 - Pictures: the Prophet ﷺ is never shown, not even as a light. His pages show the guest, the companions in the palm-roofed mosque and his family's homes with only a jug of water. The guest, the husband, the wife and the children have no faces, as in every story.
+
+## 8. Prophet Ayyub the patient (checked 2026-10-23)
+Checked against Surah Al-Anbiya 21:83-84 and Surah Sad 38:41-44. The story is faithful: Ayyub's long illness and loss, his du'a "harm has touched me, and You are the Most Merciful of the merciful" (21:83), Allah answering him and removing his harm (21:84), "Strike the ground with your foot; this is a cool bath and a drink" (38:42), his family given back "and the like of them with them, as a mercy from Us and a reminder for those of understanding" (38:43, 21:84), and "We found him patient. What an excellent servant! He constantly turned back to Allah" (38:44). The story keeps to the Quran and leaves out the weak, gruesome details found in some older retellings, which is right for children.
+Changes made:
+- Title in sentence case like the other books: "Prophet Ayyub the patient". A judgement call: "the Patient" can also be read as a title, like a name, and could stay capitalised.
+Left as written:
+- "He lost many of the good things he once had" does not say that he lost his family, though a later page says Allah "gave him back his family". The classical tafsir says he lost his wealth and children. Gentle for children; no change made.
+- "His body hurt, he grew tired and weak" and "He did not complain about Allah" come from the tafsir and the way the Quran praises his patience, not from the verses' words.
+- In 38:44 Allah speaks as "We", so the verse says "he was one who constantly turns back", with "to Allah" understood. Adding "to Allah" is how many translations make it clear; fine.
+- 38:41 (Ayyub saying Shaytan had touched him with hardship) and 38:44 (the bunch of grass and his oath) are left out. Fine for children.
+- The Arabic shown on the du'a page is 21:83 (أَنِّي مَسَّنِيَ الضُّرُّ وَأَنْتَ أَرْحَمُ الرَّاحِمِينَ), in modern spelling. Please have it checked like the other Arabic.
+- Pictures: Prophet Ayyub is never shown. He is a soft, warm light, as with Yunus; while he is ill the light is smaller and paler, but it never goes out. His family have no faces, as in every story.
