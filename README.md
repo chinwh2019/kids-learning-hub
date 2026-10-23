@@ -46,6 +46,8 @@ The source text for each story lives in [`stories/`](stories) as Markdown with a
 | Uwais and his mother | Care for parents | Sahih Muslim 2542 |
 | Prophet Yunus and the big fish | Turning to Allah | Quran 21:87-88, 37:139-148, 10:98; Jami' at-Tirmidhi 3505 |
 | The three men and the angel | Thankful giving | Sahih al-Bukhari 3464, Sahih Muslim 2964 |
+| The guest and the dark lamp | Putting others first | Sahih al-Bukhari 3798, Sahih Muslim 2054; Quran 59:9 |
+| Prophet Ayyub the patient | Patience | Quran 21:83-84, 38:41-44 |
 
 ## Narration
 

@@ -6,6 +6,8 @@ const GLOSS={
  jinn:{ar:'جِنّ',tr:'Jinn',m:'Beings that Allah created from smokeless fire. We cannot see them, but they are real.'},
  barakah:{ar:'بَرَكَة',tr:'Barakah',m:'Blessing from Allah that makes a little become a lot of good.'},
  sulayman:{ar:'سُلَيْمَان',tr:'Sulayman',m:'A prophet and a king. In English his name is Solomon. Allah let him understand the birds and the little ant.'},
+ ayyub:{ar:'أَيُّوب',tr:'Ayyub',m:'A prophet of Allah. In English his name is Job. He stayed patient through a long, hard illness, and Allah called him an excellent servant.'},
+ subhanallah:{ar:'سُبْحَانَ ٱللَّٰه',tr:'SubhanAllah',m:'Glory be to Allah. We say it when we see something amazing that only Allah can do.'},
  yunus:{ar:'يُونُس',tr:'Yunus',m:'A prophet of Allah. In English his name is Jonah. He made a special du\'a inside the big fish.'},
  dua:{ar:'دُعَاء',tr:'Du\'a',m:'Talking to Allah and asking Him for help, anytime and anywhere.'},
  angel:{ar:'مَلَك',tr:'Malak',m:'Angels are created by Allah from light, and they always obey Him. We cannot see them, but Allah can send one in the shape of a person.'},
