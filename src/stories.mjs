@@ -9,7 +9,11 @@ const read = (p) => readFileSync(new URL(p, ROOT), 'utf8');
 // The story text is used word for word. <!-- page: sceneKey --> comments mark where a
 // new page starts and which picture it shows; add ", dua" to show the frontmatter dua there.
 const TINTS = ['#56c7b4', '#f2b84b', '#f08f80', '#9d8cf0', '#6fb3ef'];
-const SCENES = new Set([...read('src/js/illustrations.js').matchAll(/^ (\w+):u=>/gm)].map((m) => m[1]));
+const SCENE_KEYS = [...read('src/js/illustrations.js').matchAll(/^ (\w+):\(?u\b/gm)].map((m) => m[1]);
+const SCENES = new Set(SCENE_KEYS);
+// Two scenes with the same name would silently replace the first one in another story.
+const twice = SCENE_KEYS.filter((k, i) => SCENE_KEYS.indexOf(k) !== i);
+if (twice.length) throw new Error(`src/js/illustrations.js: more than one picture called ${twice.join(', ')}`);
 const LABEL = /^(?:##\s*(Lesson|Ask the kids)\s*$|\*\*(Lesson|Ask the kids):\*\*)/im;
 
 function parseFrontmatter(src, file) {

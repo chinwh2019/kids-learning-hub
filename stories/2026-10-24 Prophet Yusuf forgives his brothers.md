@@ -28,7 +28,7 @@ They went home in the evening, crying fake tears, and told their father, "A wolf
 <!-- page: wellBottom -->
 Yusuf was all alone at the bottom of the well. But he was not really alone, because Allah was with him.
 
-<!-- page: caravan -->
+<!-- page: travelersWell -->
 Some travelers came by, lowered a bucket for water, and found a boy inside! They took Yusuf to the land of Egypt.
 
 <!-- page: grainStores -->
