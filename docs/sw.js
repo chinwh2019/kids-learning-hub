@@ -1,6 +1,6 @@
 // Keeps Qissa Time working offline. build.mjs fills in the version and the file list,
 // so every new build gets a fresh cache and phones pick up new stories on their next visit.
-const CACHE = 'qissa-time-ba1bc7fb46';
+const CACHE = 'qissa-time-dd54f2822d';
 const FILES = ["./","manifest.webmanifest","icons/apple-touch-icon.png","icons/icon-192.png","icons/icon-512.png","icons/icon.svg"];
 const FONTS = /^https:\/\/fonts\.(googleapis|gstatic)\.com\//;
 

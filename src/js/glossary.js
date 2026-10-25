@@ -11,6 +11,7 @@ const GLOSS={
  yunus:{ar:'يُونُس',tr:'Yunus',m:'A prophet of Allah. In English his name is Jonah. He made a special du\'a inside the big fish.'},
  yusuf:{ar:'يُوسُف',tr:'Yusuf',m:'A prophet of Allah, the son of Prophet Yaqub. In English his name is Joseph. A whole surah of the Quran, Surah Yusuf, tells his story.'},
  yaqub:{ar:'يَعْقُوب',tr:'Yaqub',m:'A prophet of Allah and the father of Prophet Yusuf. In English his name is Jacob. He was also called Israel.'},
+ ibrahim:{ar:'إِبْرَاهِيم',tr:'Ibrahim',m:'A prophet of Allah. In English his name is Abraham. Allah called him His close friend, Khalilullah, and he is the father of Prophet Ismail and Prophet Ishaq.'},
  dua:{ar:'دُعَاء',tr:'Du\'a',m:'Talking to Allah and asking Him for help, anytime and anywhere.'},
  angel:{ar:'مَلَك',tr:'Malak',m:'Angels are created by Allah from light, and they always obey Him. We cannot see them, but Allah can send one in the shape of a person.'},
  israel:{ar:'بَنُو إِسْرَائِيل',tr:'Bani Isra\'il',m:'The Children of Israel: the family of Prophet Yaqub (Jacob), who was also called Israel, and the people who came from them.'},
