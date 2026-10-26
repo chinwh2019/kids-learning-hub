@@ -17,6 +17,7 @@ const GLOSS={
  israel:{ar:'بَنُو إِسْرَائِيل',tr:'Bani Isra\'il',m:'The Children of Israel: the family of Prophet Yaqub (Jacob), who was also called Israel, and the people who came from them.'},
  ansar:{ar:'ٱلْأَنْصَار',tr:'Al-Ansar',m:'The helpers: the Muslims of Madinah who welcomed the Prophet ﷺ and the Muslims from Makkah, and shared their homes and food with them.'},
  madinah:{ar:'ٱلْمَدِينَة',tr:'Al-Madinah',m:'The city where the Prophet Muhammad ﷺ lived after he left Makkah. Its name means "the city".'},
+ arrahman:{ar:'ٱلرَّحْمَٰن',tr:'Ar-Rahman',m:'One of the beautiful names of Allah. It means the Most Merciful: His mercy reaches everything He made.'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 
