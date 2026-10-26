@@ -2,18 +2,22 @@
 function richText(paras,used){
   let speech='',html='';
   for(const para of paras){
-    let ph='',inQ=false,inB=false;
+    let ph='',inQ=false,inB=false,inI=false;
     para.split('\n').forEach((line,li)=>{
       if(li)ph+='<br>';
       line.split(/\s+/).filter(Boolean).forEach(raw=>{
         /* **bold** in the Markdown, such as a du'a to learn by heart, is shown strong and read without the stars. */
-        const opensB=raw.startsWith('**'),closesB=/\*\*\W*$/.test(raw),w=raw.replace(/\*\*/g,'');
+        const opensB=raw.startsWith('**'),closesB=/\*\*\W*$/.test(raw),b=raw.replace(/\*\*/g,'');
+        /* *italic*, such as a sound word like *drip*, is shown slanted and read without the star. */
+        const opensI=/^\W*\*/.test(b),closesI=/\*\W*$/.test(b),w=b.replace(/\*/g,'');
         if(opensB)inB=true;
+        if(opensI)inI=true;
         const start=speech.length;
         speech+=w.replace(/ﷺ/g,'peace be upon him')+' ';
         const startsQ=w.startsWith('"'),qn=(w.match(/"/g)||[]).length;
-        let cls='w'+((inQ||startsQ)?' said':'')+(inB?' strong':'');
+        let cls='w'+((inQ||startsQ)?' said':'')+(inB?' strong':'')+(inI?' em':'');
         if(closesB)inB=false;
+        if(closesI)inI=false;
         if(qn%2)inQ=!inQ;
         let disp=w.replace(/^"/,'“').replace(/"/g,'”').replace(/'/g,'’');
         const key=w.toLowerCase().replace(/[^a-zﷺ]/g,'');

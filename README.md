@@ -48,6 +48,9 @@ The source text for each story lives in [`stories/`](stories) as Markdown with a
 | The three men and the angel | Thankful giving | Sahih al-Bukhari 3464, Sahih Muslim 2964 |
 | The guest and the dark lamp | Putting others first | Sahih al-Bukhari 3798, Sahih Muslim 2054; Quran 59:9 |
 | Prophet Ayyub the patient | Patience | Quran 21:83-84, 38:41-44 |
+| Prophet Yusuf forgives his brothers | Forgiveness | Quran, Surah Yusuf 12:4-21, 12:54-100 |
+| Prophet Ibrahim and the fire | Courage and trust | Quran 21:51-70, 37:97 |
+| The rain that woke the earth | Thankful for mercy | Quran 30:48-50; Sahih al-Bukhari 1032 |
 
 ## Narration
 
