@@ -21,7 +21,7 @@ function renderHome(){
   renderShelf();
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
   renderSky();
-  freeze($('#home'));
+  liveArt($('#home'));
 }
 function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<5?'Assalamu alaikum. It is almost time for bed.':h<12?'Assalamu alaikum. Good morning, little reader.':'Assalamu alaikum, little reader.'}
 $('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4','#ffd98c'],1200);
@@ -55,7 +55,7 @@ function makeLeaf(n){
   }
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
   leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];const sp=pageSpeech(st,p);leaf._speech=sp.text;leaf._off=sp.off;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
-  freeze(leaf);
+  pageArt(leaf);
   if(p.t==='lesson'){store.lastRead=st.id;if(!store.read[st.id]){store.read[st.id]=true;leaf._earned=true}save()}
   return leaf;
 }
@@ -65,10 +65,10 @@ function openStory(id,from){
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
-  $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
+  $('#reader').hidden=false;document.body.classList.add('reading');pauseHome();fit(lf);
   chrome();$('#rNext').focus();zoomFrom(from);sfx.page();ambience(AMB[lf._scene]||'wind');
 }
-function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
+function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();document.querySelectorAll('#bookview svg').forEach(s=>animate(s,false));renderHome();wakeSky();wakeDrift()}
 function goTo(n){
   if(n<0||n>=R.pages.length||n===R.i||R.busy)return;
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
@@ -189,12 +189,15 @@ function applySound(){$('#sndBtn').setAttribute('aria-pressed',!!store.sound);$(
 $('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();applySound();if(!store.sound)stopAmbience();else{sfx.drop();if(!$('#reader').hidden)ambience(AMB[$('#bookview .leaf:last-child')._scene]||'wind')}};
 
 /* ================= Hero sky ================= */
+// The stars stop while a book is open (closeReader wakes them), so nothing is drawn behind the reader.
+let wakeSky=()=>{};
 (function sky(){
-  const cv=$('#sky'),ctx=cv.getContext('2d');let w=0,h=0,pts=[],col='#fff',shoot=null,f=0;
+  const cv=$('#sky'),ctx=cv.getContext('2d');let w=0,h=0,pts=[],col='#fff',shoot=null,f=0,on=true;
   function size(){const d=Math.min(2,devicePixelRatio||1);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);const r=rng(7);pts=Array.from({length:Math.round(w*h/2300)},()=>({x:r()*w,y:r()*h*.85,r:r()*1.3+.3,p:r()*6.3,s:.4+r()*1.4}))}
   function draw(t){
     if(f++%90===0)col=getComputedStyle(document.documentElement).getPropertyValue('--star').trim()||'#fff';
-    if(!document.body.classList.contains('reading')){
+    if(document.body.classList.contains('reading')){on=false;return}
+    {
       ctx.clearRect(0,0,w,h);ctx.fillStyle=col;
       for(const s of pts){ctx.globalAlpha=reduced?.8:.3+.7*Math.abs(Math.sin(s.p+t/1000*s.s));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill()}
       if(!reduced){
@@ -203,9 +206,10 @@ $('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();app
       }
       ctx.globalAlpha=1;
     }
-    if(!reduced)requestAnimationFrame(draw);
+    if(!reduced)requestAnimationFrame(draw);else on=false;
   }
-  size();addEventListener('resize',size);requestAnimationFrame(draw);
+  wakeSky=()=>{if(!on){on=true;requestAnimationFrame(draw)}};
+  size();addEventListener('resize',()=>{size();wakeSky()});requestAnimationFrame(draw);
 })();
 
 /* ================= Offline and add to home screen ================= */

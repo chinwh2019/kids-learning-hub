@@ -13,6 +13,7 @@ function shelfRows(){
 function renderShelf(){
   $('#books').innerHTML=shelfRows().map(r=>`<div class="shelfrow" style="--rtint:${r.tint}"><div class="rowhead"><h3>${esc(r.name)}</h3><span>${r.books.length} ${r.books.length===1?'book':'books'}</span></div><div class="track"><div class="lane">${r.books.map(st=>bookCard(st,STORIES.indexOf(st))).join('')}</div></div></div>`).join('');
   DRIFT.tracks=[...document.querySelectorAll('#books .track')].map(setupTrack);
+  liveArt($('#books'));
 }
 function setupTrack(el){
   const lane=el.firstElementChild,set=[...lane.children],t={el,lane,on:false,w:0,x:0,rest:0,hover:false};
@@ -34,11 +35,16 @@ function setupTrack(el){
   },{passive:true});
   return t;
 }
+// The rows rest while a book is open; closeReader wakes them.
+let wakeDrift=()=>{};
 (function drift(){
-  let last=performance.now();
-  requestAnimationFrame(function step(now){
+  let last=performance.now(),on=true;
+  wakeDrift=()=>{if(!on){on=true;last=performance.now();requestAnimationFrame(step)}};
+  requestAnimationFrame(step);
+  function step(now){
+    if(!$('#reader').hidden){on=false;return}
     const dt=Math.min(64,now-last);last=now;
-    if(!document.hidden&&$('#reader').hidden){
+    if(!document.hidden){
       const v=DRIFT.speed*(store.bed?.6:1)*DRIFT.boost*dt/1000;
       DRIFT.tracks.forEach(t=>{
         if(!t.on||t.hover||now<t.rest||!t.el.isConnected)return;
@@ -48,7 +54,7 @@ function setupTrack(el){
       });
     }
     requestAnimationFrame(step);
-  });
+  }
 })();
 let lastSurprise='';
 // Surprise me: the rows race for a moment, then a book is picked (a book not read yet when there is one) and opens.
