@@ -714,4 +714,36 @@ function paint(u,body){return body.replace(GROUND,(m,crest,c)=>`${m}<path d="${c
 const FINISH=u=>`<linearGradient id="${u}gsh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#2a1830" stop-opacity=".2"/></linearGradient><linearGradient id="${u}haze" x1="0" y1="0" x2="0" y2="1"><stop offset=".4" stop-color="#fffaf0" stop-opacity="0"/><stop offset=".56" stop-color="#fffaf0" stop-opacity=".12"/><stop offset=".72" stop-color="#fffaf0" stop-opacity="0"/></linearGradient><pattern id="${u}tex" width="120" height="84" patternUnits="userSpaceOnUse"><path d="M6 10 q10 -4 22 0 M64 22 q12 -5 24 1 M18 52 q9 -3 18 0 M84 66 q10 -3 20 1 M44 76 q8 -2 14 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".035"/><path d="M92 8 q8 3 16 0 M4 34 q8 3 16 -1 M50 44 q10 -3 18 0 M100 44 q6 2 12 0" stroke="#2a1830" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".025"/></pattern><radialGradient id="${u}vig" cx=".5" cy=".46" r=".72"><stop offset=".62" stop-color="#1a1030" stop-opacity="0"/><stop offset="1" stop-color="#1a1030" stop-opacity=".3"/></radialGradient>`;
 function scene(key,st){const u='s'+(UID++)+'_',r=(S[key]||S.night)(u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}${FINISH(u)}</defs>${paint(u,r.body)}<rect width="400" height="300" fill="url(#${u}haze)" pointer-events="none"/><rect width="400" height="300" fill="url(#${u}tex)" pointer-events="none"/><rect width="400" height="300" fill="url(#${u}vig)" pointer-events="none"/></svg>`}
 function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
+// Saving the battery. The home page holds about a hundred animated pictures (every book cover, copied for the
+// drifting rows) with thousands of moving clouds, sparkles and raindrops between them, and left to themselves the
+// phone redraws all of them every frame, even behind an open book. So pictures never run on their own: they stay
+// paused and one gentle clock moves the ones on screen 30 times a second, which is plenty for slow clouds and rain
+// (hand-drawn anime moves at 12 to 24) and half the drawing of 60. Pictures off screen, or on the home page
+// while a book is open, simply wait where they are.
+const LIVE=new Set(),TICK=new Set(),CLOCK={t:0,last:0};
+const liveIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{e.target._seen=e.isIntersecting;setLive(e.target)}),{rootMargin:'80px'}):null;
+function tick(){
+  const now=performance.now(),dt=Math.min(.1,(now-CLOCK.last)/1000);CLOCK.last=now;if(document.hidden)return;
+  TICK.forEach(s=>{if(!s.isConnected)return TICK.delete(s);s._clk+=dt;try{s.setCurrentTime(s._clk)}catch(e){TICK.delete(s)}});
+  if(!TICK.size){clearInterval(CLOCK.t);CLOCK.t=0}
+}
+function animate(s,on){
+  try{s.pauseAnimations()}catch(e){return}
+  if(!on)return TICK.delete(s);
+  if(s._clk==null)s._clk=0;TICK.add(s);
+  if(!CLOCK.t){CLOCK.last=performance.now();CLOCK.t=setInterval(tick,1000/30)}
+}
+function setLive(s){animate(s,s._seen&&!document.body.classList.contains('reading'))}
+// Home page pictures: moving only while they can be seen.
+function liveArt(root){
+  if(reduced)return freeze(root);
+  LIVE.forEach(s=>{if(!s.isConnected){LIVE.delete(s);liveIO&&liveIO.unobserve(s)}});
+  root.querySelectorAll('svg').forEach(s=>{if(LIVE.has(s)||!s.querySelector('animate,animateTransform'))return;LIVE.add(s);s._seen=!liveIO;setLive(s);liveIO&&liveIO.observe(s)});
+}
+// The page in the reader is always in view.
+function pageArt(root){
+  if(reduced)return freeze(root);
+  root.querySelectorAll('svg').forEach(s=>{if(s.querySelector('animate,animateTransform'))animate(s,true)});
+}
+function pauseHome(){LIVE.forEach(setLive)}
 

@@ -45,6 +45,8 @@
 html,body{min-height:100%}
 body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body.reading{overflow:hidden}
+/* Battery: covers off screen are skipped when drawing, and the home page isn't drawn at all behind an open book. */
+body.reading #home{visibility:hidden;transition:visibility 0s .5s}
 h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -108,7 +110,7 @@ section.block{padding-block:56px 8px}
 .book{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);padding:0;border-radius:6px 18px 18px 6px;overflow:hidden;position:relative;box-shadow:0 18px 34px -20px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.3,1.5,.5,1), box-shadow .3s}
 .book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:13px;background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(0,0,0,.06) 70%,rgba(255,255,255,.18));z-index:2}
 .book:hover,.book:focus-visible{transform:translateY(-8px) rotate(-.8deg);box-shadow:0 30px 44px -22px rgba(0,0,0,.6)}
-.book .cover-art{aspect-ratio:4/3;max-width:100%;position:relative}
+.book .cover-art{aspect-ratio:4/3;max-width:100%;position:relative;content-visibility:auto}
 .book .cover-art svg{width:100%;height:100%;display:block}
 .book .body{padding:16px 18px 18px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
 .book h3{font-size:1.25rem}
@@ -1199,6 +1201,38 @@ function paint(u,body){return body.replace(GROUND,(m,crest,c)=>`${m}<path d="${c
 const FINISH=u=>`<linearGradient id="${u}gsh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#2a1830" stop-opacity=".2"/></linearGradient><linearGradient id="${u}haze" x1="0" y1="0" x2="0" y2="1"><stop offset=".4" stop-color="#fffaf0" stop-opacity="0"/><stop offset=".56" stop-color="#fffaf0" stop-opacity=".12"/><stop offset=".72" stop-color="#fffaf0" stop-opacity="0"/></linearGradient><pattern id="${u}tex" width="120" height="84" patternUnits="userSpaceOnUse"><path d="M6 10 q10 -4 22 0 M64 22 q12 -5 24 1 M18 52 q9 -3 18 0 M84 66 q10 -3 20 1 M44 76 q8 -2 14 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".035"/><path d="M92 8 q8 3 16 0 M4 34 q8 3 16 -1 M50 44 q10 -3 18 0 M100 44 q6 2 12 0" stroke="#2a1830" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".025"/></pattern><radialGradient id="${u}vig" cx=".5" cy=".46" r=".72"><stop offset=".62" stop-color="#1a1030" stop-opacity="0"/><stop offset="1" stop-color="#1a1030" stop-opacity=".3"/></radialGradient>`;
 function scene(key,st){const u='s'+(UID++)+'_',r=(S[key]||S.night)(u,st);return `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(r.label)}"><defs>${r.defs}${FINISH(u)}</defs>${paint(u,r.body)}<rect width="400" height="300" fill="url(#${u}haze)" pointer-events="none"/><rect width="400" height="300" fill="url(#${u}tex)" pointer-events="none"/><rect width="400" height="300" fill="url(#${u}vig)" pointer-events="none"/></svg>`}
 function freeze(root){if(!reduced)return;root.querySelectorAll('svg').forEach(s=>{try{s.pauseAnimations();s.setCurrentTime(5)}catch(e){}})}
+// Saving the battery. The home page holds about a hundred animated pictures (every book cover, copied for the
+// drifting rows) with thousands of moving clouds, sparkles and raindrops between them, and left to themselves the
+// phone redraws all of them every frame, even behind an open book. So pictures never run on their own: they stay
+// paused and one gentle clock moves the ones on screen 30 times a second, which is plenty for slow clouds and rain
+// (hand-drawn anime moves at 12 to 24) and half the drawing of 60. Pictures off screen, or on the home page
+// while a book is open, simply wait where they are.
+const LIVE=new Set(),TICK=new Set(),CLOCK={t:0,last:0};
+const liveIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{e.target._seen=e.isIntersecting;setLive(e.target)}),{rootMargin:'80px'}):null;
+function tick(){
+  const now=performance.now(),dt=Math.min(.1,(now-CLOCK.last)/1000);CLOCK.last=now;if(document.hidden)return;
+  TICK.forEach(s=>{if(!s.isConnected)return TICK.delete(s);s._clk+=dt;try{s.setCurrentTime(s._clk)}catch(e){TICK.delete(s)}});
+  if(!TICK.size){clearInterval(CLOCK.t);CLOCK.t=0}
+}
+function animate(s,on){
+  try{s.pauseAnimations()}catch(e){return}
+  if(!on)return TICK.delete(s);
+  if(s._clk==null)s._clk=0;TICK.add(s);
+  if(!CLOCK.t){CLOCK.last=performance.now();CLOCK.t=setInterval(tick,1000/30)}
+}
+function setLive(s){animate(s,s._seen&&!document.body.classList.contains('reading'))}
+// Home page pictures: moving only while they can be seen.
+function liveArt(root){
+  if(reduced)return freeze(root);
+  LIVE.forEach(s=>{if(!s.isConnected){LIVE.delete(s);liveIO&&liveIO.unobserve(s)}});
+  root.querySelectorAll('svg').forEach(s=>{if(LIVE.has(s)||!s.querySelector('animate,animateTransform'))return;LIVE.add(s);s._seen=!liveIO;setLive(s);liveIO&&liveIO.observe(s)});
+}
+// The page in the reader is always in view.
+function pageArt(root){
+  if(reduced)return freeze(root);
+  root.querySelectorAll('svg').forEach(s=>{if(s.querySelector('animate,animateTransform'))animate(s,true)});
+}
+function pauseHome(){LIVE.forEach(setLive)}
 
 /* ================= Sound: soft nature and paper sounds made in the browser ================= */
 // No music, no instruments and no sound files: paper rustles, water drops, wind, birds and crickets,
@@ -1208,8 +1242,11 @@ function actx(){
   if(!store.sound)return null;
   if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.connect(SND.ctx.destination);volume()}
   if(SND.ctx.state==='suspended')SND.ctx.resume();
+  rest();
   return SND.ctx;
 }
+// Sound stays switched off between taps on the home page, so the phone's speaker isn't kept awake playing silence.
+function rest(){clearTimeout(SND.rest);SND.rest=setTimeout(()=>{if(SND.amb||!SND.ctx)return;SND.ctx.suspend()},5000)}
 function volume(){if(SND.master)SND.master.gain.value=store.bed?.45:.8}
 let NOISE=null;
 function noise(c){if(!NOISE){const n=c.sampleRate*2;NOISE=c.createBuffer(1,n,c.sampleRate);const d=NOISE.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}return NOISE}
@@ -1254,11 +1291,11 @@ function ambience(kind){
 function stopAmbience(){
   const a=SND.amb;SND.amb=null;SND.kind='';if(!a)return;clearTimeout(a.timer);
   const c=SND.ctx;a.out.gain.cancelScheduledValues(c.currentTime);a.out.gain.setTargetAtTime(.0001,c.currentTime,.35);
-  setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}});a.out.disconnect()},1600);
+  setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}});a.out.disconnect();rest()},1600);
 }
 // Keep the soundscape quieter while the book is reading aloud.
 function duck(on){if(SND.amb&&SND.ctx)SND.amb.out.gain.setTargetAtTime(on?.4:1,SND.ctx.currentTime,.4)}
-document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else if(store.sound)SND.ctx.resume()});
+document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else if(store.sound){SND.ctx.resume();rest()}});
 
 /* ================= Sparkles ================= */
 // A burst of little lights at a point on the screen: the "magic touch" on pictures, and every celebration.
@@ -1388,6 +1425,7 @@ function shelfRows(){
 function renderShelf(){
   $('#books').innerHTML=shelfRows().map(r=>`<div class="shelfrow" style="--rtint:${r.tint}"><div class="rowhead"><h3>${esc(r.name)}</h3><span>${r.books.length} ${r.books.length===1?'book':'books'}</span></div><div class="track"><div class="lane">${r.books.map(st=>bookCard(st,STORIES.indexOf(st))).join('')}</div></div></div>`).join('');
   DRIFT.tracks=[...document.querySelectorAll('#books .track')].map(setupTrack);
+  liveArt($('#books'));
 }
 function setupTrack(el){
   const lane=el.firstElementChild,set=[...lane.children],t={el,lane,on:false,w:0,x:0,rest:0,hover:false};
@@ -1409,11 +1447,16 @@ function setupTrack(el){
   },{passive:true});
   return t;
 }
+// The rows rest while a book is open; closeReader wakes them.
+let wakeDrift=()=>{};
 (function drift(){
-  let last=performance.now();
-  requestAnimationFrame(function step(now){
+  let last=performance.now(),on=true;
+  wakeDrift=()=>{if(!on){on=true;last=performance.now();requestAnimationFrame(step)}};
+  requestAnimationFrame(step);
+  function step(now){
+    if(!$('#reader').hidden){on=false;return}
     const dt=Math.min(64,now-last);last=now;
-    if(!document.hidden&&$('#reader').hidden){
+    if(!document.hidden){
       const v=DRIFT.speed*(store.bed?.6:1)*DRIFT.boost*dt/1000;
       DRIFT.tracks.forEach(t=>{
         if(!t.on||t.hover||now<t.rest||!t.el.isConnected)return;
@@ -1423,7 +1466,7 @@ function setupTrack(el){
       });
     }
     requestAnimationFrame(step);
-  });
+  }
 })();
 let lastSurprise='';
 // Surprise me: the rows race for a moment, then a book is picked (a book not read yet when there is one) and opens.
@@ -1508,7 +1551,7 @@ function renderHome(){
   renderShelf();
   $('#values').innerHTML=STORIES.map(st=>`<div class="val ${store.read[st.id]?'on':''}" style="--tint:${st.tint}">${badgeSvg(st.value.icon)}<div><b>${st.value.name}</b><span>${store.read[st.id]?'Earned from “'+esc(st.title)+'”':'Finish “'+esc(st.title)+'” to light it up'}</span></div></div>`).join('');
   renderSky();
-  freeze($('#home'));
+  liveArt($('#home'));
 }
 function greet(){const h=new Date().getHours();$('#greet').textContent=h>=18||h<5?'Assalamu alaikum. It is almost time for bed.':h<12?'Assalamu alaikum. Good morning, little reader.':'Assalamu alaikum, little reader.'}
 $('#heroLanterns').innerHTML=lanternString(0,22,15,['#f2b84b','#ef7f8f','#56c7b4','#ffd98c'],1200);
@@ -1542,7 +1585,7 @@ function makeLeaf(n){
   }
   leaf.innerHTML=`<div class="art">${art}</div><div class="words">${words}</div>`;
   leaf._scene={cover:st.cover,story:p.scene,lesson:'lesson',ask:'talk',mission:'mission',night:'night'}[p.t];const sp=pageSpeech(st,p);leaf._speech=sp.text;leaf._off=sp.off;leaf._tokens=[...leaf.querySelectorAll('.w')].map(el=>({el,s:+el.dataset.s}));
-  freeze(leaf);
+  pageArt(leaf);
   if(p.t==='lesson'){store.lastRead=st.id;if(!store.read[st.id]){store.read[st.id]=true;leaf._earned=true}save()}
   return leaf;
 }
@@ -1552,10 +1595,10 @@ function openStory(id,from){
   $('#rTitle').textContent=R.st.title;
   $('#rDots').innerHTML=R.pages.map((_,k)=>`<button type="button" data-k="${k}" aria-label="Go to page ${k+1}"></button>`).join('');
   const bv=$('#bookview');bv.innerHTML='';const lf=makeLeaf(0);lf.classList.add('fade');bv.append(lf);
-  $('#reader').hidden=false;document.body.classList.add('reading');fit(lf);
+  $('#reader').hidden=false;document.body.classList.add('reading');pauseHome();fit(lf);
   chrome();$('#rNext').focus();zoomFrom(from);sfx.page();ambience(AMB[lf._scene]||'wind');
 }
-function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();renderHome()}
+function closeReader(){stopSpeech();stopAmbience();$('#reader').hidden=true;document.body.classList.remove('reading');hideGloss();document.querySelectorAll('#bookview svg').forEach(s=>animate(s,false));renderHome();wakeSky();wakeDrift()}
 function goTo(n){
   if(n<0||n>=R.pages.length||n===R.i||R.busy)return;
   const keepPlaying=R.playing;stopSpeech(true);hideGloss();
@@ -1676,12 +1719,15 @@ function applySound(){$('#sndBtn').setAttribute('aria-pressed',!!store.sound);$(
 $('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();applySound();if(!store.sound)stopAmbience();else{sfx.drop();if(!$('#reader').hidden)ambience(AMB[$('#bookview .leaf:last-child')._scene]||'wind')}};
 
 /* ================= Hero sky ================= */
+// The stars stop while a book is open (closeReader wakes them), so nothing is drawn behind the reader.
+let wakeSky=()=>{};
 (function sky(){
-  const cv=$('#sky'),ctx=cv.getContext('2d');let w=0,h=0,pts=[],col='#fff',shoot=null,f=0;
+  const cv=$('#sky'),ctx=cv.getContext('2d');let w=0,h=0,pts=[],col='#fff',shoot=null,f=0,on=true;
   function size(){const d=Math.min(2,devicePixelRatio||1);w=cv.clientWidth;h=cv.clientHeight;cv.width=w*d;cv.height=h*d;ctx.setTransform(d,0,0,d,0,0);const r=rng(7);pts=Array.from({length:Math.round(w*h/2300)},()=>({x:r()*w,y:r()*h*.85,r:r()*1.3+.3,p:r()*6.3,s:.4+r()*1.4}))}
   function draw(t){
     if(f++%90===0)col=getComputedStyle(document.documentElement).getPropertyValue('--star').trim()||'#fff';
-    if(!document.body.classList.contains('reading')){
+    if(document.body.classList.contains('reading')){on=false;return}
+    {
       ctx.clearRect(0,0,w,h);ctx.fillStyle=col;
       for(const s of pts){ctx.globalAlpha=reduced?.8:.3+.7*Math.abs(Math.sin(s.p+t/1000*s.s));ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.283);ctx.fill()}
       if(!reduced){
@@ -1690,9 +1736,10 @@ $('#sndBtn').onclick=$('#rSnd').onclick=()=>{store.sound=!store.sound;save();app
       }
       ctx.globalAlpha=1;
     }
-    if(!reduced)requestAnimationFrame(draw);
+    if(!reduced)requestAnimationFrame(draw);else on=false;
   }
-  size();addEventListener('resize',size);requestAnimationFrame(draw);
+  wakeSky=()=>{if(!on){on=true;requestAnimationFrame(draw)}};
+  size();addEventListener('resize',()=>{size();wakeSky()});requestAnimationFrame(draw);
 })();
 
 /* ================= Offline and add to home screen ================= */

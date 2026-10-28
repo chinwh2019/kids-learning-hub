@@ -6,8 +6,11 @@ function actx(){
   if(!store.sound)return null;
   if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.connect(SND.ctx.destination);volume()}
   if(SND.ctx.state==='suspended')SND.ctx.resume();
+  rest();
   return SND.ctx;
 }
+// Sound stays switched off between taps on the home page, so the phone's speaker isn't kept awake playing silence.
+function rest(){clearTimeout(SND.rest);SND.rest=setTimeout(()=>{if(SND.amb||!SND.ctx)return;SND.ctx.suspend()},5000)}
 function volume(){if(SND.master)SND.master.gain.value=store.bed?.45:.8}
 let NOISE=null;
 function noise(c){if(!NOISE){const n=c.sampleRate*2;NOISE=c.createBuffer(1,n,c.sampleRate);const d=NOISE.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1}return NOISE}
@@ -52,11 +55,11 @@ function ambience(kind){
 function stopAmbience(){
   const a=SND.amb;SND.amb=null;SND.kind='';if(!a)return;clearTimeout(a.timer);
   const c=SND.ctx;a.out.gain.cancelScheduledValues(c.currentTime);a.out.gain.setTargetAtTime(.0001,c.currentTime,.35);
-  setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}});a.out.disconnect()},1600);
+  setTimeout(()=>{a.nodes.forEach(n=>{try{n.stop()}catch(e){}});a.out.disconnect();rest()},1600);
 }
 // Keep the soundscape quieter while the book is reading aloud.
 function duck(on){if(SND.amb&&SND.ctx)SND.amb.out.gain.setTargetAtTime(on?.4:1,SND.ctx.currentTime,.4)}
-document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else if(store.sound)SND.ctx.resume()});
+document.addEventListener('visibilitychange',()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else if(store.sound){SND.ctx.resume();rest()}});
 
 /* ================= Sparkles ================= */
 // A burst of little lights at a point on the screen: the "magic touch" on pictures, and every celebration.

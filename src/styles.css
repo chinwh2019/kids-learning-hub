@@ -31,6 +31,8 @@
 html,body{min-height:100%}
 body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
 body.reading{overflow:hidden}
+/* Battery: covers off screen are skipped when drawing, and the home page isn't drawn at all behind an open book. */
+body.reading #home{visibility:hidden;transition:visibility 0s .5s}
 h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -94,7 +96,7 @@ section.block{padding-block:56px 8px}
 .book{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);padding:0;border-radius:6px 18px 18px 6px;overflow:hidden;position:relative;box-shadow:0 18px 34px -20px rgba(0,0,0,.55);transition:transform .4s cubic-bezier(.3,1.5,.5,1), box-shadow .3s}
 .book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:13px;background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(0,0,0,.06) 70%,rgba(255,255,255,.18));z-index:2}
 .book:hover,.book:focus-visible{transform:translateY(-8px) rotate(-.8deg);box-shadow:0 30px 44px -22px rgba(0,0,0,.6)}
-.book .cover-art{aspect-ratio:4/3;max-width:100%;position:relative}
+.book .cover-art{aspect-ratio:4/3;max-width:100%;position:relative;content-visibility:auto}
 .book .cover-art svg{width:100%;height:100%;display:block}
 .book .body{padding:16px 18px 18px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
 .book h3{font-size:1.25rem}
