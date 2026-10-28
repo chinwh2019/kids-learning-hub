@@ -18,6 +18,7 @@ const GLOSS={
  ansar:{ar:'ٱلْأَنْصَار',tr:'Al-Ansar',m:'The helpers: the Muslims of Madinah who welcomed the Prophet ﷺ and the Muslims from Makkah, and shared their homes and food with them.'},
  madinah:{ar:'ٱلْمَدِينَة',tr:'Al-Madinah',m:'The city where the Prophet Muhammad ﷺ lived after he left Makkah. Its name means "the city".'},
  arrahman:{ar:'ٱلرَّحْمَٰن',tr:'Ar-Rahman',m:'One of the beautiful names of Allah. It means the Most Merciful: His mercy reaches everything He made.'},
+ messenger:{ar:'رَسُولُ ٱللَّٰه',tr:'Rasulullah',m:'The Messenger of Allah: the Prophet Muhammad ﷺ, whom Allah sent with His message for all people.'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 
