@@ -142,3 +142,27 @@ Left as written:
 - The italic line under the title ("A true scene from the life of the Prophet Muhammad ﷺ, told simply for children.") is not shown in the app, and the quote's blockquote mark (>) is dropped; the words of every page are unchanged.
 - The Arabic shown on the quote page is the first part of the Prophet's words, أَفَلَا تَتَّقِي اللَّهَ فِي هَذِهِ الْبَهِيمَةِ الَّتِي مَلَّكَكَ اللَّهُ إِيَّاهَا (Sunan Abi Dawud 2549). It is a hadith, not a du'a, shown the same way as the verses in the guest and Ibrahim stories. Please have it checked like the other Arabic.
 - Pictures: the Prophet ﷺ is never pictured, not even as a light. His pages show only the camel: crying with tears, then lowering its head and closing its eyes while soft strokes and little hearts float by its ears, so children see it being comforted without anyone drawn. The young man and the children on the last page have no faces, as in every story. The camel, kitten, puppy and birds have kawaii faces like the other animals.
+
+## 13. Sulayman and the hoopoe (checked 2026-10-29)
+Checked against Surah An-Naml 27:16-28. The story follows the verses closely: Sulayman inspects the birds and asks "Why do I not see the hoopoe, or is it among the absent?" (27:20); he says it will be punished unless it brings a clear reason (27:21); it comes back soon and says "I have encompassed what you have not, and I have come from Saba with certain news" (27:22); a woman rules them, she has been given of everything and has a great throne (27:23); she and her people prostrate to the sun instead of Allah (27:24); the hoopoe's words about Allah (27:25-26); "We will see whether you have told the truth or are of the liars" (27:27); "Take this letter of mine and deliver it to them, then turn away and see what they return" (27:28).
+Changes made:
+- Source widened from 27:20-28 to 27:16-28, because the first page (understanding the speech of birds, an army of jinn, people and birds) is from 27:16-17.
+- "who knows everything hidden in the heavens and the earth" is now "who brings out everything hidden in the heavens and the earth". The verse says يُخْرِجُ الْخَبْءَ, He *brings out* what is hidden. A judgement call, since the old wording was not wrong in meaning, but it now matches the verse.
+- Title in sentence case: "Sulayman and the hoopoe".
+Left as written:
+- "would be in trouble": the verse says a severe punishment or slaughter (27:21). Softened for small children, the same way earlier stories soften hard details.
+- "knows what we hide and what we show": the verse says "what you hide and what you declare" (Hafs). "We" still includes everyone listening, so it was left.
+- "It had told the truth": the next verses (27:29 onward) show its news was true, so this is fair.
+- Pictures: Prophet Sulayman is a figure of light (nurFigure), never a person. The jinn are not drawn. The queen of Saba sits on her throne as a faceless figure; the sun worship is not shown, only a golden sun window behind the throne. The hoopoe has a kawaii face like the other animals. Verse 27:26 (the Arabic on the hoopoe's page) is one of the verses of prostration (sajdah) in the Quran; please have the Arabic checked like the other verses.
+
+## 14. Musa and the big bowl of rice (checked 2026-10-29)
+A made-up story built around a real hadith. Checked against Sahih al-Bukhari 5376 and Sahih Muslim 2022, narrated by Umar ibn Abi Salamah: "I was a boy in the care of the Messenger of Allah ﷺ, and my hand used to wander all over the dish. So the Messenger of Allah ﷺ said to me: O boy, mention the name of Allah, eat with your right hand, and eat from what is in front of you." (يَا غُلَامُ، سَمِّ اللَّهَ، وَكُلْ بِيَمِينِكَ، وَكُلْ مِمَّا يَلِيكَ). Umar was the son of Umm Salamah, so he grew up in the Prophet's home as his stepson; "lived in the house of our Prophet" is right.
+Changes made:
+- The italic note under the title said "The hadith at the end is real", but the hadith comes in the middle of the story. It now says "The hadith in it is real." In the app this note is shown on the cover page as the source line ("A made-up story. The hadith in it is real: ...") instead of under the title, so nobody mistakes Musa's dinner for a true event.
+- Title in sentence case: "Musa and the big bowl of rice".
+Left as written:
+- "He did not shout. He said gently": the hadith does not describe his tone, but nothing in it is harsh, and the Prophet's gentleness with children is well known. A storybook touch.
+- The boy is called Umar, the same name as Umar ibn al-Khattab in the Uwais story. The source line on the cover gives his full name, Umar ibn Abi Salamah. "Umar" has no glossary word, because one word would have to explain both people.
+- "peace be upon him" is spelled out in Grandma's words (the other stories use ﷺ); it reads aloud the same.
+- Pictures: the Prophet ﷺ and little Umar are never pictured. Grandma's story is shown only as a dish in a thought bubble, with a small hand going round it, and the hadith page shows the dish in an old palm-beamed home with three bubbles for the three things. Musa's family has no faces, as in every story.
+- Tip for parents: "Bismillahi awwalahu wa akhirahu" for someone who forgot at the start is from Sunan Abi Dawud 3767 (also at-Tirmidhi 1858).
