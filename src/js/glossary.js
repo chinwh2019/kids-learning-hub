@@ -19,6 +19,10 @@ const GLOSS={
  madinah:{ar:'ٱلْمَدِينَة',tr:'Al-Madinah',m:'The city where the Prophet Muhammad ﷺ lived after he left Makkah. Its name means "the city".'},
  arrahman:{ar:'ٱلرَّحْمَٰن',tr:'Ar-Rahman',m:'One of the beautiful names of Allah. It means the Most Merciful: His mercy reaches everything He made.'},
  messenger:{ar:'رَسُولُ ٱللَّٰه',tr:'Rasulullah',m:'The Messenger of Allah: the Prophet Muhammad ﷺ, whom Allah sent with His message for all people.'},
+ hoopoe:{ar:'ٱلْهُدْهُد',tr:'Al-Hudhud',m:'The hoopoe: a small bird with a crown of feathers on its head and a long, thin beak. The Quran tells how a hoopoe brought news to Prophet Sulayman.'},
+ saba:{ar:'سَبَأ',tr:'Saba',m:'A rich land in the south of Arabia, called Sheba in English. A whole surah of the Quran is named after it.'},
+ bismillah:{ar:'بِسْمِ ٱللَّٰه',tr:'Bismillah',m:'In the name of Allah. We say it before we eat or drink, and before we start something good.'},
+ habibi:{ar:'حَبِيبِي',tr:'Habibi',m:'My dear, my darling. A loving word that families say to each other in Arabic.'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 
