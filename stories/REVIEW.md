@@ -166,3 +166,17 @@ Left as written:
 - "peace be upon him" is spelled out in Grandma's words (the other stories use ﷺ); it reads aloud the same.
 - Pictures: the Prophet ﷺ and little Umar are never pictured. Grandma's story is shown only as a dish in a thought bubble, with a small hand going round it, and the hadith page shows the dish in an old palm-beamed home with three bubbles for the three things. Musa's family has no faces, as in every story.
 - Tip for parents: "Bismillahi awwalahu wa akhirahu" for someone who forgot at the start is from Sunan Abi Dawud 3767 (also at-Tirmidhi 1858).
+
+## 15. Young Anas and the errand (checked 2026-10-30)
+Checked against Sahih Muslim 2310a, Sahih al-Bukhari 6038 and Sahih Muslim 2309, all narrated by Anas ibn Malik. The story follows Muslim 2310a closely: the Prophet ﷺ sent Anas on an errand; Anas said "By Allah, I will not go", though in himself he meant to go because the Prophet ﷺ had told him to; he went out and passed some boys playing in the market (فِي السُّوقِ); the Prophet ﷺ took hold of the back of his neck from behind (قَبَضَ بِقَفَايَ مِنْ وَرَائِي); Anas looked at him and he was laughing (يَضْحَكُ); he said "O Unais, did you go where I told you?" (يَا أُنَيْسُ، أَذَهَبْتَ حَيْثُ أَمَرْتُكَ؟); Anas said "Yes, I am going, O Messenger of Allah." The "ten years" and "never said uff" words are from Bukhari 6038 (and Muslim 2309): "I served the Prophet ﷺ for ten years, and he never said 'uff' to me, nor 'Why did you do that?' nor 'Why didn't you do that?'"
+Changes made:
+- Title in sentence case like the other books: "Young Anas and the errand". No other words changed.
+Left as written:
+- "his mother brought him to the Prophet ﷺ so he could help him at home": true (his mother Umm Sulaym brought him, Sahih Muslim 2481), but this hadith is not in the source line. Fine as background.
+- "gently held the back of his neck": the hadith says he took hold of it; "gently" is a storybook touch that fits the Prophet's laughing.
+- "maybe he forgot about the errand for a little while": the hadith only says he passed the boys playing; "maybe" keeps it honest.
+- Muslim 2310a itself ends with Anas saying "nine years"; the story quotes the "ten years" wording of Bukhari 6038, which is also cited. Both are in the sources, so nothing to fix.
+- The lesson says "keep our word", although Anas first said "I won't go". The story makes clear his heart had already decided to go, so it reads fine.
+- The new `category:` line ("Companions of the Prophet ﷺ") is kept in the file; the app does not use it yet. The book sits on the "Kindness and gentleness" shelf.
+- The Arabic on the "Unais" page is the Prophet's question, يَا أُنَيْسُ، أَذَهَبْتَ حَيْثُ أَمَرْتُكَ؟ (Sahih Muslim 2310a), shown like the hadith words in the camel and rice stories. Please have it checked like the other Arabic.
+- Pictures: the Prophet ﷺ is never pictured, not even as a light. When he holds Anas's neck, only soft pats by Anas's neck and little flowers of laughter float in; when he speaks, a speech bubble ("Unais?") comes from outside the picture. Anas, his mother, the boys and the listeners have no faces, as in every story. Ten stars light up one by one on the last two pages for the ten years.
