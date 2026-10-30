@@ -23,6 +23,9 @@ const GLOSS={
  saba:{ar:'سَبَأ',tr:'Saba',m:'A rich land in the south of Arabia, called Sheba in English. A whole surah of the Quran is named after it.'},
  bismillah:{ar:'بِسْمِ ٱللَّٰه',tr:'Bismillah',m:'In the name of Allah. We say it before we eat or drink, and before we start something good.'},
  habibi:{ar:'حَبِيبِي',tr:'Habibi',m:'My dear, my darling. A loving word that families say to each other in Arabic.'},
+ anas:{ar:'أَنَس',tr:'Anas',m:'Anas ibn Malik, a companion of the Prophet ﷺ. He served the Prophet as a boy for ten years and later told many hadiths about him.'},
+ unais:{ar:'أُنَيْس',tr:'Unais',m:'"Little Anas": the loving nickname the Prophet ﷺ used for Anas.'},
+ uff:{ar:'أُفّ',tr:'Uff',m:'A little sound people make when they are annoyed. The Quran tells us never to say "uff" to our parents (17:23).'},
  allah:{ar:'ٱللَّٰه',tr:'Allah',m:'The One God who created everything. He sees everything and loves kindness.'}
 };
 

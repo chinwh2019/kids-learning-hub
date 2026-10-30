@@ -51,6 +51,10 @@ The source text for each story lives in [`stories/`](stories) as Markdown with a
 | Prophet Yusuf forgives his brothers | Forgiveness | Quran, Surah Yusuf 12:4-21, 12:54-100 |
 | Prophet Ibrahim and the fire | Courage and trust | Quran 21:51-70, 37:97 |
 | The rain that woke the earth | Thankful for mercy | Quran 30:48-50; Sahih al-Bukhari 1032 |
+| The camel who cried | Caring for animals | Sunan Abi Dawud 2549 |
+| Sulayman and the hoopoe | Truth and fairness | Quran 27:16-28 |
+| Musa and the big bowl of rice | Good table manners | Sahih al-Bukhari 5376, Sahih Muslim 2022 |
+| Young Anas and the errand | Gentleness | Sahih Muslim 2310a; Sahih al-Bukhari 6038 |
 
 ## Narration
 
@@ -101,7 +105,7 @@ The second page.
 - `shelf` is the bookshelf row the book sits on, such as `Kindness and gentleness` (default: the value). Books that share a shelf name share a row. Rows with three or more books drift slowly from left to right; touching or swiping a row stops it for a moment.
 - `value` (the star the story lights up, default: the first word of the theme) and `tip` (the tip for parents) are optional.
 - `mission` is one small thing to do tomorrow. It gets its own page after Talk time; the child accepts it there, and when it is done a grown-up holds the star on the home page to light it in the sky of good deeds. Leave it out and the book has no mission page.
-- More optional frontmatter: `id`, `icon` (`paw`, `ant`, `jar`, `hands`, `fish`, `sheep`, `spring`, `dream`, `lamp` or `flame`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
+- More optional frontmatter: `id`, `icon` (`paw`, `ant`, `jar`, `hands`, `fish`, `sheep`, `spring`, `dream`, `lamp`, `flame`, `rain`, `camel`, `hoopoe`, `bowl` or `steps`; anything else shows a heart), `tint` (cover colour), `cover` (scene for the cover), `source_note` (longer source line for the cover), `dua` and `dua_ref` (Arabic shown on a page marked `<!-- page: sceneKey, dua -->`).
 - The HTML comments are invisible when the Markdown is read anywhere else, so the story text stays exactly as written.
 
 To give a story its own pictures, draw new scenes in `S` in `src/js/illustrations.js` and name them in the page markers.
